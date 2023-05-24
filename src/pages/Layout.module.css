@@ -1,0 +1,71 @@
+.Layout {
+  height: 100%;
+  text-align: center;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  background-color: #f1f1f1;
+}
+
+.Layout header {
+  grid-area: header;
+  background-color: #282c34;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 10px;
+}
+
+.Layout main {
+  grid-area: main;
+  text-align: start;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.Layout main :first-child{
+  height: 100%;
+}
+
+.Layout footer {
+  grid-area: footer;
+  background-color: #282c34;
+  display: flex;
+  padding: 5px 10px;
+  color: white;
+  font-size: 10px;
+}
+
+/* ------------------------------------------------------- */
+
+.AppNav ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  gap: 5px;
+}
+
+.AppNav li {
+  padding: 0px 5px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.AppNav li:hover {
+  background-color: #555;
+}
+
+.AppNav li a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
