@@ -6,12 +6,13 @@ import NoPage from "./pages/NoPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="toing-lottie-editor">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/editor" element={<LottieEditor />} />
-          <Route path="/config" element={<LottieConfigure />} />
+          {/* <Route index element={<LottieEditor />} /> */}
           <Route index element={<Navigate to="/editor" />} />
+          <Route path="editor" element={<LottieEditor />} />
+          <Route path="config" element={<LottieConfigure />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
