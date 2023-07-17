@@ -24,7 +24,7 @@ export interface TextLayer extends Layer {
       k?: {
         s?: {
           t?: string; //text
-          [key: string]: any;
+        //   [key: string]: any;
         };
       }[];
     };

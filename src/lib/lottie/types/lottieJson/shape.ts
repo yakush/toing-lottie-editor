@@ -1,4 +1,4 @@
-import { shapeTypes } from "../enums";
+import { shapeTypes } from "../../enums";
 
 export interface Shape {
   ty: shapeTypes; //type
@@ -26,7 +26,7 @@ export interface GroupShape extends Shape {
 
 export interface Color {
   a?: number;
-  ix: number;
+  ix?: number;
   k: number[] | ColorKeyFrame[];
 }
 
