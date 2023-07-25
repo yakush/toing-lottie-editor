@@ -23,9 +23,11 @@ const LottieEditor = () => {
       {test.layers
         ?.filter((layer) => builderUiModule.layers.has(layer.ty))
         .map((layer, i) => (
-          <div>
-            [{i}] <LottieLayer layer={layer}></LottieLayer>
-          </div>
+          <ol>
+            <li>
+              [{i}] <LottieLayer layer={layer} />
+            </li>
+          </ol>
         ))}
     </div>
   );
