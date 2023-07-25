@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import styles from "./Layout.module.css";
+import FileDropTarget from "../components/FileDropTarget";
 
 const Layout = () => {
   return (
@@ -19,7 +20,10 @@ const Layout = () => {
       </header>
 
       <main>
-        <Outlet/>
+        <FileDropTarget onDrop={console.log} />
+        <div className={styles.outletWrapper}>
+          <Outlet />
+        </div>
       </main>
 
       <footer>Made by Y@K</footer>

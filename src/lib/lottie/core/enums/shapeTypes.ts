@@ -1,4 +1,3 @@
-/*global $*/
 export enum shapeTypes {
   shape = "sh",
   rect = "rc",

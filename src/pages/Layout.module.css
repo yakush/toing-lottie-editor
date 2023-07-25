@@ -28,7 +28,7 @@
   overflow-y: auto;
 }
 
-.Layout main :first-child{
+.Layout main .outletWrapper {
   height: 100%;
 }
 
