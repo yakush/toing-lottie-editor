@@ -28,12 +28,21 @@ export class LottieManager extends EventEmitter {
     return this._edits;
   }
 
-  loadNewLottie(lottie: Lottie, edits?: EditData[]) {
+  loadNewLottie(lottie?: Lottie, edits?: EditData[]) {
     //TODO:implement
+    this.setLottie(lottie, { digest: false, emitEvent: false });
+    this.setEdits(edits, false);
+    this.digestLottie();
+
+    this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
+    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
 
   loadNewEdits(edits: EditData[]) {
     //TODO:implement
+    this.setEdits(edits);
+
+    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
 
   updateLottie(update: updater<Lottie>) {
@@ -88,7 +97,19 @@ export class LottieManager extends EventEmitter {
     //events
   }
 
-  private setLottie(val?: Lottie, digest = true) {
+  private setLottie(
+    val?: Lottie,
+    options?: { digest?: boolean; emitEvent?: boolean }
+  ) {
+    options = {
+      ...{
+        digest: true,
+        emitEvent: true,
+      },
+      ...options,
+    };
+    const { digest, emitEvent } = options;
+
     if (val === this.lottie) {
       return;
     }
@@ -97,6 +118,10 @@ export class LottieManager extends EventEmitter {
 
     if (val && digest) {
       this.digestLottie();
+    }
+
+    if (emitEvent) {
+      this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
     }
   }
 
@@ -111,7 +136,7 @@ export class LottieManager extends EventEmitter {
       this.digestLottie();
     }
 
-    this.emit(LottieManagerEvents.onChangeEdits, this.lottie);
+    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
 
   resetDefaults() {
@@ -119,7 +144,7 @@ export class LottieManager extends EventEmitter {
       return;
     }
     registry.setDefaultsAll(this.edits);
-    this.digestLottie();
+    this.updateFromEdits();
   }
 
   //-------------------------------------------------------
@@ -157,6 +182,6 @@ export class LottieManager extends EventEmitter {
     }
 
     registry.executeAll(lottie, edits);
-    this.setLottie({ ...lottie }, false);
+    this.setLottie({ ...lottie }, { digest: false });
   }
 }

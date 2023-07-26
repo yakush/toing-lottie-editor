@@ -1,15 +1,15 @@
-import { ShapeLayer } from "../../../core";
+import { Layer } from "../../../core";
 import { LayerProps } from "../../builderUiModule";
 import LayerTitle from "../LayerTitle";
 
-const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
+const BuilderUnknownLayer = ({ layer }: LayerProps<Layer>) => {
   return (
     <>
       <LayerTitle layer={layer} />
-      <div>{layer.shapes?.length} shapes</div>
+      <div>UNKNOWN LAYER (ty={layer.ty})</div>
       {/* text {JSON.stringify(layer)} */}
     </>
   );
 };
 
-export default BuilderShapeLayer;
+export default BuilderUnknownLayer;

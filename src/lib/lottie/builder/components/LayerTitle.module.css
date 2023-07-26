@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  flex-direction: row;
+}
+
+.type {
+  font-weight: bold;
+  min-width: 90px;
+}
+
+.name {
+  text-decoration: underline;
+}

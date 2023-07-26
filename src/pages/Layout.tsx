@@ -1,8 +1,11 @@
 import { Outlet, Link } from "react-router-dom";
 import styles from "./Layout.module.css";
 import FileDropTarget from "../components/FileDropTarget";
+import { useLottieStore } from "../lib/lottie/app";
 
 const Layout = () => {
+  const loadLottieFile = useLottieStore((state) => state.loadFile);
+
   return (
     <div className={styles.Layout}>
       <header>
@@ -20,7 +23,7 @@ const Layout = () => {
       </header>
 
       <main>
-        <FileDropTarget onDrop={console.log} />
+        <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])} />
         <div className={styles.outletWrapper}>
           <Outlet />
         </div>

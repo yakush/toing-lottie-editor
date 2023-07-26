@@ -7,6 +7,10 @@ export interface LottieLoadResults {
 
 export class LottieLoader {
   async loadUrl(url: string, urlEdits?: string): Promise<LottieLoadResults> {
+    
+    // fake wait for 1 second
+    // await new Promise((res) => setTimeout(res, 1000));
+
     try {
       const resLottie = await fetch(url);
       const lottie = await resLottie.json();

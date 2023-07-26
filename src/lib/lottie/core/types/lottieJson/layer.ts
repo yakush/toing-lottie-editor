@@ -33,7 +33,7 @@ export interface TextLayer extends Layer {
 
 export interface PrecompLayer extends Layer {
   /** ref to asset */
-  refId: string;
+  refId?: string;
 }
 
 export interface ShapeLayer extends Layer {
