@@ -1,6 +1,7 @@
 import EventEmitter from "events";
-import { EditData, Lottie } from "./types";
+import { EditData, GroupShape, Layer, Lottie, Shape } from "./types";
 import registry from "../edits/editsModule";
+import { shapeTypes } from "./enums";
 
 type updater<T> = T | ((current: T) => T);
 
@@ -145,6 +146,69 @@ export class LottieManager extends EventEmitter {
     }
     registry.setDefaultsAll(this.edits);
     this.updateFromEdits();
+  }
+
+  blinkShape(target: Shape) {
+    //add shape and sub shapes in groups
+    let allTargets: Shape[] = [];
+    
+    function addSubTargets(shape: Shape) {
+      allTargets.push(shape);
+      if (shape.ty === shapeTypes.group) {
+        (shape as GroupShape).it?.map(addSubTargets);
+      }
+    }
+
+    addSubTargets(target);
+
+    console.log(allTargets);
+    
+    this.blinkTarget(allTargets);
+  }
+
+  blinkLayer(target: Layer) {
+    this.blinkTarget([target]);
+  }
+
+  private blinkTarget(targets: (Shape | Layer)[]) {
+    if (targets.some((target) => (target as any).isBlinking)) {
+      return;
+    }
+
+    let count = 4;
+    const TIME = 150;
+    targets.forEach((target) => {
+      (target as any).isBlinking = true;
+      (target as any).blinkingOrigHd = target.hd;
+    });
+
+    const blinkOnce = () => {
+      //next
+      if (count > 0) {
+        setTimeout(() => {
+          targets.forEach((target) => {
+            target.hd = true;
+          });
+          this.setLottie({ ...this.lottie }, { digest: false });
+        }, TIME / 2);
+        setTimeout(() => {
+          targets.forEach((target) => {
+            target.hd = false;
+          });
+          this.setLottie({ ...this.lottie }, { digest: false });
+          blinkOnce();
+        }, TIME);
+      } else {
+        targets.forEach((target) => {
+          target.hd = (target as any).blinkingOrigHd;
+          delete (target as any).isBlinking;
+          delete (target as any).blinkingOrigHd;
+        });
+      }
+      count--;
+    };
+
+    blinkOnce();
   }
 
   //-------------------------------------------------------

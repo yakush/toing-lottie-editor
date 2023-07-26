@@ -1,5 +1,6 @@
 import Card from "../components/Card";
 import { useLottieStore } from "../lib/lottie/app";
+import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import LottieTree from "../lib/lottie/builder/components/LottieLayersTree";
 import { createPublicLottieSampleUrl } from "../utils/paths";
@@ -51,7 +52,10 @@ export default function LottieConfigure({}: Props) {
         </Card>
       </div>
       <div className={styles.player}>
-        <Card>player</Card>
+        <Card>
+          player
+          <LottiePlayer/>
+          </Card>
       </div>
       <div className={styles.editor}>
         <Card>

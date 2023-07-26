@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import {
   EditData,
+  Layer,
   Lottie,
   LottieLoader,
   LottieManager,
   LottieManagerEvents,
+  Shape,
 } from "../core";
 
 export interface LottieState {
@@ -20,6 +22,9 @@ export interface LottieState {
 
   setEdits: (edits: EditData[]) => void;
   resetExecutions: () => void;
+
+  blinkLayer: (target: Layer) => void;
+  blinkShape: (target: Shape) => void;
 }
 
 //-------------------------------------------------------
@@ -105,6 +110,15 @@ export const useLottieStore = create<LottieState>((set, get) => {
     resetExecutions() {
       const { manager } = get();
       manager.resetDefaults();
+    },
+
+    blinkLayer(target: Layer) {
+      const { manager } = get();
+      manager.blinkLayer(target);
+    },
+    blinkShape(target: Shape) {
+      const { manager } = get();
+      manager.blinkShape(target);
     },
   };
 });

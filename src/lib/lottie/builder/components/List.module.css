@@ -5,6 +5,12 @@
   margin-top: 5px;
   display: flex;
   flex-direction: row;
+
+  overflow: hidden;
+}
+
+.listWrap .closed {
+  max-height: 0;
 }
 
 .shapeListSideLine {
@@ -16,12 +22,18 @@
   display: flex;
   flex-direction: row;
   gap: 5px;
-  cursor: pointer;
 }
 
 .headerIcon {
-  width: 10px;
+  cursor: pointer;
+  user-select: none;
+  width: 20px;
   align-self: center;
+  font-weight: bold;
+}
+
+.headerIcon:hover {
+  font-weight: bolder;
 }
 
 .content {

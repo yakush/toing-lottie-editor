@@ -12,12 +12,13 @@ import List from "../List";
 import ListHeader from "../ListHeader";
 
 import styles from "./builderShapeLayer.module.css";
+import { useLottieStore } from "../../../app";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
   return (
     <div className={styles.root}>
       <ShapeList shapes={layer.shapes}>
-        <LayerTitle layer={layer} />        
+        <LayerTitle layer={layer} />
       </ShapeList>
     </div>
   );
@@ -29,8 +30,7 @@ type ShapeListProps = {
 };
 
 const ShapeList = ({ children, shapes }: ShapeListProps) => {
-  // const shapeAsGroup =
-  //   shape.ty === shapeTypes.group ? (shape as GroupShape) : undefined;
+  const blinkShape = useLottieStore((state) => state.blinkShape);
 
   return (
     <List lineColor="slateblue">
@@ -42,7 +42,12 @@ const ShapeList = ({ children, shapes }: ShapeListProps) => {
 
         return (
           <ShapeList key={i} shapes={subShapes}>
-            {shapeTypeToName(shape.ty)} {shape.nm && `: (${shape.nm})`}
+            <div
+              className={styles.shapeTitle}
+              onClick={() => blinkShape(shape)}
+            >
+              {shapeTypeToName(shape.ty)} {shape.nm && `: (${shape.nm})`}
+            </div>
           </ShapeList>
         );
       })}

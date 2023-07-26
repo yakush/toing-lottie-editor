@@ -5,6 +5,7 @@ import { shapeTypes } from "../../enums";
 export interface Shape {
   ty: shapeTypes; //type
   nm: string; //name
+  hd?:boolean;
 
   /** color */
   c?: Color;
