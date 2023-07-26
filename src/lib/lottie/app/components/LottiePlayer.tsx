@@ -24,27 +24,33 @@ export default function LottiePlayer({}: Props) {
     }
     const ref = playerRef;
 
-    const handleEnterFrame = (e: BMEnterFrameEvent) => {
-      refCurrentTime.current = e.currentTime / e.totalTime;
-    };
+    // register listeners
+    let listenerRemovers: (() => void)[] = [];
+    listenerRemovers.push(
+      ref.addEventListener("enterFrame", (e) => {
+        refCurrentTime.current = e.currentTime / e.totalTime;
+      })
+    );
+    listenerRemovers.push(
+      ref.addEventListener("destroy", (e) => {
+        // console.log("destroyed!!!!!!");
+        listenerRemovers.forEach((remover) => {
+          try {
+            remover();
+            // console.log("removed listener");
+          } catch (e) {
+            console.warn(e);
+          }
+        });
+        listenerRemovers = [];
+      })
+    );
 
-    const handleDestroy = (e: BMDestroyEvent) => {
-      // console.log("destroyed!!!!!!");
-    };
-
-    ref.addEventListener("enterFrame", handleEnterFrame);
-    ref.addEventListener("destroy", handleDestroy);
     const isPausedTimer = setInterval(() => {
       refIsPaused.current = ref.isPaused;
     }, 100);
 
     return () => {
-      try {
-        ref.removeEventListener("enterFrame", handleEnterFrame);
-      } catch (e) {}
-      try {
-        ref.addEventListener("destroy", handleDestroy);
-      } catch (e) {}
       clearInterval(isPausedTimer);
     };
   }, [playerRef]);
@@ -79,6 +85,7 @@ export default function LottiePlayer({}: Props) {
         autoplay
         loop
         src={json || ""}
+
         // style={{ height: "300px", width: "300px" }}
       >
         <Controls
