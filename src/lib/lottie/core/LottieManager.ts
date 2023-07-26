@@ -161,8 +161,6 @@ export class LottieManager extends EventEmitter {
 
     addSubTargets(target);
 
-    console.log(allTargets);
-    
     this.blinkTarget(allTargets);
   }
 
