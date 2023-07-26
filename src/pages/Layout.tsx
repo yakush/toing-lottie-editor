@@ -5,7 +5,6 @@ import { useLottieStore } from "../lib/lottie/app";
 
 const Layout = () => {
   const loadLottieFile = useLottieStore((state) => state.loadFile);
-
   return (
     <div className={styles.Layout}>
       <header>
@@ -20,10 +19,12 @@ const Layout = () => {
             </li>
           </ul>
         </nav>
+        <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])}>
+          drop file here
+        </FileDropTarget>
       </header>
 
       <main>
-        <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])} />
         <div className={styles.outletWrapper}>
           <Outlet />
         </div>

@@ -1,7 +1,8 @@
 import { Layer, layerTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
 import BuilderPrecompLayer from "./components/layers/BuilderPrecompLayer";
-import BuilderShapeLayer from "./components/layers/builderShaperLayer";
+import BuilderShapeLayer from "./components/layers/builderShapeLayer";
+
 import BuilderTextLayer from "./components/layers/builderTextLayer";
 import BuilderUnknownLayer from "./components/layers/BuilderUnknownLayer";
 
@@ -16,22 +17,28 @@ export type EditProps<T extends {} = {}> = {
 
 export interface ModuleType {
   layers: ComponentRegistry<layerTypes, LayerProps>;
-  edits: ComponentRegistry<string, EditProps>;
+  editBuilders: ComponentRegistry<string, EditProps>;
 }
 
+//-------------------------------------------------------
+// register all layers components
+//-------------------------------------------------------
 const layers = new ComponentRegistry<layerTypes, LayerProps>();
 layers.registerUnknown(BuilderUnknownLayer);
 layers.register(layerTypes.text, BuilderTextLayer);
 layers.register(layerTypes.shape, BuilderShapeLayer);
 layers.register(layerTypes.precomp, BuilderPrecompLayer);
 
-const edits = new ComponentRegistry<string, EditProps>();
+//-------------------------------------------------------
+// register all edit-builder components
+//-------------------------------------------------------
+const editBuilders = new ComponentRegistry<string, EditProps>();
 //edits.register("color", TextLayerUI);
 //edits.register("layerSelect".shape, ShapeLayerUI);
 
 export const builderUiModule: ModuleType = {
   layers,
-  edits,
+  editBuilders,
 };
 
 export default builderUiModule;

@@ -4,9 +4,10 @@ import { combineClasses } from "../utils/css";
 
 type Props = {
   onDrop?: (files: FileList) => void;
+  children?: React.ReactNode;
 };
 
-export default function FileDropTarget({ onDrop }: Props) {
+export default function FileDropTarget({ onDrop, children }: Props) {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragOver = (e: DragEvent) => {
@@ -34,6 +35,7 @@ export default function FileDropTarget({ onDrop }: Props) {
     if (files && files.length) {
       onDrop && onDrop(files);
     }
+    setIsDragging(false);
   };
 
   return (
@@ -44,7 +46,7 @@ export default function FileDropTarget({ onDrop }: Props) {
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
     >
-      Hey, drop me some files
+      {children}
     </div>
   );
 }

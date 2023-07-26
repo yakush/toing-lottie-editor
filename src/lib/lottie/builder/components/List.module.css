@@ -1,0 +1,29 @@
+.root {
+}
+
+.listWrap {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.shapeListSideLine {
+  border-right: 2px solid black;
+  margin: 0 5px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.headerIcon {
+  width: 10px;
+  align-self: center;
+}
+
+.content {
+  margin-left: 10px;
+}

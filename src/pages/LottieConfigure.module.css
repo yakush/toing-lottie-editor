@@ -1,0 +1,33 @@
+.root {
+  border: 1px solid red;
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    "loader loader loader"
+    "messages messages messages"
+    "builder player editor";
+
+  grid-template-columns: 1fr 400px 1fr;
+  grid-template-rows: auto auto 1fr;
+}
+
+.loader {
+  grid-area: loader;
+}
+
+.messages {
+  grid-area: messages;
+}
+
+.builder {
+  grid-area: builder;
+  overflow-y: auto;
+}
+
+.player {
+  grid-area: player;
+}
+
+.editor {
+  grid-area: editor;
+}

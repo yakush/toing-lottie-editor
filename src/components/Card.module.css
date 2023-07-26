@@ -1,0 +1,8 @@
+.root {
+  background-color: white;
+  padding: 5px;
+  margin: 10px;
+  box-shadow: 2px 2px 8px black;
+  border-radius: 5px;
+  min-height: 80px;
+}

@@ -34,6 +34,7 @@ export const useLottieStore = create<LottieState>((set, get) => {
 
   //TODO: when do i unsubscribe store events?
 
+  // HELPERS
   const startLoading = () => {
     set({
       isLoading: true,
@@ -42,6 +43,7 @@ export const useLottieStore = create<LottieState>((set, get) => {
       lottie: undefined,
     });
   };
+
   const finishLoading = (err?: any) => {
     //error
     if (err) {
@@ -59,7 +61,9 @@ export const useLottieStore = create<LottieState>((set, get) => {
     });
   };
 
-  //store
+  //-------------------------------------------------------
+  // STORE :
+
   return {
     manager,
     loader,
