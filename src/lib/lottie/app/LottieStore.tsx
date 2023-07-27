@@ -20,6 +20,8 @@ export interface LottieState {
   loadUrl: (lottieUrl: string, editsUrl?: string) => Promise<void>;
   loadFile: (lottieFile: File, editsFile?: File) => Promise<void>;
 
+  rerenderLottie: () => void;
+
   setEdits: (edits: EditData[]) => void;
   resetExecutions: () => void;
 
@@ -100,6 +102,11 @@ export const useLottieStore = create<LottieState>((set, get) => {
         finishLoading(err);
         manager.loadNewLottie();
       }
+    },
+
+    rerenderLottie() {
+      const { manager } = get();
+      manager.rerenderLottie();
     },
 
     setEdits(edits) {

@@ -62,6 +62,10 @@ export class LottieManager extends EventEmitter {
     //events
   }
 
+  rerenderLottie() {
+    this.setLottie({...this.lottie});
+  }
+
   updateEdits(
     update: updater<EditData[]>,
     hints?: {
@@ -151,7 +155,7 @@ export class LottieManager extends EventEmitter {
   blinkShape(target: Shape) {
     //add shape and sub shapes in groups
     let allTargets: Shape[] = [];
-    
+
     function addSubTargets(shape: Shape) {
       allTargets.push(shape);
       if (shape.ty === shapeTypes.group) {
