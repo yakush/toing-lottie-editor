@@ -2,10 +2,26 @@
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  /* border: 1px solid red;   */
 }
 
-.root:hover{
-  background-color:rgba(0, 0, 0, 0.1);
+.root:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  width: 15px;
+  height: auto;
+  margin-right: 5px;
+}
+
+.layer {
+ 
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
 }
 
 .type {
@@ -15,10 +31,4 @@
 
 .name {
   text-decoration: underline;
-}
-
-.icon {
-  width: 15px;
-  height: auto;
-  margin-right: 5px;
 }

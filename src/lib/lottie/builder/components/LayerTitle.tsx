@@ -5,9 +5,10 @@ import icon_layer from "../../assets/icon_layer.svg";
 
 type Props = {
   layer: Layer;
+  children?: React.ReactNode;
 };
 
-export default function LayerTitle({ layer }: Props) {
+export default function LayerTitle({ layer, children }: Props) {
   const blinkLayer = useLottieStore((state) => state.blinkLayer);
 
   const typeName = layerTypes[layer.ty] ?? "unknown";
@@ -49,8 +50,13 @@ export default function LayerTitle({ layer }: Props) {
       // onDragExit={onDragExit}
     >
       <img className={styles.icon} src={icon_layer} alt="icon_layer" />
-      <div className={styles.type}>[{typeName}]</div>
-      <div className={styles.name}>{layer.nm}</div>
+      <div className={styles.layer}>
+        <div className={styles.header}>
+          <div className={styles.type}>[{typeName}]</div>
+          <div className={styles.name}>{layer.nm}</div>
+        </div>
+        <div className={styles.children}>{children}</div>
+      </div>
     </div>
   );
 }

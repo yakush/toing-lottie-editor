@@ -17,8 +17,9 @@ const BuilderPrecompLayer = ({ layer }: LayerProps<PrecompLayer>) => {
       <div>
         {asset ? (
           <LottieLayersTree layers={asset.layers}>
-            <LayerTitle layer={layer} />
+            <LayerTitle layer={layer} >
             {asset.id} : {asset.nm ?? "untitled"}
+            </LayerTitle>
           </LottieLayersTree>
         ) : (
           "ASSET NOT FOUND"
