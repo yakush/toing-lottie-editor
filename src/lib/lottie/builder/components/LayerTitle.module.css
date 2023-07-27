@@ -16,7 +16,6 @@
 }
 
 .layer {
- 
 }
 
 .header {
@@ -27,6 +26,10 @@
 .type {
   font-weight: bold;
   min-width: 90px;
+}
+
+.layerHidden .type{
+  font-weight:normal;
 }
 
 .name {

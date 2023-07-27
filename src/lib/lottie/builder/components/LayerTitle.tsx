@@ -2,6 +2,7 @@ import { useLottieStore } from "../../app";
 import { Layer, layerTypes } from "../../core";
 import styles from "./LayerTitle.module.css";
 import icon_layer from "../../assets/icon_layer.svg";
+import { combineClasses } from "../../utils/css";
 
 type Props = {
   layer: Layer;
@@ -39,7 +40,9 @@ export default function LayerTitle({ layer, children }: Props) {
 
   return (
     <div
-      className={styles.root}
+      className={combineClasses(styles.root, {
+        [styles.layerHidden]: !!layer.hd,
+      })}
       onClick={() => blinkLayer(layer)}
       draggable
       onDragStart={onDragStart}
@@ -52,6 +55,7 @@ export default function LayerTitle({ layer, children }: Props) {
       <img className={styles.icon} src={icon_layer} alt="icon_layer" />
       <div className={styles.layer}>
         <div className={styles.header}>
+          <div>[{layer.ind}]</div>
           <div className={styles.type}>[{typeName}]</div>
           <div className={styles.name}>{layer.nm}</div>
         </div>
