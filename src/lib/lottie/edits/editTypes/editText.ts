@@ -1,4 +1,4 @@
-import { EditData, EditType, Lottie } from "../../core";
+import { EditData, EditExecuter, Lottie, editTypes } from "../../core";
 import { LayerRef } from "../../core/types/refs";
 
 export interface Config {
@@ -14,7 +14,10 @@ export interface Execution {
   color: string;
 }
 
-export default class EditText implements EditType<Config, Execution> {
-  type = "text";
-  execute(lottie: Lottie, edit: EditData<Config, Execution>) {}
+export default class EditText implements EditExecuter<Config, Execution> {
+  type = editTypes.text;
+  
+  execute(lottie: Lottie, edit: EditData<Config, Execution>) {
+
+  }
 }

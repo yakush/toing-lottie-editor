@@ -1,13 +1,14 @@
-import { EditData, EditType, Lottie } from "../core/types";
+import { editTypes } from "../core";
+import { EditData, EditExecuter, Lottie } from "../core/types";
 
 export class EditsRegistry {
-  private editTypes: Map<string, EditType>;
+  private editTypes: Map<editTypes, EditExecuter>;
 
   constructor() {
     this.editTypes = new Map();
   }
 
-  register(editType: EditType<any, any>) {
+  register(editType: EditExecuter<any, any>) {
     const { type } = editType;
     if (this.editTypes.has(type)) {
       throw new Error(`handler for type [${type}] already registered`);
@@ -16,7 +17,7 @@ export class EditsRegistry {
     this.editTypes.set(type, editType);
   }
 
-  unregister(type: string) {
+  unregister(type: editTypes) {
     this.editTypes.delete(type);
   }
 

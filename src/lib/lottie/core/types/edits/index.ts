@@ -1,2 +1,2 @@
 export * from "./editData";
-export * from "./editType";
+export * from "./editExecuter";

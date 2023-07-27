@@ -1,8 +1,10 @@
+import { editTypes } from "../../enums";
+
 export interface EditData<
   T_CONFIG extends object = {},
   T_EXECUTION extends object = {}
 > {
-  type: string;
+  type: editTypes;
   id: string;
   name: string;
   description?: string;

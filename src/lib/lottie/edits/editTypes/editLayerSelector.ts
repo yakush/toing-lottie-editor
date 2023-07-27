@@ -1,5 +1,5 @@
-import { Lottie } from "../../core";
-import { EditData, EditType } from "../../core/types/edits";
+import { Lottie, editTypes } from "../../core";
+import { EditData, EditExecuter } from "../../core/types/edits";
 import { LottieRef } from "../../core/types/refs";
 
 export interface Config {
@@ -11,7 +11,9 @@ export interface Execution {
   selection: number;
 }
 
-export default class EditLayerSelector implements EditType<Config, Execution> {
-  type = "layer";
+export default class EditLayerSelector
+  implements EditExecuter<Config, Execution>
+{
+  type = editTypes.layerSelect;
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {}
 }

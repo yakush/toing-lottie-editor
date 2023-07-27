@@ -1,3 +1,4 @@
+import { editTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
 
 type EditProps = {
@@ -6,11 +7,11 @@ type EditProps = {
 };
 
 export interface ModuleType {
-  edits: ComponentRegistry<string, EditProps>;
+  edits: ComponentRegistry<editTypes, EditProps>;
 }
-const edits = new ComponentRegistry<string, EditProps>();
-//edits.register(layerTypes.text, TextLayerUI);
-//edits.register(layerTypes.shape, ShapeLayerUI);
+const edits = new ComponentRegistry<editTypes, EditProps>();
+//edits.register(editTypes.colors, TextLayerUI);
+//edits.register(editTypes.layerSelect, ShapeLayerUI);
 
 const uiModule: ModuleType = {
   edits,
