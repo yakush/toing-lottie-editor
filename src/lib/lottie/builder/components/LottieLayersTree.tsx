@@ -1,4 +1,3 @@
-import { useLottieStore } from "../../app";
 import { Layer } from "../../core";
 import List from "./List";
 import ListHeader from "./ListHeader";
