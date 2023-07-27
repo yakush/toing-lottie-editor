@@ -1,17 +1,26 @@
 import Card from "../components/Card";
-import { useLottieStore } from "../lib/lottie/app";
+import FileDropTarget from "../components/FileDropTarget";
+import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
 import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
-import LottieTree from "../lib/lottie/builder/components/LottieLayersTree";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
+
 type Props = {};
 
 export default function LottieConfigure({}: Props) {
-  const lottie = useLottieStore((state) => state.lottie);
+  return (
+    <LottieStoreProvider>
+      <Page />
+    </LottieStoreProvider>
+  );
+}
+
+function Page({}: Props) {
   const edits = useLottieStore((state) => state.edits);
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
+  const loadLottieFile = useLottieStore((state) => state.loadFile);
 
   const loadUrl = useLottieStore((store) => store.loadUrl);
 
@@ -39,6 +48,9 @@ export default function LottieConfigure({}: Props) {
             {file}
           </button>
         ))}
+        <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])}>
+          drop file here
+        </FileDropTarget>
       </div>
 
       <div className={styles.messages}>
@@ -54,8 +66,8 @@ export default function LottieConfigure({}: Props) {
       <div className={styles.player}>
         <Card>
           player
-          <LottiePlayer/>
-          </Card>
+          <LottiePlayer />
+        </Card>
       </div>
       <div className={styles.editor}>
         <Card>

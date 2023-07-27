@@ -1,5 +1,7 @@
+import { LottieStoreProvider } from "../lib/lottie/app";
 import { LottieLayer, builderUiModule } from "../lib/lottie/builder";
 import { layerTypes } from "../lib/lottie/core";
+import LottieConfigure from "./LottieConfigure";
 
 let test = {
   layers: [
@@ -16,7 +18,22 @@ let test = {
   ],
 };
 
-const LottieEditor = () => {
+type Props = {};
+
+export default function LottieEditor({}: Props) {
+  return (
+    <LottieStoreProvider>
+      <Page />
+    </LottieStoreProvider>
+  );
+}
+
+function Page({}: Props) {
+  // return <>
+  // <LottieConfigure/>
+  // <LottieConfigure/>
+  // <LottieConfigure/>
+  // </>
   return (
     <div>
       LottieEditor layer:
@@ -31,6 +48,4 @@ const LottieEditor = () => {
         ))}
     </div>
   );
-};
-
-export default LottieEditor;
+}

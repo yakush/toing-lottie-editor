@@ -10,6 +10,7 @@ export default function LottiePlayer({}: Props) {
   const [playerRef, setPlayerRef] = useState<AnimationItem>();
   const [json, setJson] = useState<Lottie | null>();
   const lottie = useLottieStore((state) => state.lottie);
+  const displayName = useLottieStore(s=>s.displayName);
 
   const refCurrentTime = useRef(0);
   const refIsPaused = useRef(false);
@@ -78,6 +79,7 @@ export default function LottiePlayer({}: Props) {
 
   return (
     <div>
+      a:{displayName}
       <Player
         lottieRef={(instance) => {
           setPlayerRef(instance);

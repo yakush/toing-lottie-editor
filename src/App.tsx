@@ -5,10 +5,10 @@ import {
   Navigate,
   HashRouter,
 } from "react-router-dom";
-import Layout from "./pages/Layout";
 import LottieConfigure from "./pages/LottieConfigure";
 import LottieEditor from "./pages/LottieEditor";
 import NoPage from "./pages/NoPage";
+import Layout from "./Layout";
 
 function App() {
   return (
