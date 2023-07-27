@@ -28,7 +28,7 @@ function Page({}: Props) {
   const loadUrl = useLottieStore((store) => store.loadUrl);
 
   const files = [
-    "___OLD___137141-sample.json",
+    "OLD.json",
     "102708-sangoma.json",
     "111228-skilltonblack.json",
     "137141-sample.json",
