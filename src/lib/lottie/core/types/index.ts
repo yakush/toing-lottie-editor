@@ -1,3 +1,3 @@
 export * from "./lottieJson";
 export * from "./edits";
-export * from "./refs";
+export * from "./edits/lottieRef";

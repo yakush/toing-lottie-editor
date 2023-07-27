@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Card from "../components/Card";
 import FileDropTarget from "../components/FileDropTarget";
 import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
@@ -5,6 +6,8 @@ import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
+import { LottieRef } from "../lib/lottie/core";
+import { findLayerRef, findLottieRef, findShapeRef } from "../utils/lotieUtils";
 
 type Props = {};
 
@@ -72,8 +75,59 @@ function Page({}: Props) {
       <div className={styles.editor}>
         <Card>
           <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
+          <Test></Test>
         </Card>
       </div>
     </div>
+  );
+}
+
+function Test() {
+  const lottie = useLottieStore((s) => s.lottie);
+  const blinkLayer = useLottieStore((s) => s.blinkLayer);
+  const blinkShape = useLottieStore((s) => s.blinkShape);
+
+  const [text, setText] = useState(() => {
+    const ref: LottieRef = {
+      type: "layer",
+      layerInd: 1,
+      assetId: "55",
+    };
+    return JSON.stringify(ref, null, 2);
+  });
+
+  const onclick = () => {
+    try {
+      if (!lottie) {
+        console.log("no json");
+        return;
+      }
+      const ref: LottieRef = JSON.parse(text);
+      console.log(ref);
+
+      if (ref.type === "layer") {
+        const target = findLayerRef(lottie, ref);
+        !target && console.log("not found");
+        target && blinkLayer(target);
+      }
+
+      if (ref.type === "shape") {
+        const target = findShapeRef(lottie, ref);
+        !target && console.log("not found");
+        target && blinkShape(target);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return (
+    <>
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        style={{ minHeight: 100 }}
+      />
+      <button onClick={onclick}>go</button>
+    </>
   );
 }

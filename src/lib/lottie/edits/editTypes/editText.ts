@@ -1,5 +1,5 @@
 import { EditData, EditExecuter, Lottie, editTypes } from "../../core";
-import { LayerRef } from "../../core/types/refs";
+import { LayerRef } from "../../core/types/edits/lottieRef";
 
 export interface Config {
   targetLayer: LayerRef;

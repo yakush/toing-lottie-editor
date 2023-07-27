@@ -1,6 +1,6 @@
 import { Lottie, editTypes } from "../../core";
 import { EditData, EditExecuter } from "../../core/types/edits";
-import { LottieRef } from "../../core/types/refs";
+import { LottieRef } from "../../core/types/edits/lottieRef";
 
 export interface Config {
   targetLayers: LottieRef[];
