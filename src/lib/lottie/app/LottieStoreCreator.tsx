@@ -1,12 +1,12 @@
 import { StateCreator } from "zustand";
 import {
-  EditData,
   Layer,
   Lottie,
   LottieLoader,
   LottieManager,
   LottieManagerEvents,
   Shape,
+  LottieEdits,
 } from "../core";
 
 export interface LottieStore {
@@ -14,7 +14,7 @@ export interface LottieStore {
   manager: LottieManager;
   loader: LottieLoader;
   lottie?: Lottie;
-  edits?: EditData[];
+  edits?: LottieEdits;
   isLoading: boolean;
   errorLoading?: string;
 
@@ -23,7 +23,7 @@ export interface LottieStore {
 
   rerenderLottie: () => void;
 
-  setEdits: (edits: EditData[]) => void;
+  setEdits: (edits: LottieEdits) => void;
   resetExecutions: () => void;
 
   blinkLayer: (target: Layer) => void;

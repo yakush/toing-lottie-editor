@@ -1,5 +1,5 @@
 import { editTypes } from "../core";
-import { EditData, EditExecuter, Lottie } from "../core/types";
+import { EditData, EditExecuter, Lottie, LottieEdits } from "../core/types";
 
 export class EditsRegistry {
   private editTypes: Map<editTypes, EditExecuter>;
@@ -25,8 +25,8 @@ export class EditsRegistry {
     this.editTypes.clear();
   }
 
-  executeAll(lottie: Lottie, edits: EditData[]) {
-    edits.forEach((edit) => this.execute(lottie, edit));
+  executeAll(lottie: Lottie, edits: LottieEdits) {
+    edits.edits.forEach((edit) => this.execute(lottie, edit));
   }
 
   execute(lottie: Lottie, edit: EditData) {
@@ -50,8 +50,8 @@ export class EditsRegistry {
 
   //-------------------------------------------------------
 
-  setDefaultsAll(edits: EditData[]) {
-    edits.forEach((edit) => this.setDefaults(edit));
+  setDefaultsAll(edits: LottieEdits) {
+    edits.edits.forEach((edit) => this.setDefaults(edit));
   }
 
   setDefaults(edit: EditData) {

@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import { EditData, GroupShape, Layer, Lottie, Shape } from "./types";
+import {  GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
 import registry from "../edits/editsModule";
 import { shapeTypes } from "./enums";
 
@@ -16,7 +16,7 @@ export enum LottieManagerEvents {
 
 export class LottieManager extends EventEmitter {
   private _lottie?: Lottie;
-  private _edits?: EditData[];
+  private _edits?: LottieEdits;
 
   //-------------------------------------------------------
   // public
@@ -29,7 +29,7 @@ export class LottieManager extends EventEmitter {
     return this._edits;
   }
 
-  loadNewLottie(lottie?: Lottie, edits?: EditData[]) {
+  loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
     //TODO:implement
     this.setLottie(lottie, { digest: false, emitEvent: false });
     this.setEdits(edits, false);
@@ -39,7 +39,7 @@ export class LottieManager extends EventEmitter {
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
 
-  loadNewEdits(edits: EditData[]) {
+  loadNewEdits(edits: LottieEdits) {
     //TODO:implement
     this.setEdits(edits);
 
@@ -67,12 +67,12 @@ export class LottieManager extends EventEmitter {
   }
 
   updateEdits(
-    update: updater<EditData[]>,
+    update: updater<LottieEdits>,
     hints?: {
       changed?: "executions" | "configs";
     }
   ) {
-    let newVal: EditData[];
+    let newVal: LottieEdits;
 
     if (isCallbackUpdater(update)) {
       if (!this._edits) {
@@ -80,7 +80,7 @@ export class LottieManager extends EventEmitter {
       }
       newVal = update(this._edits);
     } else {
-      newVal = update as EditData[];
+      newVal = update as LottieEdits;
     }
 
     const changedConfigs =
@@ -130,7 +130,7 @@ export class LottieManager extends EventEmitter {
     }
   }
 
-  private setEdits(val?: EditData[], digest = true) {
+  private setEdits(val?: LottieEdits, digest = true) {
     if (val === this.lottie) {
       return;
     }

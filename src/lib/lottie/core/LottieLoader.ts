@@ -1,13 +1,12 @@
-import { EditData, Lottie } from "./types";
+import { Lottie, LottieEdits } from "./types";
 
 export interface LottieLoadResults {
   lottie: Lottie;
-  edits?: EditData[];
+  edits?: LottieEdits;
 }
 
 export class LottieLoader {
   async loadUrl(url: string, urlEdits?: string): Promise<LottieLoadResults> {
-    
     // fake wait for 1 second
     // await new Promise((res) => setTimeout(res, 1000));
 
