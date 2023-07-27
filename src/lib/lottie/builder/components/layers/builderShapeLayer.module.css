@@ -2,6 +2,30 @@
   /* background-color: rgb(200, 200, 200); */
 }
 
-.shapeTitle{
+
+
+.shapeTitle {
+  display: flex;
+  flex-direction: row;
   cursor: pointer;
+}
+
+
+.shapeTitle:hover{
+  background-color:rgba(13, 73, 192, 0.1);
+}
+
+.shapeTitle .type {
+  /* font-weight: bold; */
+  min-width: 90px;
+}
+
+.shapeTitle .name {
+  text-decoration: underline;
+}
+
+.shapeTitle .icon {
+  width: 10px;
+  height: auto;
+  margin-right: 5px;
 }

@@ -25,11 +25,14 @@
 }
 
 .headerIcon {
-  cursor: pointer;
   user-select: none;
-  width: 20px;
+  width: 10px;
   align-self: center;
   font-weight: bold;
+}
+
+.hasChildren.hasChildren {
+  cursor: pointer;
 }
 
 .headerIcon:hover {
@@ -37,5 +40,5 @@
 }
 
 .content {
-  margin-left: 10px;
+  margin-left: 5px;
 }

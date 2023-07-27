@@ -3,7 +3,6 @@ import ListHeader from "./ListHeader";
 import styles from "./List.module.css";
 import { combineClasses } from "../../utils/css";
 
-
 //-------------------------------------------------------
 
 type Props = {
@@ -34,27 +33,44 @@ export default function List({ children, lineColor }: Props) {
   const toggleOpen = () => setOpen((x) => !x);
 
   if (!hasChildren) {
-    return <div className={styles.header}>{header}</div>;
+    return (
+      <div className={styles.root}>
+        <div className={styles.header}>
+          <div
+            className={combineClasses(styles.headerIcon, {
+              [styles.hasChildren]: hasChildren,
+            })}
+            onClick={toggleOpen}
+          ></div>
+          <div>{header}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <div className={styles.headerIcon} onClick={toggleOpen}>
+        <div
+          className={combineClasses(styles.headerIcon, {
+            [styles.hasChildren]: hasChildren,
+          })}
+          onClick={toggleOpen}
+        >
           {open ? "-" : "+"}
         </div>
         <div>{header}</div>
       </div>
 
-      {hasChildren && (
-        <div className={combineClasses(styles.listWrap,{ [styles.closed]: !open })}>
-          <div
-            className={styles.shapeListSideLine}
-            style={{ borderColor: lineColor }}
-          />
-          <div className={styles.content}>{content}</div>
-        </div>
-      )}
+      <div
+        className={combineClasses(styles.listWrap, { [styles.closed]: !open })}
+      >
+        <div
+          className={styles.shapeListSideLine}
+          style={{ borderColor: lineColor }}
+        />
+        <div className={styles.content}>{content}</div>
+      </div>
     </div>
   );
 }
