@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/toing-lottie-editor/static/css/main.9682572f.css",
-    "main.js": "/toing-lottie-editor/static/js/main.1c5776b2.js",
+    "main.css": "/toing-lottie-editor/static/css/main.3643e9c2.css",
+    "main.js": "/toing-lottie-editor/static/js/main.6500e6d4.js",
     "static/js/787.a54883bd.chunk.js": "/toing-lottie-editor/static/js/787.a54883bd.chunk.js",
+    "static/media/icon_shape.svg": "/toing-lottie-editor/static/media/icon_shape.2436d1d6edf634eb83af485b1a6ee525.svg",
+    "static/media/icon_layer.svg": "/toing-lottie-editor/static/media/icon_layer.ff0e148199a10a638f8b6797a706fd7d.svg",
     "index.html": "/toing-lottie-editor/index.html",
-    "main.9682572f.css.map": "/toing-lottie-editor/static/css/main.9682572f.css.map",
-    "main.1c5776b2.js.map": "/toing-lottie-editor/static/js/main.1c5776b2.js.map",
+    "main.3643e9c2.css.map": "/toing-lottie-editor/static/css/main.3643e9c2.css.map",
+    "main.6500e6d4.js.map": "/toing-lottie-editor/static/js/main.6500e6d4.js.map",
     "787.a54883bd.chunk.js.map": "/toing-lottie-editor/static/js/787.a54883bd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9682572f.css",
-    "static/js/main.1c5776b2.js"
+    "static/css/main.3643e9c2.css",
+    "static/js/main.6500e6d4.js"
   ]
 }
