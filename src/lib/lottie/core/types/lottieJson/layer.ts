@@ -11,7 +11,7 @@ export interface Layer {
   ind: number;
 
   /** stretch time */
-  sr: number;
+  sr?: number;
   /** inPoint time */
   ip?: number;
   /** outPoint time */
