@@ -30,10 +30,10 @@ function Page({}: Props) {
   const loadUrl = useLottieStore((store) => store.loadUrl);
 
   const files = [
+    { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" },
     { name: "OLD.json", edits: "OLD.edits.json" },
     { name: "102708-sangoma.json", edits: "" },
     { name: "111228-skilltonblack.json", edits: "" },
-    { name: "137141-sample.json", edits: "" },
     { name: "138116-sample-again.json", edits: "" },
     { name: "comp-1.json", edits: "" },
     { name: "test-text.json", edits: "" },
@@ -80,7 +80,7 @@ function Page({}: Props) {
         </Card>
         <Card>
           <CardHeader>test</CardHeader>
-          {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
+          <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
           <Test></Test>
         </Card>
       </div>

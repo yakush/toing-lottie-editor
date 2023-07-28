@@ -7,6 +7,8 @@ import {
   LottieManagerEvents,
   Shape,
   LottieEdits,
+  EditData,
+  updater,
 } from "../core";
 
 export interface LottieStore {
@@ -23,7 +25,7 @@ export interface LottieStore {
 
   rerenderLottie: () => void;
 
-  setEdits: (edits: LottieEdits) => void;
+  setEdits: (update: updater<LottieEdits>) => void;
   resetExecutions: () => void;
 
   blinkLayer: (target: Layer) => void;
@@ -113,9 +115,9 @@ export const LottieStoreCreatorFactory: (
         manager.rerenderLottie();
       },
 
-      setEdits(edits) {
+      setEdits(update) {
         const { manager } = get();
-        manager.updateEdits(edits);
+        manager.updateEdits(update);
       },
 
       resetExecutions() {

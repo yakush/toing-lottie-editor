@@ -4,7 +4,7 @@ import registry from "../edits/editsModule";
 import { shapeTypes } from "./enums";
 import { createLottieRefs } from "../utils/lottieUtils";
 
-type updater<T> = T | ((current: T) => T);
+export type updater<T> = T | ((current: T) => T);
 
 function isCallbackUpdater<T>(x: updater<T>): x is (current: T) => T {
   return typeof x === "function";
@@ -90,7 +90,7 @@ export class LottieManager extends EventEmitter {
     const changedExecutions =
       hints?.changed === "executions" || hints?.changed === undefined;
 
-    this.setEdits(newVal);
+    this.setEdits(newVal, false);
 
     if (changedConfigs) {
       //create defaults if needed
@@ -142,6 +142,8 @@ export class LottieManager extends EventEmitter {
     if (val && digest) {
       this.digestLottie();
     }
+
+    this.updateFromEdits();
 
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }

@@ -38,9 +38,9 @@ export interface SolidLayer extends Layer {
 
 export interface TextLayer extends Layer {
   t?: {
-    /* document data */
+    /** document data */
     d?: {
-      /*keys */
+      /** keys */
       k?: {
         s?: {
           /** boxTextSize */

@@ -1,0 +1,67 @@
+{
+  "edits": [
+    {
+      "type": "text",
+      "id": "id1",
+      "name": "title!!!",
+      "description": "title text",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 7
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "22222",
+      "name": "sub!",
+      "description": "sss",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 8
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "some other type",
+      "id": "asf3dasf4",
+      "name": "name!",
+      "description": "blah1111",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 1
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    }
+  ]
+}
