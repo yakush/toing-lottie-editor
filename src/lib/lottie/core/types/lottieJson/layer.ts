@@ -48,13 +48,13 @@ export interface TextLayer extends Layer {
           /** boxTextPos */
           ps?: any;
           /** fontSize */
-          s: number;
+          s?: number;
           /** font */
-          f: string;
+          f?: string;
           /** text */
-          t: string;
+          t?: string;
           /** caps : 0: normal , 1:caps , 2:small */
-          ca: number;
+          ca?: number;
           /** justification  */
           j?: number | undefined;
           /** tracking */
