@@ -78,16 +78,16 @@ function Page({}: Props) {
 
           <LottiePlayer />
         </Card>
+        <Card>
+          <CardHeader>test</CardHeader>
+          {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
+          <Test></Test>
+        </Card>
       </div>
       <div className={styles.editor}>
         <Card>
           <CardHeader>editor</CardHeader>
           <LottieEditor />
-        </Card>
-        <Card>
-          <CardHeader>test</CardHeader>
-          <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
-          <Test></Test>
         </Card>
       </div>
     </div>

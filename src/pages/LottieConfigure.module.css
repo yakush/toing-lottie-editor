@@ -5,9 +5,9 @@
   grid-template-areas:
     "loader loader loader"
     "messages messages messages"
-    "builder player editor";
+    "builder editor player";
 
-  grid-template-columns: minmax(200px,1fr) 400px minmax(200px,1fr);
+  grid-template-columns: minmax(200px, 400px) minmax(200px, 1fr) 400px;
   grid-template-rows: auto auto 1fr;
 }
 
