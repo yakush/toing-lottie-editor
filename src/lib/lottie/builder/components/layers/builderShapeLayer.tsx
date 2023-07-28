@@ -14,6 +14,7 @@ import ListHeader from "../ListHeader";
 import styles from "./builderShapeLayer.module.css";
 import { useLottieStore } from "../../../app";
 import icon_shape from "../../../assets/icon_shape.svg";
+import { getLottieRef } from "../../../utils/lottieUtils";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
   return (
@@ -94,6 +95,10 @@ const ShapeTitle = ({ shape }: ShapeTitleProps) => {
       // onDragEnd={(e)=>onDragEnd(shape,e)}
       onDrop={(e) => onDrop(shape, e)}
       onDragOver={(e) => onDragOver(shape, e)}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        console.log(JSON.stringify(getLottieRef(shape), null, 2));
+      }}
       // onDragExit={(e)=>onDragExit(shape,e)}
     >
       <img className={styles.icon} src={icon_shape} alt="icon_layer" />

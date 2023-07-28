@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import { GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
 import registry from "../edits/editsModule";
 import { shapeTypes } from "./enums";
+import { createLottieRefs } from "../utils/lottieUtils";
 
 type updater<T> = T | ((current: T) => T);
 
@@ -223,7 +224,12 @@ export class LottieManager extends EventEmitter {
    * @returns
    */
   private digestLottie() {
-    console.log("DIGEST");
+    console.log("DIGESTING LOTTIE");
+
+    if (this.lottie) {
+      //add refs:
+      createLottieRefs(this.lottie);
+    }
 
     if (!this.lottie) {
       return;

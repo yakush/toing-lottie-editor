@@ -3,6 +3,7 @@ import { Layer, layerTypes } from "../../core";
 import styles from "./LayerTitle.module.css";
 import icon_layer from "../../assets/icon_layer.svg";
 import { combineClasses } from "../../utils/css";
+import { getLottieRef } from "../../utils/lottieUtils";
 
 type Props = {
   layer: Layer;
@@ -51,6 +52,10 @@ export default function LayerTitle({ layer, children }: Props) {
       onDrop={onDrop}
       onDragOver={onDragOver}
       // onDragExit={onDragExit}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        console.log(JSON.stringify(getLottieRef(layer), null, 2));
+      }}
     >
       <img className={styles.icon} src={icon_layer} alt="icon_layer" />
       <div className={styles.layer}>

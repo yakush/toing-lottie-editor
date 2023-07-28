@@ -4,11 +4,13 @@ import {
   LayerRef,
   Lottie,
   LottieRef,
+  Shape,
   ShapeLayer,
   ShapeRef,
   layerTypes,
   shapeTypes,
 } from "../core";
+import __priv__ from "./privateFields";
 
 //-------------------------------------------------------
 
@@ -72,5 +74,76 @@ export function findLottieRef(lottie: Lottie, ref: LottieRef) {
 
     default:
       return undefined;
+  }
+}
+
+//-------------------------------------------------------
+type WithRef = {
+  [__priv__]?: {
+    ref?: LottieRef;
+  };
+};
+
+export function getLottieRef(target: Layer | Shape) {
+  const targetWithRef: (Layer | Shape) & WithRef = target;
+  return targetWithRef[__priv__]?.ref;
+}
+
+export function createLottieRefs(lottie: Lottie) {
+  //layers:
+  lottie.layers?.forEach((layer) => createLayerRef(layer));
+
+  //assets
+  lottie.assets?.forEach((asset) => {
+    asset.layers?.forEach((layer) => createLayerRef(layer, asset.id));
+  });
+}
+
+function createLayerRef(layer: Layer & WithRef, assetId?: string) {
+  let priv = layer[__priv__];
+  if (!priv) {
+    priv = layer[__priv__] = {};
+  }
+  const ref: LayerRef = {
+    type: "layer",
+    layerInd: layer.ind,
+    assetId: assetId,
+  };
+
+  priv.ref = ref;
+
+  //shapes:
+  if (layer.ty === layerTypes.shape) {
+    (layer as ShapeLayer).shapes?.forEach((shape, i) => {
+      createShapeRef(ref, shape, i);
+    });
+  }
+}
+
+function createShapeRef(
+  layerRef: LayerRef,
+  shape: Shape & WithRef,
+  shapeIdx: number,
+  subPath: number[] = []
+) {
+  let priv = shape[__priv__];
+  if (!priv) {
+    priv = shape[__priv__] = {};
+  }
+
+  const ref: ShapeRef = {
+    type: "shape",
+    layerRef: { ...layerRef },
+    shapeIdx,
+    subPath,
+  };
+
+  priv.ref = ref;
+
+  //sub shapes in group:
+  if (shape.ty === shapeTypes.group) {
+    (shape as GroupShape).it?.forEach((subShape, i) => {
+      createShapeRef(layerRef, subShape, shapeIdx, [...subPath, i]);
+    });
   }
 }

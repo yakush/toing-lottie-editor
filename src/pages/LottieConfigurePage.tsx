@@ -7,7 +7,7 @@ import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import { LottieRef } from "../lib/lottie/core";
-import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lotieUtils";
+import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
 
