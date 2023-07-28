@@ -26,7 +26,7 @@ export class EditsRegistry {
   }
 
   executeAll(lottie: Lottie, edits: LottieEdits) {
-    edits.edits.forEach((edit) => this.execute(lottie, edit));
+    edits.edits?.forEach((edit) => this.execute(lottie, edit));
   }
 
   execute(lottie: Lottie, edit: EditData) {
@@ -51,7 +51,7 @@ export class EditsRegistry {
   //-------------------------------------------------------
 
   setDefaultsAll(edits: LottieEdits) {
-    edits.edits.forEach((edit) => this.setDefaults(edit));
+    edits.edits?.forEach((edit) => this.setDefaults(edit));
   }
 
   setDefaults(edit: EditData) {

@@ -4,14 +4,15 @@ import FileDropTarget from "../components/FileDropTarget";
 import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
 import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
+import { LottieRef } from "../lib/lottie/core";
+import { findLayerRef, findShapeRef } from "../utils/lotieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
-import { LottieRef } from "../lib/lottie/core";
-import { findLayerRef, findLottieRef, findShapeRef } from "../utils/lotieUtils";
+import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 
 type Props = {};
 
-export default function LottieConfigure({}: Props) {
+export default function LottieConfigurePage({}: Props) {
   return (
     <LottieStoreProvider>
       <Page />
@@ -28,13 +29,13 @@ function Page({}: Props) {
   const loadUrl = useLottieStore((store) => store.loadUrl);
 
   const files = [
-    "OLD.json",
-    "102708-sangoma.json",
-    "111228-skilltonblack.json",
-    "137141-sample.json",
-    "138116-sample-again.json",
-    "comp-1.json",
-    "test-text.json",
+    { name: "OLD.json", edits: "OLD.edits.json" },
+    { name: "102708-sangoma.json", edits: "" },
+    { name: "111228-skilltonblack.json", edits: "" },
+    { name: "137141-sample.json", edits: "" },
+    { name: "138116-sample-again.json", edits: "" },
+    { name: "comp-1.json", edits: "" },
+    { name: "test-text.json", edits: "" },
   ];
 
   return (
@@ -42,13 +43,16 @@ function Page({}: Props) {
       <div className={styles.loader}>
         {files.map((file) => (
           <button
-            key={file}
+            key={file.name}
             onClick={() => {
-              const path = createPublicLottieSampleUrl(file);
-              loadUrl(path);
+              const path = createPublicLottieSampleUrl(file.name);
+              const pathEdits = !!file.edits
+                ? createPublicLottieSampleUrl(file.edits)
+                : undefined;
+              loadUrl(path, pathEdits);
             }}
           >
-            {file}
+            {file.name} {file.edits && "(+)"}
           </button>
         ))}
         <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])}>
@@ -74,6 +78,10 @@ function Page({}: Props) {
       </div>
       <div className={styles.editor}>
         <Card>
+          <LottieEditor />
+        </Card>
+        <Card>
+          test
           <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
           <Test></Test>
         </Card>

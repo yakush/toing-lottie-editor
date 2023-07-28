@@ -11,14 +11,14 @@ export type LayerProps<T extends Layer = Layer> = {
   layer: T;
 };
 
-export type EditProps<T extends {} = {}> = {
+export type EditBuilderProps<T extends {} = {}> = {
   type: string;
   data: T;
 };
 
 export interface ModuleType {
   layers: ComponentRegistry<layerTypes, LayerProps>;
-  editBuilders: ComponentRegistry<string, EditProps>;
+  editBuilders: ComponentRegistry<string, EditBuilderProps>;
 }
 
 //-------------------------------------------------------
@@ -34,7 +34,7 @@ layers.register(layerTypes.solid, BuilderSolidLayer);
 //-------------------------------------------------------
 // register all edit-builder components
 //-------------------------------------------------------
-const editBuilders = new ComponentRegistry<string, EditProps>();
+const editBuilders = new ComponentRegistry<string, EditBuilderProps>();
 //edits.register("color", TextLayerUI);
 //edits.register("layerSelect".shape, ShapeLayerUI);
 

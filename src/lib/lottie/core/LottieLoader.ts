@@ -11,13 +11,14 @@ export class LottieLoader {
     // await new Promise((res) => setTimeout(res, 1000));
 
     try {
-      const resLottie = await fetch(url);
-      const lottie = await resLottie.json();
+      const res = await fetch(url);
+      const lottie = await res.json();
 
       let edits = undefined;
       if (urlEdits) {
-        const resEdits = await fetch(urlEdits);
-        edits = await resEdits.json();
+        const res = await fetch(urlEdits);
+        const json = await res.json();
+        edits = json;
       }
 
       return { lottie, edits };

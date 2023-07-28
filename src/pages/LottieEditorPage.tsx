@@ -1,7 +1,6 @@
 import { LottieStoreProvider } from "../lib/lottie/app";
 import { LottieLayer, builderUiModule } from "../lib/lottie/builder";
 import { layerTypes } from "../lib/lottie/core";
-import LottieConfigure from "./LottieConfigure";
 
 let test = {
   layers: [
@@ -20,7 +19,7 @@ let test = {
 
 type Props = {};
 
-export default function LottieEditor({}: Props) {
+export default function LottieEditorPage({}: Props) {
   return (
     <LottieStoreProvider>
       <Page />

@@ -1,14 +1,13 @@
 import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
   HashRouter,
+  Navigate,
+  Route,
+  Routes
 } from "react-router-dom";
-import LottieConfigure from "./pages/LottieConfigure";
-import LottieEditor from "./pages/LottieEditor";
-import NoPage from "./pages/NoPage";
 import Layout from "./Layout";
+import LottieConfigurePage from "./pages/LottieConfigurePage";
+import LottieEditorPage from "./pages/LottieEditorPage";
+import NoPage from "./pages/NoPage";
 
 function App() {
   return (
@@ -18,8 +17,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* <Route index element={<LottieEditor />} /> */}
           <Route index element={<Navigate to="/config" />} />
-          <Route path="editor" element={<LottieEditor />} />
-          <Route path="config" element={<LottieConfigure />} />
+          <Route path="editor" element={<LottieEditorPage />} />
+          <Route path="config" element={<LottieConfigurePage />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

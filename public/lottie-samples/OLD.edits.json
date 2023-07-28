@@ -1,0 +1,67 @@
+{
+  "edits": [
+    {
+      "type": "text",
+      "id": "asf3dasf3",
+      "name": "name!",
+      "description": "blah1111",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 1
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "asf3dasf2",
+      "name": "name!",
+      "description": "blah1111",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 1
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "some other type",
+      "id": "asf3dasf3",
+      "name": "name!",
+      "description": "blah1111",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 1
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    }
+  ]
+}
