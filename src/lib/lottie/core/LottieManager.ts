@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import {  GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
+import { GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
 import registry from "../edits/editsModule";
 import { shapeTypes } from "./enums";
 
@@ -30,6 +30,7 @@ export class LottieManager extends EventEmitter {
   }
 
   loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
+    console.log({ lottie, edits });
     //TODO:implement
     this.setLottie(lottie, { digest: false, emitEvent: false });
     this.setEdits(edits, false);
@@ -63,7 +64,7 @@ export class LottieManager extends EventEmitter {
   }
 
   rerenderLottie() {
-    this.setLottie({...this.lottie});
+    this.setLottie({ ...this.lottie });
   }
 
   updateEdits(
@@ -131,7 +132,7 @@ export class LottieManager extends EventEmitter {
   }
 
   private setEdits(val?: LottieEdits, digest = true) {
-    if (val === this.lottie) {
+    if (val === this.edits) {
       return;
     }
 

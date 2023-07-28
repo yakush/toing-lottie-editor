@@ -76,6 +76,11 @@ export default function LottiePlayer({}: Props) {
     }
   }, [playerRef, lottie]);
 
+
+  if (!lottie){
+    return <div>no lottie loaded</div>
+  }
+
   return (
     <div>
       <Player
