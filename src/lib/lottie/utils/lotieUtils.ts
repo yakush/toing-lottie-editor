@@ -8,7 +8,7 @@ import {
   ShapeRef,
   layerTypes,
   shapeTypes,
-} from "../lib/lottie/core";
+} from "../core";
 
 //-------------------------------------------------------
 

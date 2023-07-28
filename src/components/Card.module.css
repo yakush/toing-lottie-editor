@@ -1,8 +1,36 @@
 .root {
   background-color: white;
-  padding: 5px;
   margin: 10px;
-  box-shadow: 2px 2px 8px black;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  border-radius: 5px 5px 5px 5px;
+}
+
+.header {
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  gap: 5px;
+  padding: 2px 5px;
+  color: black;
+  font-weight: bold;
+  background-color: rgb(178, 187, 201);
+}
+
+.closed .header {
   border-radius: 5px;
+}
+
+.toggle {
+  cursor: pointer;
+  user-select: none;
+  width: 10px;
+}
+
+.content {
+  border-top: solid 1px black;
+  padding: 5px;
   min-height: 80px;
+}
+
+.closed .content {
+  display: none;
 }

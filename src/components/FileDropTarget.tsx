@@ -1,6 +1,6 @@
 import { DragEvent, useState } from "react";
 import styles from "./FileDropTarget.module.css";
-import { combineClasses } from "../utils/css";
+import { combineClasses } from "../lib/lottie/utils/css";
 
 type Props = {
   onDrop?: (files: FileList) => void;
@@ -40,7 +40,7 @@ export default function FileDropTarget({ onDrop, children }: Props) {
 
   return (
     <div
-      className={combineClasses(styles, ["area", isDragging && "dragging"])}
+      className={combineClasses(styles.area, { [styles.dragging]: isDragging })}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}

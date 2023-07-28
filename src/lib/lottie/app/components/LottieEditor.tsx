@@ -14,8 +14,6 @@ export default function LottieEditor({}: Props) {
   return (
     <div>
       <div className={styles.root}>
-        <div>EDITOR</div>
-
         {edits?.edits?.map((edit) => (
           <div
             key={edit.id}

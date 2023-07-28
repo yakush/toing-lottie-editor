@@ -1,14 +1,15 @@
 import { useState } from "react";
 import Card from "../components/Card";
+import CardHeader from "../components/CardHeader";
 import FileDropTarget from "../components/FileDropTarget";
 import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
+import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import { LottieRef } from "../lib/lottie/core";
-import { findLayerRef, findShapeRef } from "../utils/lotieUtils";
+import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lotieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
-import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 
 type Props = {};
 
@@ -67,21 +68,24 @@ function Page({}: Props) {
 
       <div className={styles.builder}>
         <Card>
+          <CardHeader>tree</CardHeader>
           <LottieJson />
         </Card>
       </div>
       <div className={styles.player}>
         <Card>
-          player
+          <CardHeader>player</CardHeader>
+
           <LottiePlayer />
         </Card>
       </div>
       <div className={styles.editor}>
         <Card>
+          <CardHeader>editor</CardHeader>
           <LottieEditor />
         </Card>
         <Card>
-          test
+          <CardHeader>test</CardHeader>
           <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
           <Test></Test>
         </Card>
