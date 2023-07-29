@@ -1,10 +1,12 @@
 .header {
   display: flex;
   flex-direction: row;
+  gap: 4px;
 }
 
 .header .type {
   flex: 1;
+  font-weight: bold;
 }
 
 .header .ui {

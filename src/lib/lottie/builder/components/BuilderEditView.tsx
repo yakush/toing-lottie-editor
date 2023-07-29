@@ -62,7 +62,8 @@ export default function BuilderEditView({ edit }: Props) {
     <BuilderCard>
       <BuilderCardHeader>
         <div className={styles.header}>
-          <div className={styles.type}>[{edit.type}]</div>
+          {/* <div className={styles.id}>[{edit.id}]</div> */}
+          <div className={styles.type}>{edit.type} edit</div>
           <div className={styles.ui}>
             <button onClick={(e) => move(-1)}>UP</button>
             <button onClick={(e) => move(+1)}>DOWN</button>
