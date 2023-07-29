@@ -1,8 +1,7 @@
-import { useId, useState } from "react";
+import { useId } from "react";
 import { textJustifications } from "../../../core/enums/textJustifications";
 import { Config, Execution } from "../../../edits/editTypes/editText";
 import { combineClasses } from "../../../utils/css";
-import { useEffectOnChanged } from "../../../utils/useEffectOnUpdate";
 import { EditProps } from "../../uiModule";
 import styles from "./TextEditView.module.css";
 export default function TextEditView({
@@ -12,26 +11,20 @@ export default function TextEditView({
   const id_labelText = useId();
   const id_labelAlign = useId();
 
-  const [currentExecution, setCurrentExecution] = useState<Execution>(
-    edit.execution || edit.defaults
-  );
-
-  useEffectOnChanged(() => {
-    // console.log("execute!!!", currentExecution);
+  //-------------------------------------------------------
+  const updateExecution = (exe: Execution) => {
     const newEdit = structuredClone(edit);
     newEdit.execution = newEdit.execution ?? { ...newEdit.defaults };
-    newEdit.execution = currentExecution;
+    newEdit.execution = exe;
     onEditChanged && onEditChanged(newEdit);
-  }, [currentExecution]);
-
-  //-------------------------------------------------------
+  };
 
   const handleText = (value: string) => {
-    setCurrentExecution((edit) => ({ ...edit, text: value }));
+    updateExecution({ ...edit.execution, text: value });
   };
 
   const handleAlign = (value: textJustifications) => {
-    setCurrentExecution((edit) => ({ ...edit, align: value }));
+    updateExecution({ ...edit.execution, align: value });
   };
 
   //-------------------------------------------------------
@@ -85,7 +78,7 @@ export default function TextEditView({
               ].map(([title, val]) => (
                 <button
                   className={combineClasses(styles.btn, {
-                    [styles.selected]: val === currentExecution.align,
+                    [styles.selected]: val === edit.execution?.align,
                   })}
                   key={val}
                   onClick={(e) => {

@@ -1,6 +1,10 @@
-import { LottieStoreProvider } from "../lib/lottie/app";
+import { useEffect } from "react";
+import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
 import { LottieLayer, builderUiModule } from "../lib/lottie/builder";
 import { layerTypes } from "../lib/lottie/core";
+import { createPublicLottieSampleUrl } from "../utils/paths";
+import LottieJson from "../lib/lottie/builder/components/LottieJson";
+import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 
 let test = {
   layers: [
@@ -28,6 +32,19 @@ export default function LottieEditorPage({}: Props) {
 }
 
 function Page({}: Props) {
+  const loadUrl = useLottieStore((state) => state.loadUrl);
+
+  useEffect(() => {
+    async function fetchData() {
+      const file = { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" };
+      await loadUrl(
+        createPublicLottieSampleUrl(file.name),
+        createPublicLottieSampleUrl(file.edits)
+      );
+      console.log("done");
+    }
+    fetchData();
+  }, [loadUrl]);
   // return <>
   // <LottieConfigure/>
   // <LottieConfigure/>
@@ -35,16 +52,7 @@ function Page({}: Props) {
   // </>
   return (
     <div>
-      LottieEditor layer:
-      {test.layers
-        ?.filter((layer) => builderUiModule.layers.has(layer.ty))
-        .map((layer, i) => (
-          <ol>
-            <li>
-              [{i}] <LottieLayer layer={layer} />
-            </li>
-          </ol>
-        ))}
+     <LottieEditor />
     </div>
   );
 }
