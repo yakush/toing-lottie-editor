@@ -17,6 +17,8 @@ export enum LottieManagerEvents {
 
 export class LottieManager extends EventEmitter {
   private _lottie?: Lottie;
+  private _origLottie?: Lottie;
+
   private _edits?: LottieEdits;
 
   //-------------------------------------------------------
@@ -32,7 +34,7 @@ export class LottieManager extends EventEmitter {
 
   loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
     console.log({ lottie, edits });
-
+    this._origLottie = lottie && structuredClone(lottie);
     this.setLottie(lottie, { digest: false, emitEvent: false });
     this.setEdits(edits, true);
 
