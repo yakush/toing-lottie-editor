@@ -1911,6 +1911,8 @@
                 "f": "TimesNewRomanPSMT",
                 "t": "static text",
                 "j": 2,
+                "sz":[200,100],
+                "ps":[-100,0],
                 "tr": 0,
                 "lh": 43.2,
                 "ls": 0,
