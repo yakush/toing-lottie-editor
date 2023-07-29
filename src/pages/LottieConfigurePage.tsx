@@ -23,9 +23,9 @@ type Props = {};
 export default function LottieConfigurePage({}: Props) {
   return (
     <DragAndDropStoreProvider>
-      <LottieStoreProvider>
-        <Page />
-      </LottieStoreProvider>
+      {/* <LottieStoreProvider> */}
+      <Page />
+      {/* </LottieStoreProvider> */}
     </DragAndDropStoreProvider>
   );
 }
@@ -172,7 +172,7 @@ function Test() {
         <button onClick={onclick}>go</button>
       </div>
 
-      <RefListSelector />
+      <RefListSelector disableShape />
 
       <div ref={refSource1}>from 1</div>
       <div ref={refSource2}>from 2</div>
