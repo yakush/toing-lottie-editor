@@ -17,9 +17,6 @@ export default function EditView({ edit }: Props) {
       const newEditsList = old?.edits?.map((edit) =>
         edit.id === newEdit.id ? newEdit : edit
       );
-      console.log(old.edits);
-      console.log(newEditsList);
-
       return { ...old, edits: newEditsList };
     });
   };
