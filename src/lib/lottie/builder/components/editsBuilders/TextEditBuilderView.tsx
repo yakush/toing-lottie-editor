@@ -1,8 +1,6 @@
-import React, { Key, useId } from "react";
-import { EditBuilderProps } from "../../builderUiModule";
+import { useId } from "react";
 import { Config, Execution } from "../../../edits/editTypes/editText";
-import BuilderCardHeader from "../BuilderCardHeader";
-import BuilderCard from "../BuilderCard";
+import { EditBuilderProps } from "../../builderUiModule";
 import styles from "./TextEditBuilderView.module.css";
 
 type Props = EditBuilderProps<Config, Execution>;
@@ -23,7 +21,7 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     onEditChanged(newEdit);
   };
 
-  const onChanged = (key: keyof Config, val: boolean) => {    
+  const onChanged = (key: keyof Config, val: boolean) => {
     update({
       [key]: val,
     });
@@ -31,38 +29,33 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
 
   return (
     <div className={styles.root}>
-      <BuilderCard>
-        <BuilderCardHeader>[text]</BuilderCardHeader>
-        <div>
-          <div>
-            <input
-              type="checkbox"
-              id={id_enableMultiline}
-              checked={config.enableMultiline}
-              onChange={(x) => onChanged("enableMultiline", x.target.checked)}
-            />
-            <label htmlFor={id_enableMultiline}>enable Multiline</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id={id_enableAlign}
-              checked={config.enableAlign}
-              onChange={(x) => onChanged("enableAlign", x.target.checked)}
-            />
-            <label htmlFor={id_enableAlign}>enable Align</label>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              id={id_enableColor}
-              checked={config.enableColor}
-              onChange={(x) => onChanged("enableColor", x.target.checked)}
-            />
-            <label htmlFor={id_enableColor}>enable Color</label>
-          </div>
-        </div>
-      </BuilderCard>
+      <div>
+        <input
+          type="checkbox"
+          id={id_enableMultiline}
+          checked={config.enableMultiline}
+          onChange={(e) => onChanged("enableMultiline", e.target.checked)}
+        />
+        <label htmlFor={id_enableMultiline}>enable Multiline</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id={id_enableAlign}
+          checked={config.enableAlign}
+          onChange={(e) => onChanged("enableAlign", e.target.checked)}
+        />
+        <label htmlFor={id_enableAlign}>enable Align</label>
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          id={id_enableColor}
+          checked={config.enableColor}
+          onChange={(x) => onChanged("enableColor", x.target.checked)}
+        />
+        <label htmlFor={id_enableColor}>enable Color</label>
+      </div>
     </div>
   );
 }

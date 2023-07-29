@@ -39,11 +39,14 @@ export default function EditView({ edit }: Props) {
         </div>
         <div>{edit.description}</div>
       </EditCardHeader>
-
-      {uiModule.edits.getComponent(edit.type, {
-        edit,
-        onEditChanged,
-      })}
+      <div>
+        {/* //------------------------------------------------------- */}
+        {/* specific editor */}
+        {uiModule.edits.getComponent(edit.type, {
+          edit,
+          onEditChanged,
+        })}
+      </div>
     </EditCard>
   );
 }

@@ -29,7 +29,7 @@ export type EditBuilderProps<
 
 export interface ModuleType {
   layers: ComponentRegistry<layerTypes, LayerProps>;
-  editBuilders: ComponentRegistry<string, EditBuilderProps>;
+  editBuilders: ComponentRegistry<editTypes, EditBuilderProps>;
 }
 
 //-------------------------------------------------------
@@ -45,7 +45,7 @@ layers.register(layerTypes.solid, BuilderSolidLayer);
 //-------------------------------------------------------
 // register all edit-builder components
 //-------------------------------------------------------
-const editBuilders = new ComponentRegistry<string, EditBuilderProps>();
+const editBuilders = new ComponentRegistry<editTypes, EditBuilderProps>();
 editBuilders.register(editTypes.text, TextEditBuilderView);
 //edits.register("layerSelect".shape, ShapeLayerUI);
 

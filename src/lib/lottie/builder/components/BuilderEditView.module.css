@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.header .type {
+  flex: 1;
+}
+
+.header .ui {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.generalFields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 5px;
+}

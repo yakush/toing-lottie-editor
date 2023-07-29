@@ -1,6 +1,8 @@
 import { useLottieStore } from "../../app";
 import { EditData } from "../../core";
 import builderUiModule from "../builderUiModule";
+import BuilderCard from "./BuilderCard";
+import BuilderEditView from "./BuilderEditView";
 import styles from "./LottieBuilder.module.css";
 
 type Props = {};
@@ -26,10 +28,7 @@ export default function LottieBuilder({}: Props) {
       <div className={styles.list}>
         {edits?.edits?.map((edit) => (
           <div key={edit.id} className={styles.item}>
-            {builderUiModule.editBuilders.getComponent(edit.type, {
-              edit,
-              onEditChanged
-            })}
+            <BuilderEditView edit={edit} />
           </div>
         ))}
       </div>
