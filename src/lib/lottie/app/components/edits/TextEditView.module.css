@@ -1,21 +1,14 @@
 .root {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.title {
-  padding: 1px 5px;
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid black;
 }
 
-.title .name{
-    font-weight: bold;
-    margin-right: 20px;
+.title {
+  display: flex;
+  flex-direction: row;
 }
-.title .gap {
-  flex: 1;
+
+.title .name {
+  font-weight: bold;
+  margin-right: 20px;
 }
 
 .edits {
@@ -47,6 +40,13 @@
 
 .text .input {
   flex: 1;
+}
+
+.text .input.singleLine {
+}
+
+.text .input.multiLine {
+  min-height: 50px;
 }
 
 .text .buttons {

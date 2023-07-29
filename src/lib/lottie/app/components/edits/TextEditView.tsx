@@ -11,6 +11,8 @@ import styles from "./TextEditView.module.css";
 import { textJustifications } from "../../../core/enums/textJustifications";
 import { useEffectOnChanged } from "../../../utils/useEffectOnUpdate";
 import { combineClasses } from "../../../utils/css";
+import EditCard from "../../../../../components/EditCard";
+import EditCardHeader from "../../../../../components/EditCardHeader";
 export default function TextEditView({
   edit,
   onEditChanged,
@@ -37,20 +39,14 @@ export default function TextEditView({
 
   const handleText = (value: string) => {
     setCurrentText(value);
+    setCurrentExecution((edit) => ({ ...edit, text: value }));
   };
 
   const handleAlign = (value: textJustifications) => {
     setCurrentExecution((edit) => ({ ...edit, align: value }));
   };
 
-  const handleTextSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const text = currentText;
-    setCurrentExecution((edit) => ({ ...edit, text }));
-  };
-
-  const handleReset = (e: FormEvent) => {
-    e.preventDefault();
+  const handleReset = () => {
     setCurrentExecution(edit.defaults);
     setCurrentText(edit.defaults.text ?? "");
   };
@@ -59,31 +55,31 @@ export default function TextEditView({
 
   return (
     <div className={styles.root}>
-      <div className={styles.title}>
-        <div className={styles.name}>{edit.name}</div>
-        <div>[text edit]</div>
-        <div className={styles.gap}></div>
-        <button onClick={handleReset}>reset</button>
-      </div>
+      <EditCard onReset={handleReset}>
+        <EditCardHeader>
+          <div className={styles.title}>
+            <div className={styles.name}>{edit.name}</div>
+            <div>[text edit]</div>
+          </div>
+        </EditCardHeader>
 
-      <div className={styles.edits}>
-        <div>[{edit.id}]</div>
-        {/* ------------------------------------------------- */}
-        {/* TEXT */}
-        {/* ------------------------------------------------- */}
-        <div className={styles.text}>
-          <form className={styles.form} onSubmit={handleTextSubmit}>
+        <div className={styles.edits}>
+          <div>[{edit.id}]</div>
+          {/* ------------------------------------------------- */}
+          {/* TEXT */}
+          {/* ------------------------------------------------- */}
+          <div className={styles.text}>
             <label htmlFor={labelIdText}>text</label>
             {edit.config.enableMultiline ? (
               <textarea
-                className={styles.input}
+                className={combineClasses(styles.input, styles.multiLine)}
                 id={labelIdText}
                 onChange={(e) => handleText(e.target.value)}
                 value={currentText}
               />
             ) : (
               <input
-                className={styles.input}
+                className={combineClasses(styles.input, styles.singleLine)}
                 id={labelIdText}
                 type="text"
                 autoComplete="off"
@@ -92,47 +88,47 @@ export default function TextEditView({
               />
             )}
             <div className={styles.buttons}>
-              <input type="submit" value="update" />
-            </div>
-          </form>
-        </div>
-
-        {/* ------------------------------------------------- */}
-        {/* ALIGN */}
-        {/* ------------------------------------------------- */}
-        {edit.config.enableAlign && (
-          <div className={styles.align}>
-            <label htmlFor={labelIdAlign}>align</label>
-            <div className={styles.buttons} id={labelIdAlign}>
-              {[
-                ["<", textJustifications.LEFT_JUSTIFY],
-                ["-", textJustifications.CENTER_JUSTIFY],
-                [">", textJustifications.RIGHT_JUSTIFY],
-                ["<<", textJustifications.FULL_JUSTIFY_LASTLINE_LEFT],
-                ["--", textJustifications.FULL_JUSTIFY_LASTLINE_CENTER],
-                [">>", textJustifications.FULL_JUSTIFY_LASTLINE_RIGHT],
-                ["||", textJustifications.FULL_JUSTIFY_LASTLINE_FULL],
-              ].map(([title, val]) => (
-                <button
-                  className={combineClasses(styles.btn, {
-                    [styles.selected]: val === currentExecution.align,
-                  })}
-                  key={val}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAlign(val as textJustifications);
-                  }}
-                >
-                  {title}
-                </button>
-              ))}
+              {/* <input type="submit" value="update" /> */}
             </div>
           </div>
-        )}
-        {/* ------------------------------------------------- */}
-        {/* COLOR */}
-        {/* ------------------------------------------------- */}
-      </div>
+
+          {/* ------------------------------------------------- */}
+          {/* ALIGN */}
+          {/* ------------------------------------------------- */}
+          {edit.config.enableAlign && (
+            <div className={styles.align}>
+              <label htmlFor={labelIdAlign}>align</label>
+              <div className={styles.buttons} id={labelIdAlign}>
+                {[
+                  ["<", textJustifications.LEFT_JUSTIFY],
+                  ["-", textJustifications.CENTER_JUSTIFY],
+                  [">", textJustifications.RIGHT_JUSTIFY],
+                  // ["<<", textJustifications.FULL_JUSTIFY_LASTLINE_LEFT],
+                  // ["--", textJustifications.FULL_JUSTIFY_LASTLINE_CENTER],
+                  // [">>", textJustifications.FULL_JUSTIFY_LASTLINE_RIGHT],
+                  // ["||", textJustifications.FULL_JUSTIFY_LASTLINE_FULL],
+                ].map(([title, val]) => (
+                  <button
+                    className={combineClasses(styles.btn, {
+                      [styles.selected]: val === currentExecution.align,
+                    })}
+                    key={val}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAlign(val as textJustifications);
+                    }}
+                  >
+                    {title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* ------------------------------------------------- */}
+          {/* COLOR */}
+          {/* ------------------------------------------------- */}
+        </div>
+      </EditCard>
     </div>
   );
 }

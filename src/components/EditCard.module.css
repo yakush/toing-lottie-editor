@@ -1,0 +1,24 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.header {
+  padding: 1px 5px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+  align-items: start;
+}
+
+.header .cardHeaderContent {
+  flex: 1;
+}
+
+.header .reset {
+}
+
+.content {
+  padding: 1px 5px;
+}
