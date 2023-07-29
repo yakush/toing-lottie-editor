@@ -169,14 +169,14 @@ export class LottieManager extends EventEmitter {
 
     addSubTargets(target);
 
-    this.blinkTarget(allTargets);
+    this.blinkTargetList(allTargets);
   }
 
   blinkLayer(target: Layer) {
-    this.blinkTarget([target]);
+    this.blinkTargetList([target]);
   }
-
-  private blinkTarget(targets: (Shape | Layer)[]) {
+  
+  public blinkTargetList(targets: (Shape | Layer)[]) {
     if (targets.some((target) => (target as any).isBlinking)) {
       return;
     }

@@ -15,6 +15,7 @@ import styles from "./builderShapeLayer.module.css";
 import { useLottieStore } from "../../../app";
 import icon_shape from "../../../assets/icon_shape.svg";
 import { getLottieRef } from "../../../utils/lottieUtils";
+import useDragAndDropStore from "../../../app/DragAndDrop";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
   return (
@@ -61,28 +62,14 @@ type ShapeTitleProps = {
 const ShapeTitle = ({ shape }: ShapeTitleProps) => {
   const blinkShape = useLottieStore((state) => state.blinkShape);
 
-  const onDragStart = (shape: Shape, e: React.DragEvent) => {
-    e.dataTransfer.setData("targetType", "shape");
-    e.dataTransfer.setData("typeName", shapeTypeToName(shape.ty));
-    //console.log("onDragStart",typeName);
+  const startDrag = useDragAndDropStore((store) => store.start);
+  const endDrag = useDragAndDropStore((store) => store.end);
+
+  const onDragStart = (e: React.DragEvent) => {
+    startDrag("shape", getLottieRef(shape));
   };
-
-  // const onDrag shape:Shape, = (e: React.DragEvent) => {    //console.log("onDrag",typeName);  };
-  // const onDragEnd shape:Shape, = (e: React.DragEvent) => {    //console.log("onDragEnd",typeName);  };
-  // const onDragExit shape:Shape, = (e: React.DragEvent) => {    //console.log("onDragExit",typeName);  };
-
-  const onDragOver = (shape: Shape, e: React.DragEvent) => {
-    //console.log("onDragOver",typeName);
-    e.preventDefault();
-  };
-
-  const onDrop = (shape: Shape, e: React.DragEvent) => {
-    e.preventDefault();
-    console.log(
-      `onDrop : ${e.dataTransfer.getData(
-        "targetType"
-      )}:${e.dataTransfer.getData("typeName")}`
-    );
+  const onDragEnd = (e: React.DragEvent) => {
+    endDrag();
   };
 
   return (
@@ -90,16 +77,12 @@ const ShapeTitle = ({ shape }: ShapeTitleProps) => {
       className={styles.shapeTitle}
       onClick={() => blinkShape(shape)}
       draggable
-      onDragStart={(e) => onDragStart(shape, e)}
-      // onDrag={(e)=>onDrag(shape,e)}
-      // onDragEnd={(e)=>onDragEnd(shape,e)}
-      onDrop={(e) => onDrop(shape, e)}
-      onDragOver={(e) => onDragOver(shape, e)}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
       onContextMenu={(e) => {
         e.preventDefault();
         console.log(JSON.stringify(getLottieRef(shape), null, 2));
       }}
-      // onDragExit={(e)=>onDragExit(shape,e)}
     >
       <img className={styles.icon} src={icon_shape} alt="icon_layer" />
       <div className={styles.type}>{shapeTypeToName(shape.ty)}</div>

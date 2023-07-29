@@ -4,6 +4,7 @@ import styles from "./LayerTitle.module.css";
 import icon_layer from "../../assets/icon_layer.svg";
 import { combineClasses } from "../../utils/css";
 import { getLottieRef } from "../../utils/lottieUtils";
+import useDragAndDropStore from "../../app/DragAndDrop";
 
 type Props = {
   layer: Layer;
@@ -12,31 +13,16 @@ type Props = {
 
 export default function LayerTitle({ layer, children }: Props) {
   const blinkLayer = useLottieStore((state) => state.blinkLayer);
+  const startDrag = useDragAndDropStore((store) => store.start);
+  const endDrag = useDragAndDropStore((store) => store.end);
 
   const typeName = layerTypes[layer.ty] ?? "unknown";
 
   const onDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData("targetType", "layer");
-    e.dataTransfer.setData("typeName", typeName);
-    //console.log("onDragStart",typeName);
+    startDrag("layer", getLottieRef(layer));
   };
-
-  // const onDrag = (e: React.DragEvent) => {    //console.log("onDrag",typeName);  };
-  // const onDragEnd = (e: React.DragEvent) => {    //console.log("onDragEnd",typeName);  };
-  // const onDragExit = (e: React.DragEvent) => {    //console.log("onDragExit",typeName);  };
-
-  const onDragOver = (e: React.DragEvent) => {
-    //console.log("onDragOver",typeName);
-    e.preventDefault();
-  };
-
-  const onDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    console.log(
-      `onDrop : ${e.dataTransfer.getData(
-        "targetType"
-      )}:${e.dataTransfer.getData("typeName")}`
-    );
+  const onDragEnd = (e: React.DragEvent) => {
+    endDrag();
   };
 
   return (
@@ -47,11 +33,7 @@ export default function LayerTitle({ layer, children }: Props) {
       onClick={() => blinkLayer(layer)}
       draggable
       onDragStart={onDragStart}
-      // onDrag={onDrag}
-      // onDragEnd={onDragEnd}
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-      // onDragExit={onDragExit}
+      onDragEnd={onDragEnd}
       onContextMenu={(e) => {
         e.preventDefault();
         console.log(JSON.stringify(getLottieRef(layer), null, 2));

@@ -2,6 +2,8 @@ import { useId } from "react";
 import { Config, Execution } from "../../../edits/editTypes/editText";
 import { EditBuilderProps } from "../../builderUiModule";
 import styles from "./TextEditBuilderView.module.css";
+import RefSelector from "../RefSelector";
+import { LottieRef, layerTypes } from "../../../core";
 
 type Props = EditBuilderProps<Config, Execution>;
 
@@ -27,8 +29,24 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     });
   };
 
+  const onChangeRef = (ref?: LottieRef) => {
+    if (!ref) {
+      update({
+        targetLayer: undefined,
+      });
+      return;
+    }
+  };
+
   return (
     <div className={styles.root}>
+      <label>target layer</label>
+      <RefSelector
+        value={edit.config.targetLayer}
+        onChange={onChangeRef}
+        disableShape
+        allowLayerTypes={[layerTypes.text]}
+      />
       <div>
         <input
           type="checkbox"

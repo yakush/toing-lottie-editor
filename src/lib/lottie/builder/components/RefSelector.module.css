@@ -1,0 +1,52 @@
+.root {
+  display: inline-block;
+  --disabledColor: rgb(235, 235, 235);
+}
+
+.canDrop {
+}
+
+.target {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.targetRef {
+  min-width: 100px;
+  min-height: 1em;
+
+  background-color: var(--disabledColor);
+  border: 1px solid darkgray;
+  box-shadow: 1px 1px 1px 0 lightgray inset;
+  margin-top: 2px;
+  padding: 1px 3px;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.targetRef .icon {
+  width: 1em;
+  height: auto;
+}
+
+.targetRef .text {
+}
+
+.hasRef .targetRef {
+  background-color: white;
+  cursor: pointer;
+}
+
+.isDragOver .targetRef {
+  background-color: var(--disabledColor);
+}
+
+.canDrop .targetRef {
+  background-color: lime;
+}
+.delete {
+}

@@ -30,6 +30,7 @@ export interface LottieStore {
 
   blinkLayer: (target: Layer) => void;
   blinkShape: (target: Shape) => void;
+  blinkTargetList: (target: (Layer|Shape)[]) => void;  
 }
 
 export const LottieStoreCreatorFactory: (
@@ -133,5 +134,9 @@ export const LottieStoreCreatorFactory: (
         const { manager } = get();
         manager.blinkShape(target);
       },
+      blinkTargetList(targets: (Layer|Shape)[]){
+        const { manager } = get();
+        manager.blinkTargetList(targets);
+      }
     };
   };

@@ -7,6 +7,11 @@ export interface DragAndDropStore {
   readonly data: any;
   start(type: string, data: any): void;
   end(): void;
+  getState: () => {
+    readonly isDragging: boolean;
+    readonly type: string;
+    readonly data: any;
+  };
 }
 
 export const DragAndDropStoreCreatorFactory: (
@@ -16,7 +21,7 @@ export const DragAndDropStoreCreatorFactory: (
   (set, get) => {
     let isDragging = false;
     let type = "";
-    let data = undefined;
+    let data: any = undefined;
 
     return {
       displayName,
@@ -29,6 +34,14 @@ export const DragAndDropStoreCreatorFactory: (
       },
       end() {
         set({ isDragging: false, type: "", data: undefined });
+      },
+      getState() {
+        const { isDragging, type, data } = get();
+        return {
+          isDragging,
+          type,
+          data,
+        };
       },
     };
   };

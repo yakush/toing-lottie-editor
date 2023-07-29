@@ -10,6 +10,7 @@ import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
 import {
+  DragAndDropStoreProvider,
   useDragAndDropSource,
   useDragAndDropTarget,
 } from "../lib/lottie/app/DragAndDrop";
@@ -20,9 +21,11 @@ type Props = {};
 
 export default function LottieConfigurePage({}: Props) {
   return (
-    <LottieStoreProvider>
-      <Page />
-    </LottieStoreProvider>
+    <DragAndDropStoreProvider>
+      <LottieStoreProvider>
+        <Page />
+      </LottieStoreProvider>
+    </DragAndDropStoreProvider>
   );
 }
 
