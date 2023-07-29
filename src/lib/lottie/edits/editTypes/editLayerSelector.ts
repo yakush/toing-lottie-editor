@@ -3,17 +3,30 @@ import { EditData, EditExecuter } from "../../core/types/edits";
 import { LottieRef } from "../../core/types/edits/lottieRef";
 
 export interface Config {
-  targetLayers: LottieRef[];
-  enableNoSelect: boolean;
+  enableHide: boolean;
+  options: {
+    name: string;
+    description: string;
+    targets: LottieRef[];
+  }[];
 }
 
 export interface Execution {
-  selection: number;
+  hide?: boolean;
+  selectedIdx?: number;
 }
 
 export default class EditLayerSelector
   implements EditExecuter<Config, Execution>
 {
   type = editTypes.layerSelect;
+
+  createNewConfig(): Config {
+    return {
+      enableHide: false,
+      options: [],
+    };
+  }
+
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {}
 }

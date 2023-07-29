@@ -11,7 +11,7 @@ import { LayerRef } from "../../core/types/edits/lottieRef";
 import { findLayerRef } from "../../utils/lottieUtils";
 
 export interface Config {
-  targetLayer: LayerRef;
+  targetLayer?: LayerRef;
   enableMultiline: boolean;
   enableAlign: boolean;
   enableColor: boolean;
@@ -25,6 +25,15 @@ export interface Execution {
 
 export default class EditText implements EditExecuter<Config, Execution> {
   type = editTypes.text;
+
+  createNewConfig(): Config {
+    return {
+      //targetLayer
+      enableAlign: false,
+      enableColor: false,
+      enableMultiline: true,
+    };
+  }
 
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {
     const { config, execution } = edit;
@@ -44,7 +53,6 @@ export default class EditText implements EditExecuter<Config, Execution> {
       console.log(target);
       return;
     }
-
 
     //text
     let text = execution?.text;
@@ -72,7 +80,6 @@ export default class EditText implements EditExecuter<Config, Execution> {
       if (target.t?.d?.k && target.t?.d?.k[0] && target.t?.d?.k[0].s) {
         target.t.d.k[0].s.j = execution?.align;
       }
-      
     }
   }
 }

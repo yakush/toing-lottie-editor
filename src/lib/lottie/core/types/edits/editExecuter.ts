@@ -7,5 +7,6 @@ export interface EditExecuter<
   T_EXECUTION extends object = {}
 > {
   type: editTypes;
+  createNewConfig: () => T_CONFIG;
   execute: (lottie: Lottie, edit: EditData<T_CONFIG, T_EXECUTION>) => void;
 }

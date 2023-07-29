@@ -14,7 +14,11 @@ import __priv__ from "./privateFields";
 
 //-------------------------------------------------------
 
-export function findLayerRef(lottie: Lottie, ref: LayerRef) {
+export function findLayerRef(lottie: Lottie, ref?: LayerRef) {
+  if (!ref) {
+    return;
+  }
+
   if (ref.type !== "layer") {
     return;
   }
@@ -30,7 +34,11 @@ export function findLayerRef(lottie: Lottie, ref: LayerRef) {
 
 //-------------------------------------------------------
 
-export function findShapeRef(lottie: Lottie, ref: ShapeRef) {
+export function findShapeRef(lottie: Lottie, ref?: ShapeRef) {
+  if (!ref) {
+    return;
+  }
+  
   if (ref.type !== "shape") {
     return;
   }
@@ -64,7 +72,11 @@ export function findShapeRef(lottie: Lottie, ref: ShapeRef) {
 
 //-------------------------------------------------------
 
-export function findLottieRef(lottie: Lottie, ref: LottieRef) {
+export function findLottieRef(lottie: Lottie, ref?: LottieRef) {
+  if (!ref) {
+    return;
+  }
+  
   switch (ref.type) {
     case "layer":
       return findLayerRef(lottie, ref);
