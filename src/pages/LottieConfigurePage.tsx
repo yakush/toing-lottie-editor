@@ -16,6 +16,7 @@ import {
 } from "../lib/lottie/app/DragAndDrop";
 import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
 import CardHeader from "../lib/lottie/app/components/CardHeader";
+import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
 
 type Props = {};
 
@@ -170,6 +171,8 @@ function Test() {
         />
         <button onClick={onclick}>go</button>
       </div>
+
+      <RefListSelector />
 
       <div ref={refSource1}>from 1</div>
       <div ref={refSource2}>from 2</div>
