@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Card from "../components/Card";
 import CardHeader from "../components/CardHeader";
 import FileDropTarget from "../components/FileDropTarget";
@@ -10,6 +10,10 @@ import { LottieRef } from "../lib/lottie/core";
 import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
+import {
+  useDragAndDropSource,
+  useDragAndDropTarget,
+} from "../lib/lottie/app/DragAndDrop";
 
 type Props = {};
 
@@ -132,14 +136,31 @@ function Test() {
       console.log(e);
     }
   };
+
+  const refSource1 = useRef(null);
+  const refSource2 = useRef(null);
+  const refTarget1 = useRef(null);
+  const refTarget2 = useRef(null);
+  useDragAndDropSource(refSource1, true, "1");
+  useDragAndDropSource(refSource2, true, "2");
+  useDragAndDropTarget(refTarget1, true, "1");
+  useDragAndDropTarget(refTarget2, true, "2");
+
   return (
     <>
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        style={{ minHeight: 100 }}
-      />
-      <button onClick={onclick}>go</button>
+      <div>
+        <textarea  ref={refTarget2}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          style={{ minHeight: 100 }}
+        />
+        <button onClick={onclick}>go</button>
+      </div>
+
+      <div ref={refSource1}>from 1</div>
+      <div ref={refSource2}>from 2</div>
+      <div ref={refTarget1}>to 1</div>
+      <div >to 2</div>
     </>
   );
 }
