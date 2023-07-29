@@ -32,34 +32,139 @@
           "type": "layer",
           "layerInd": 8
         },
-        "enableMultiline": false,
-        "enableAlign": false,
+        "enableMultiline": true,
+        "enableAlign": true,
         "enableColor": false
       },
       "defaults": {
         "text": "YES!!",
-        "align": 1,
+        "align": 2,
         "color": "#111111"
       }
     },
     {
-      "type": "some other type",
-      "id": "asf3dasf4",
-      "name": "name!",
-      "description": "blah1111",
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
 
       "config": {
         "targetLayer": {
           "type": "layer",
-          "layerInd": 1
+          "layerInd": 9
         },
         "enableMultiline": false,
-        "enableAlign": false,
+        "enableAlign": true,
         "enableColor": false
       },
       "defaults": {
         "text": "YES!!",
-        "align": 1,
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
         "color": "#111111"
       }
     }

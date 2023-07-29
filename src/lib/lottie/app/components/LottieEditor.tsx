@@ -8,16 +8,11 @@ type Props = {};
 export default function LottieEditor({}: Props) {
   const edits = useLottieStore((state) => state.edits);
   const setEdits = useLottieStore((state) => state.setEdits);
-  const blinkLayer = useLottieStore((state) => state.blinkLayer);
 
   const onEditChanged = (newEdit: EditData) => {
-    //console.log({edit});
-    console.log("EDIT!");
     setEdits((old) => {
       const newEditsList = old?.edits?.map((edit) => {
         if (edit.id === newEdit.id) {
-          console.log("found new edit");
-          
           return newEdit;
         }
         return edit;
@@ -27,8 +22,8 @@ export default function LottieEditor({}: Props) {
   };
 
   return (
-    <div>
-      <div className={styles.root}>
+    <div className={styles.root}>
+      <div className={styles.list}>
         {edits?.edits?.map((edit) => (
           <div key={edit.id} className={styles.item}>
             {uiModule.edits.getComponent(edit.type, {

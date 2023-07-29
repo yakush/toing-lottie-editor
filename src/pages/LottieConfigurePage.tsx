@@ -80,7 +80,7 @@ function Page({}: Props) {
         </Card>
         <Card>
           <CardHeader>test</CardHeader>
-          <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre>
+          {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
           <Test></Test>
         </Card>
       </div>

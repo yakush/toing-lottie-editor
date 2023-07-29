@@ -32,17 +32,15 @@ export class LottieManager extends EventEmitter {
 
   loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
     console.log({ lottie, edits });
-    //TODO:implement
+
     this.setLottie(lottie, { digest: false, emitEvent: false });
-    this.setEdits(edits, false);
-    this.digestLottie();
+    this.setEdits(edits, true);
 
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
 
   loadNewEdits(edits: LottieEdits) {
-    //TODO:implement
     this.setEdits(edits);
 
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
