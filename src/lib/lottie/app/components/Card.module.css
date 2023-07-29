@@ -1,7 +1,7 @@
 .root {
   background-color: white;
   margin: 10px;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
   border-radius: 5px 5px 5px 5px;
 }
 
@@ -33,5 +33,14 @@
 }
 
 .closed .content {
+  display: none;
+}
+
+.footer {
+  border-top: solid 1px black;
+  padding: 5px;
+}
+
+.closed .footer {
   display: none;
 }

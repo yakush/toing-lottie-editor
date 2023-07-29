@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from "react";
 import styles from "./Card.module.css";
 import { combineClasses } from "../../utils/css";
 import CardHeader from "./CardHeader";
+import CardFooter from "./CardFooter";
 
 type Props = {
   children?: React.ReactNode;
@@ -11,6 +12,7 @@ export default function Card({ children }: Props) {
   const [open, setOpen] = useState(true);
 
   let header: ReactNode;
+  let footer: ReactNode;
   let content: ReactNode[] = [];
 
   React.Children.forEach(children, (child) => {
@@ -20,6 +22,8 @@ export default function Card({ children }: Props) {
 
     if (child.type === CardHeader) {
       header = child;
+    } else if (child.type === CardFooter) {
+      footer = child;
     } else {
       content.push(child);
     }
@@ -31,6 +35,7 @@ export default function Card({ children }: Props) {
         {header}
       </div>
       <div className={styles.content}>{content}</div>
+      {footer && <div className={styles.footer}> {footer} </div>}
     </div>
   );
 }
