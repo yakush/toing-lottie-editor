@@ -3,7 +3,7 @@ import { Config, Execution } from "../../../edits/editTypes/editText";
 import { EditBuilderProps } from "../../builderUiModule";
 import styles from "./TextEditBuilderView.module.css";
 import RefSelector from "../RefSelector";
-import { LottieRef, layerTypes } from "../../../core";
+import { LayerRef, LottieRef, layerTypes } from "../../../core";
 
 type Props = EditBuilderProps<Config, Execution>;
 
@@ -36,6 +36,9 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
       });
       return;
     }
+    update({
+      targetLayer: ref as LayerRef ,
+    });
   };
 
   return (
