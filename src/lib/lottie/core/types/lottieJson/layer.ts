@@ -56,7 +56,7 @@ export interface TextLayer extends Layer {
           /** caps : 0: normal , 1:caps , 2:small */
           ca?: number;
           /** justification  */
-          j?: number | undefined;
+          j?: number;
           /** tracking */
           tr?: number;
           /** line height */
