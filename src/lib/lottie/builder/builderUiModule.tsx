@@ -1,5 +1,6 @@
-import { Layer, layerTypes } from "../core";
+import { EditData, editTypes, Layer, layerTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
+import TextEditBuilderView from "./components/editsBuilders/TextEditBuilderView";
 import BuilderPrecompLayer from "./components/layers/BuilderPrecompLayer";
 import BuilderShapeLayer from "./components/layers/builderShapeLayer";
 import BuilderSolidLayer from "./components/layers/builderSolidLayer";
@@ -10,10 +11,20 @@ import BuilderUnknownLayer from "./components/layers/BuilderUnknownLayer";
 export type LayerProps<T extends Layer = Layer> = {
   layer: T;
 };
+export type EditProps<
+  T_CONFIG extends {} = any,
+  T_EXECUTION extends {} = any
+> = {
+  edit: EditData<T_CONFIG, T_EXECUTION>;
+  onEditChanged?: (edit: EditData<T_CONFIG, T_EXECUTION>) => void;
+};
 
-export type EditBuilderProps<T extends {} = {}> = {
-  type: string;
-  data: T;
+export type EditBuilderProps<
+  T_CONFIG extends {} = any,
+  T_EXECUTION extends {} = any
+> = {
+  edit: EditData<T_CONFIG, T_EXECUTION>;
+  onEditChanged?: (edit: EditData<T_CONFIG, T_EXECUTION>) => void;
 };
 
 export interface ModuleType {
@@ -35,7 +46,7 @@ layers.register(layerTypes.solid, BuilderSolidLayer);
 // register all edit-builder components
 //-------------------------------------------------------
 const editBuilders = new ComponentRegistry<string, EditBuilderProps>();
-//edits.register("color", TextLayerUI);
+editBuilders.register(editTypes.text, TextEditBuilderView);
 //edits.register("layerSelect".shape, ShapeLayerUI);
 
 export const builderUiModule: ModuleType = {

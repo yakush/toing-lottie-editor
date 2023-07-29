@@ -1,23 +1,6 @@
 .root {
 }
 
-.title {
-  display: flex;
-  flex-direction: row;
-}
-
-.title .name {
-  font-weight: bold;
-  margin-right: 20px;
-}
-
-.edits {
-  padding: 1px 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .text {
   display: flex;
   flex-direction: row;

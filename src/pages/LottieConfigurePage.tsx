@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
-import Card from "../components/Card";
-import CardHeader from "../components/CardHeader";
+import Card from "../lib/lottie/app/components/Card";
 import FileDropTarget from "../components/FileDropTarget";
 import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
 import LottieEditor from "../lib/lottie/app/components/LottieEditor";
@@ -14,6 +13,8 @@ import {
   useDragAndDropSource,
   useDragAndDropTarget,
 } from "../lib/lottie/app/DragAndDrop";
+import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
+import CardHeader from "../lib/lottie/app/components/CardHeader";
 
 type Props = {};
 
@@ -88,11 +89,20 @@ function Page({}: Props) {
           <Test></Test>
         </Card>
       </div>
-      <div className={styles.editor}>
-        <Card>
-          <CardHeader>editor</CardHeader>
-          <LottieEditor />
-        </Card>
+
+      <div className={styles.edits}>
+        <div className={styles.builder}>
+          <Card>
+            <CardHeader>builder</CardHeader>
+            <LottieBuilder />
+          </Card>
+        </div>
+        <div className={styles.editor}>
+          <Card>
+            <CardHeader>editor</CardHeader>
+            <LottieEditor />
+          </Card>
+        </div>
       </div>
     </div>
   );
@@ -149,7 +159,8 @@ function Test() {
   return (
     <>
       <div>
-        <textarea  ref={refTarget2}
+        <textarea
+          ref={refTarget2}
           value={text}
           onChange={(e) => setText(e.target.value)}
           style={{ minHeight: 100 }}
@@ -160,7 +171,7 @@ function Test() {
       <div ref={refSource1}>from 1</div>
       <div ref={refSource2}>from 2</div>
       <div ref={refTarget1}>to 1</div>
-      <div >to 2</div>
+      <div>to 2</div>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import styles from "./Card.module.css";
+import { combineClasses } from "../../utils/css";
 import CardHeader from "./CardHeader";
-import { combineClasses } from "../lib/lottie/utils/css";
 
 type Props = {
   children?: React.ReactNode;
@@ -26,10 +26,8 @@ export default function Card({ children }: Props) {
   });
   return (
     <div className={combineClasses(styles.root, { [styles.closed]: !open })}>
-      <div className={styles.header}>
-        <span className={styles.toggle} onClick={() => setOpen((x) => !x)}>
-          {open ? "-" : "+"}
-        </span>
+      <div className={styles.header} onClick={() => setOpen((x) => !x)}>
+        <span className={styles.toggle}>{open ? "-" : "+"}</span>
         {header}
       </div>
       <div className={styles.content}>{content}</div>

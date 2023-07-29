@@ -4,7 +4,7 @@
       "type": "text",
       "id": "id1",
       "name": "title!!!",
-      "description": "title text",
+      "description": "the main title of the drawing",
 
       "config": {
         "targetLayer": {
@@ -25,7 +25,6 @@
       "type": "text",
       "id": "22222",
       "name": "sub!",
-      "description": "sss",
 
       "config": {
         "targetLayer": {

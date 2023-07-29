@@ -1,5 +1,4 @@
-import React, { ReactNode } from "react";
-import styles from "./EditCard.module.css";
+import React from "react";
 
 type Props = {
   children?: React.ReactNode;

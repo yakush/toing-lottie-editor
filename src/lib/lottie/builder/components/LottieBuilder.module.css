@@ -13,3 +13,8 @@
   gap: 10px;
   flex-direction: column;
 }
+
+.item {
+  border: 1px solid black;
+  box-shadow: 1px 1px 4px;
+}
