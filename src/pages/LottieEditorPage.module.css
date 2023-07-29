@@ -1,0 +1,18 @@
+.root {
+  height: 100%;
+  gap: 10px;
+  display: grid;
+  grid-template-areas: "edits player";
+  grid-template-columns: minmax(200px, 400px) 400px;
+
+  justify-content: center;
+}
+
+.edits {
+  grid-area: edits;
+  overflow-y: auto;
+}
+
+.player {
+  grid-area: player;
+}

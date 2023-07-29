@@ -1,25 +1,10 @@
 import { useEffect } from "react";
 import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
-import { LottieLayer, builderUiModule } from "../lib/lottie/builder";
-import { layerTypes } from "../lib/lottie/core";
-import { createPublicLottieSampleUrl } from "../utils/paths";
-import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import LottieEditor from "../lib/lottie/app/components/LottieEditor";
-
-let test = {
-  layers: [
-    { ind: 1, ty: layerTypes.shape, shapes: [{}, {}, {}] },
-    { ind: 2, ty: layerTypes.audio },
-    { ind: 3, ty: layerTypes.audio },
-    { ind: 4, ty: layerTypes.shape },
-    { ind: 5, ty: layerTypes.camera },
-    { ind: 6, ty: layerTypes.camera },
-    { ind: 7, ty: layerTypes.audio },
-    { ind: 8, ty: layerTypes.text },
-    { ind: 9, ty: layerTypes.text },
-    { ind: 10, ty: layerTypes.camera },
-  ],
-};
+import { createPublicLottieSampleUrl } from "../utils/paths";
+import styles from "./LottieEditorPage.module.css";
+import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
+import Card from "../lib/lottie/app/components/Card";
 
 type Props = {};
 
@@ -45,14 +30,19 @@ function Page({}: Props) {
     }
     fetchData();
   }, [loadUrl]);
-  // return <>
-  // <LottieConfigure/>
-  // <LottieConfigure/>
-  // <LottieConfigure/>
-  // </>
   return (
-    <div>
-     <LottieEditor />
+    <div className={styles.root}>
+      <div className={styles.edits}>
+        <Card>
+          <LottieEditor />
+        </Card>
+      </div>
+
+      <div className={styles.player}>
+        <Card>
+          <LottiePlayer />
+        </Card>
+      </div>
     </div>
   );
 }
