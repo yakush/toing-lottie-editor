@@ -188,3 +188,15 @@ export function purgeEditsExecutions(edits: LottieEdits) {
   }));
   return purged;
 }
+
+export function collectSubShapesTargets(target: Layer | Shape) {
+  let allTargets: (Layer | Shape)[] = [];
+  function addSubTargets(shape: Layer | Shape) {
+    allTargets.push(shape);
+    if (shape.ty === shapeTypes.group) {
+      (shape as GroupShape).it?.forEach(addSubTargets);
+    }
+  }
+  addSubTargets(target);
+  return allTargets;
+}

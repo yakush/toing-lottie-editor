@@ -1,7 +1,10 @@
 import { Layer, Lottie, Shape, editTypes } from "../../core";
 import { EditData, EditExecuter } from "../../core/types/edits";
 import { LottieRef } from "../../core/types/edits/lottieRef";
-import { findLottieRef } from "../../utils/lottieUtils";
+import {
+  collectSubShapesTargets,
+  findLottieRef,
+} from "../../utils/lottieUtils";
 
 export interface LayerSelectOption {
   id: string;
@@ -55,7 +58,8 @@ export default class EditLayerSelector
       const targets = option.targets.reduce<(Shape | Layer)[]>((acc, ref) => {
         const target = findLottieRef(lottie, ref);
         if (target) {
-          acc.push(target);
+          const targetAndSubs = collectSubShapesTargets(target);
+          acc.push(...targetAndSubs);
         }
         return acc;
       }, []);
@@ -80,7 +84,8 @@ export default class EditLayerSelector
         (acc, ref) => {
           const target = findLottieRef(lottie, ref);
           if (target) {
-            acc.push(target);
+            const targetAndSubs = collectSubShapesTargets(target);
+            acc.push(...targetAndSubs);
           }
           return acc;
         },

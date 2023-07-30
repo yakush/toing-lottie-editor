@@ -2,7 +2,7 @@ import EventEmitter from "events";
 import { GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
 import editsModule from "../edits/editsModule";
 import { shapeTypes } from "./enums";
-import { createLottieRefs } from "../utils/lottieUtils";
+import { collectSubShapesTargets, createLottieRefs } from "../utils/lottieUtils";
 
 export type updater<T> = T | ((current: T) => T);
 
@@ -41,7 +41,7 @@ export class LottieManager extends EventEmitter {
     console.log({ lottie, edits });
     this._origLottie = lottie && structuredClone(lottie);
     this.setLottie(lottie);
-    this.setEdits  (edits);
+    this.setEdits(edits);
 
     this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
@@ -160,26 +160,25 @@ export class LottieManager extends EventEmitter {
   }
 
   blinkShape(target: Shape) {
-    //add shape and sub shapes in groups
-    let allTargets: Shape[] = [];
-
-    function addSubTargets(shape: Shape) {
-      allTargets.push(shape);
-      if (shape.ty === shapeTypes.group) {
-        (shape as GroupShape).it?.map(addSubTargets);
-      }
-    }
-
-    addSubTargets(target);
-
-    this.blinkTargetList(allTargets);
+    const allTargets = collectSubShapesTargets(target);
+    this.performBlinkList(allTargets);
   }
 
   blinkLayer(target: Layer) {
-    this.blinkTargetList([target]);
+    const allTargets = collectSubShapesTargets(target);
+    this.performBlinkList(allTargets);
   }
 
   public blinkTargetList(targets: (Shape | Layer)[]) {
+    let allTargets: (Shape | Layer)[] = [];
+    targets.forEach((target) => {
+      const subTargets = collectSubShapesTargets(target);
+      allTargets.push(...subTargets);
+    });
+    this.performBlinkList(allTargets);
+  }
+
+  private performBlinkList(targets: (Shape | Layer)[]) {
     if (targets.some((target) => (target as any).isBlinking)) {
       return;
     }

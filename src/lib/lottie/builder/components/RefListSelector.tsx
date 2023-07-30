@@ -149,14 +149,6 @@ export default function RefListSelector({
     addRef(data);
   };
 
-  const onClickDelete = (ref: LottieRef) => {
-    removeRef(ref);
-  };
-
-  const onClickClear = () => {
-    clearRefs();
-  };
-
   const blinkAll = () => {
     let realTargets: (Shape | Layer)[] = [];
 
