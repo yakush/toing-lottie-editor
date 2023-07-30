@@ -50,6 +50,7 @@ export default class EditLayerSelector
       execution?.selectedIdx != null ? execution?.selectedIdx : 0;
     const hide = execution?.hide != null ? execution?.hide : 0;
 
+    // hide all:
     config?.options?.forEach((option, i) => {
       const targets = option.targets.reduce<(Shape | Layer)[]>((acc, ref) => {
         const target = findLottieRef(lottie, ref);
@@ -59,15 +60,37 @@ export default class EditLayerSelector
         return acc;
       }, []);
 
-      targets.forEach((target) => {
-        //hide all
-        if (config.enableHide && hide) {
-          target.hd = true;
-          return;
-        }
-        //hide non selected
-        target.hd = !(selectedIdx === i);
-      });
+      targets.forEach((target) => (target.hd = true));
     });
+
+    //if hide all - we're done
+    if (config.enableHide && hide) {
+      console.log("HIDE ALL");
+      return;
+    }
+
+    console.log("SHOW SELECTED");
+    //show only selected targets:
+    {
+      const selectedOption = config?.options?.at(selectedIdx);
+      if (!selectedOption) {
+        return;
+      }
+      const targets = selectedOption.targets.reduce<(Shape | Layer)[]>(
+        (acc, ref) => {
+          const target = findLottieRef(lottie, ref);
+          if (target) {
+            acc.push(target);
+          }
+          return acc;
+        },
+        []
+      );
+
+      //show
+      targets.forEach((target) => {
+        target.hd = false;
+      });
+    }
   }
 }
