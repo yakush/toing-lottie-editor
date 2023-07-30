@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
-import LottieEditor from "../lib/lottie/app/components/LottieEditor";
-import { createPublicLottieSampleUrl } from "../utils/paths";
-import styles from "./LottieEditorPage.module.css";
-import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
 import Card from "../lib/lottie/app/components/Card";
+import LottieEditor from "../lib/lottie/app/components/LottieEditor";
+import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
+import styles from "./LottieEditorPage.module.css";
 
 type Props = {};
 
