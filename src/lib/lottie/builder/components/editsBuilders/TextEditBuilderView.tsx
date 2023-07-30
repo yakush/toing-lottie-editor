@@ -5,7 +5,7 @@ import {
   LayerRef,
   LottieRef,
   editTypes,
-  layerTypes
+  layerTypes,
 } from "../../../core";
 import { Config, Execution } from "../../../edits/editTypes/editText";
 import editsModule from "../../../edits/editsModule";
@@ -13,6 +13,8 @@ import { findLayerRef } from "../../../utils/lottieUtils";
 import { EditBuilderProps } from "../../builderUiModule";
 import RefSelector from "../RefSelector";
 import styles from "./TextEditBuilderView.module.css";
+import { textJustifications } from "../../../core/enums/textJustifications";
+import TextAlignSelector from "../../../app/components/TextAlignSelector";
 
 type Props = EditBuilderProps<Config, Execution>;
 
@@ -30,9 +32,15 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     onEditChanged(newData);
   };
 
-  const onChanged = (key: keyof Config, val: boolean) => {
+  const onChangedConfig = (key: keyof Config, val: boolean) => {
     const newEdit = structuredClone(edit);
     newEdit.config = { ...newEdit.config, ...{ [key]: val } };
+    update(newEdit);
+  };
+
+  const onChangedDefaults = (key: keyof Execution, val: any) => {
+    const newEdit = structuredClone(edit);
+    newEdit.defaults = { ...newEdit.defaults, ...{ [key]: val } };
     update(newEdit);
   };
 
@@ -76,7 +84,7 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
           type="checkbox"
           id={id_enableMultiline}
           checked={config.enableMultiline}
-          onChange={(e) => onChanged("enableMultiline", e.target.checked)}
+          onChange={(e) => onChangedConfig("enableMultiline", e.target.checked)}
         />
         <label htmlFor={id_enableMultiline}>enable Multiline</label>
       </div>
@@ -85,9 +93,32 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
           type="checkbox"
           id={id_enableAlign}
           checked={config.enableAlign}
-          onChange={(e) => onChanged("enableAlign", e.target.checked)}
+          onChange={(e) => onChangedConfig("enableAlign", e.target.checked)}
         />
         <label htmlFor={id_enableAlign}>enable Align</label>
+      </div>
+
+      <hr />
+      <div className={styles.defaults}>
+        <div>DEFAULTS</div>
+
+        <div>
+          <label>default text</label>
+          <input
+            type="text"
+            value={edit.defaults.text || ""}
+            onChange={(e) => onChangedDefaults("text", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label>default align</label>
+          {/* <select name="" id="" onChange={e=>onChangedDefaults("align",e.target.value)}> */}
+          <TextAlignSelector
+            value={edit.defaults.align}
+            onChange={(val) => onChangedDefaults("align", val)}
+          />
+        </div>
       </div>
     </div>
   );
