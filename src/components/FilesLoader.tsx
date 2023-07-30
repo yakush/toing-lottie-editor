@@ -7,6 +7,7 @@ import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
 import FileDropTarget from "./FileDropTarget";
 import styles from "./FilesLoader.module.css";
 import { createPublicLottieSampleUrl } from "../utils/paths";
+import PopOver from "./PopOver";
 
 const files = [
   { name: "---" },
@@ -27,6 +28,9 @@ export default function FilesLoader({}: Props) {
   const [loadedLottieFile, setLoadedLottieFile] = useState<File>();
   const [loadedEditsFile, setLoadedEditsFile] = useState<File>();
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState("");
+
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
   const edits = useLottieStore((state) => state.edits);
@@ -39,8 +43,11 @@ export default function FilesLoader({}: Props) {
 
   const exportEdits = () => {
     const json = edits && purgeEditsExecutions(edits);
-    console.log(JSON.stringify(json, null, 2));
-    navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+    const text = JSON.stringify(json, null, 2);
+    console.log(text);
+    navigator.clipboard.writeText(text);
+    setPopupContent(text);
+    setShowPopup(true);
   };
 
   const loadLottieFile = (file: File) => {
@@ -119,6 +126,10 @@ export default function FilesLoader({}: Props) {
         {isLottieLoading && <div>LOADING...</div>}
         {errorLoading && <div>{errorLoading}</div>}
       </div>
+
+      <PopOver show={showPopup} onClosed={() => setShowPopup(false)}>
+        <pre style={{ width: "100%", height: "100%" }}>{popupContent}</pre>
+      </PopOver>
     </div>
   );
 }
