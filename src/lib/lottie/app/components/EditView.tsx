@@ -25,6 +25,7 @@ export default function EditView({ edit }: Props) {
     const newEdit = structuredClone(edit);
     newEdit.execution = structuredClone(edit.defaults);
     onEditChanged(newEdit);
+    console.log("reest",newEdit);
   };
 
   return (
