@@ -65,12 +65,12 @@ export default class EditLayerSelector
 
     //if hide all - we're done
     if (config.enableHide && hide) {
-      console.log("HIDE ALL");
       return;
     }
 
-    console.log("SHOW SELECTED");
-    //show only selected targets:
+    // show only selected targets:
+    // (do this last. this allows same targets to be on different option,
+    // but this final iteration will allow only selected to be shown)
     {
       const selectedOption = config?.options?.at(selectedIdx);
       if (!selectedOption) {
