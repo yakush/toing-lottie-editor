@@ -111,14 +111,16 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
           />
         </div>
 
-        <div>
-          <label>default align</label>
-          {/* <select name="" id="" onChange={e=>onChangedDefaults("align",e.target.value)}> */}
-          <TextAlignSelector
-            value={edit.defaults.align}
-            onChange={(val) => onChangedDefaults("align", val)}
-          />
-        </div>
+        {edit.config.enableAlign && (
+          <div>
+            <label>default align</label>
+            {/* <select name="" id="" onChange={e=>onChangedDefaults("align",e.target.value)}> */}
+            <TextAlignSelector
+              value={edit.defaults.align}
+              onChange={(val) => onChangedDefaults("align", val)}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
