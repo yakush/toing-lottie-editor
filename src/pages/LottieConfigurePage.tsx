@@ -21,6 +21,7 @@ import {
 } from "../lib/lottie/utils/lottieUtils";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import styles from "./LottieConfigure.module.css";
+import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
 
 type Props = {};
 
@@ -44,6 +45,7 @@ function Page({}: Props) {
   const [loaderSelectedIdx, setLoaderSelectedIdx] = useState(0);
 
   const files = [
+    { name: "---" },
     { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" },
     { name: "OLD.json", edits: "OLD.edits.json" },
     { name: "102708-sangoma.json", edits: "" },
@@ -53,10 +55,35 @@ function Page({}: Props) {
     { name: "test-text.json", edits: "" },
   ];
 
+  useEffectOnChanged(() => {
+    loadSelectedUrl();
+  }, [loaderSelectedIdx]);
+
   const exportEdits = () => {
     const json = edits && purgeEditsExecutions(edits);
     console.log(JSON.stringify(json, null, 2));
     navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+  };
+
+  const loadSelectedUrl = () => {
+    if (loaderSelectedIdx === 0) {
+      return;
+    }
+
+    const file = files[loaderSelectedIdx];
+    if (!file) {
+      return;
+    }
+    const path = createPublicLottieSampleUrl(file.name);
+    const pathEdits = !!file.edits
+      ? createPublicLottieSampleUrl(file.edits)
+      : undefined;
+    loadUrl(path, pathEdits);
+  };
+
+  const loadDroppedFile = (file: File) => {
+    setLoaderSelectedIdx(0);
+    loadLottieFile(file);
   };
 
   return (
@@ -65,21 +92,7 @@ function Page({}: Props) {
         <Card collapsed={false} smallestHeight>
           <CardHeader>LOADER</CardHeader>
           <div className={styles.loaderContent}>
-            <button
-              onClick={() => {
-                const file = files[loaderSelectedIdx];
-                if (!file) {
-                  return;
-                }
-                const path = createPublicLottieSampleUrl(file.name);
-                const pathEdits = !!file.edits
-                  ? createPublicLottieSampleUrl(file.edits)
-                  : undefined;
-                loadUrl(path, pathEdits);
-              }}
-            >
-              load {">"}
-            </button>
+            <label>select file</label>
             <select
               style={{ flex: 1 }}
               value={loaderSelectedIdx}
@@ -87,14 +100,14 @@ function Page({}: Props) {
             >
               {files.map((file, idx) => (
                 <option key={file.name} value={idx}>
-                  {file.name} {file.edits && "[HAS EDITS JSON]"}
+                  {file.name} {file.edits && " ---- [HAS EDITS JSON]"}
                 </option>
               ))}
             </select>
 
             <div style={{}}>
               <FileDropTarget
-                onDrop={(fileList) => loadLottieFile(fileList[0])}
+                onDrop={(fileList) => loadDroppedFile(fileList[0])}
               >
                 drop file here
               </FileDropTarget>
