@@ -89,75 +89,77 @@ function Page({}: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.loader}>
-        <Card collapsed={false} smallestHeight>
-          <CardHeader>LOADER</CardHeader>
-          <div className={styles.loaderContent}>
-            <label>select file</label>
-            <select
-              style={{ flex: 1 }}
-              value={loaderSelectedIdx}
-              onChange={(e) => setLoaderSelectedIdx(+e.target.value)}
-            >
-              {files.map((file, idx) => (
-                <option key={file.name+file.edits} value={idx}>
-                  {file.name} {file.edits && " ---- [HAS EDITS JSON]"}
-                </option>
-              ))}
-            </select>
-
-            <div style={{}}>
-              <FileDropTarget
-                onDrop={(fileList) => loadDroppedFile(fileList[0])}
+      <div className={styles.container}>
+        <div className={styles.loader}>
+          <Card collapsed={false} smallestHeight>
+            <CardHeader>LOADER</CardHeader>
+            <div className={styles.loaderContent}>
+              <label>select file</label>
+              <select
+                style={{ flex: 1 }}
+                value={loaderSelectedIdx}
+                onChange={(e) => setLoaderSelectedIdx(+e.target.value)}
               >
-                drop file here
-              </FileDropTarget>
+                {files.map((file, idx) => (
+                  <option key={file.name + file.edits} value={idx}>
+                    {file.name} {file.edits && " ---- [HAS EDITS JSON]"}
+                  </option>
+                ))}
+              </select>
+
+              <div style={{}}>
+                <FileDropTarget
+                  onDrop={(fileList) => loadDroppedFile(fileList[0])}
+                >
+                  drop file here
+                </FileDropTarget>
+              </div>
+
+              <button style={{}} onClick={exportEdits}>
+                copy edits json to clipboard
+              </button>
             </div>
-
-            <button style={{}} onClick={exportEdits}>
-              copy edits json to clipboard
-            </button>
-          </div>
-        </Card>
-      </div>
-
-      <div className={styles.messages}>
-        {isLottieLoading && <div>LOADING...</div>}
-        {errorLoading && <div>{errorLoading}</div>}
-      </div>
-
-      <div className={styles.tree}>
-        <Card>
-          <CardHeader>tree</CardHeader>
-          <LottieJson />
-        </Card>
-      </div>
-      <div className={styles.player}>
-        <Card>
-          <CardHeader>player</CardHeader>
-
-          <LottiePlayer />
-        </Card>
-        <Card>
-          <CardHeader>test</CardHeader>
-          {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
-          <Test></Test>
-        </Card>
-      </div>
-
-      <div className={styles.edits}>
-        <div className={styles.builder}>
-          <Card>
-            <CardHeader>builder</CardHeader>
-
-            <LottieBuilder />
           </Card>
         </div>
-        <div className={styles.editor}>
+
+        <div className={styles.messages}>
+          {isLottieLoading && <div>LOADING...</div>}
+          {errorLoading && <div>{errorLoading}</div>}
+        </div>
+
+        <div className={styles.tree}>
           <Card>
-            <CardHeader>editor</CardHeader>
-            <LottieEditor />
+            <CardHeader>tree</CardHeader>
+            <LottieJson />
           </Card>
+        </div>
+        <div className={styles.player}>
+          <Card>
+            <CardHeader>player</CardHeader>
+
+            <LottiePlayer />
+          </Card>
+          <Card>
+            <CardHeader>test</CardHeader>
+            {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
+            <Test></Test>
+          </Card>
+        </div>
+
+        <div className={styles.edits}>
+          <div className={styles.builder}>
+            <Card>
+              <CardHeader>builder</CardHeader>
+
+              <LottieBuilder />
+            </Card>
+          </div>
+          <div className={styles.editor}>
+            <Card>
+              <CardHeader>editor</CardHeader>
+              <LottieEditor />
+            </Card>
+          </div>
         </div>
       </div>
     </div>

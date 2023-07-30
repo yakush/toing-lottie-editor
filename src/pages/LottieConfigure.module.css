@@ -1,5 +1,13 @@
 .root {
   height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  flex: 1;
+  max-width: 1400px;
+  min-width: 1105px;
   display: grid;
   grid-template-areas:
     "loader loader loader"
@@ -37,5 +45,4 @@
 .edits {
   grid-area: edits;
   overflow-y: auto;
-
 }
