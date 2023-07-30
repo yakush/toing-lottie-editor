@@ -33,7 +33,7 @@ export default function TextEditView({
   return (
     <div className={styles.root}>
       <div className={styles.edits}>
-        <div>[{edit.id}]</div>
+        {/* <div>[{edit.id}]</div> */}
         {/* ------------------------------------------------- */}
         {/* TEXT */}
         {/* ------------------------------------------------- */}
