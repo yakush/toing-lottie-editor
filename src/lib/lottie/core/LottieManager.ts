@@ -83,10 +83,7 @@ export class LottieManager extends EventEmitter {
     let newVal: LottieEdits;
 
     if (isCallbackUpdater(update)) {
-      if (!this._edits) {
-        throw new Error("cannot update edits, current edits is undefined");
-      }
-      newVal = update(this._edits);
+      newVal = update(this._edits || { edits: [] });
     } else {
       newVal = update as LottieEdits;
     }
@@ -181,7 +178,7 @@ export class LottieManager extends EventEmitter {
   blinkLayer(target: Layer) {
     this.blinkTargetList([target]);
   }
-  
+
   public blinkTargetList(targets: (Shape | Layer)[]) {
     if (targets.some((target) => (target as any).isBlinking)) {
       return;
