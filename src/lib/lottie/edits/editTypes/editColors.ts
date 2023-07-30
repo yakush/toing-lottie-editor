@@ -1,3 +1,4 @@
+import { version } from "punycode";
 import {
   EditData,
   EditExecuter,
@@ -31,7 +32,7 @@ export interface Config {
 export interface Execution {
   selectedSchema: number; //-1 for user defined
   isCustomSchema: boolean;
-  userDefinedColors: Color[];
+  userDefinedColors?: Color[];
 }
 
 export default class EditText implements EditExecuter<Config, Execution> {
@@ -44,12 +45,15 @@ export default class EditText implements EditExecuter<Config, Execution> {
     };
   }
 
-  updateDefaults(
-    lottie: Lottie,
+  createNewDefaults(
+    lottie: Lottie | undefined,
     edit: EditData<Config, Execution>
-  ): EditData<Config, Execution> {
-    const newEdit = structuredClone(edit);
-    return newEdit;
+  ): Execution {
+    let defaults: Execution = {
+      isCustomSchema: false,
+      selectedSchema: 0,
+    };
+    return defaults;
   }
 
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {

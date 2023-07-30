@@ -32,23 +32,23 @@ export default class EditText implements EditExecuter<Config, Execution> {
     };
   }
 
-  updateDefaults(
-    lottie: Lottie,
+  createNewDefaults(
+    lottie: Lottie | undefined,
     edit: EditData<Config, Execution>
-  ): EditData<Config, Execution> {
-    const newEdit = structuredClone(edit);
+  ): Execution {
     const targetLayer = findLayerRef(lottie, edit?.config?.targetLayer);
+
+    let defaults: Execution = {};
+
     if (targetLayer && targetLayer.ty === layerTypes.text) {
       const textLayer = targetLayer as TextLayer;
-      newEdit.defaults = {
+      defaults = {
         align:
           textLayer.t?.d?.k?.at(0)?.s?.j || textJustifications.CENTER_JUSTIFY,
         text: textLayer.t?.d?.k?.at(0)?.s?.t || "TEXT",
       };
-      newEdit.execution = newEdit.defaults;      
     }
-
-    return newEdit;
+    return defaults;
   }
 
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {

@@ -58,10 +58,7 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     if (origLayer && origLayer.ty === layerTypes.text) {
       const editExecuter = editsModule.getExecuter(editTypes.text);
       if (editExecuter && origLottie) {
-        newEdit = editExecuter.updateDefaults(origLottie, newEdit) as EditData<
-          Config,
-          Execution
-        >;
+        newEdit.defaults = editExecuter.createNewDefaults(origLottie, newEdit);
       }
 
       newEdit.execution = newEdit.defaults;

@@ -28,12 +28,12 @@ export default class EditLayerSelector
     };
   }
 
-  updateDefaults(
-    lottie: Lottie,
+  createNewDefaults(
+    lottie: Lottie | undefined,
     edit: EditData<Config, Execution>
-  ): EditData<Config, Execution> {
-    const newEdit = structuredClone(edit);
-    return newEdit;
+  ): Execution {
+    let defaults: Execution = {};
+    return defaults;
   }
 
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {}
