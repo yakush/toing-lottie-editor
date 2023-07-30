@@ -35,7 +35,7 @@ export default function LayerSelectEditView({
               <input
                 id={`${id}-HIDE`}
                 type="radio"
-                name="options"
+                name={`${id}-options`}
                 checked={!!edit.execution?.hide}
                 onChange={() => onSelectHide()}
               />
@@ -48,7 +48,7 @@ export default function LayerSelectEditView({
               <input
                 id={`${id}-${i}`}
                 type="radio"
-                name="options"
+                name={`${id}-options`}
                 value={i}
                 checked={
                   !!edit.execution?.hide
