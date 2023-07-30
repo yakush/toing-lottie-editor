@@ -45,16 +45,3 @@
   gap: 2px;
   padding: 2px 0;
 }
-
-.align .buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 3px;
-}
-
-.align .btn {
-}
-
-.align .btn.selected {
-  background-color: greenyellow;
-}

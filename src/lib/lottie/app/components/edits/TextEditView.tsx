@@ -4,6 +4,7 @@ import { Config, Execution } from "../../../edits/editTypes/editText";
 import { combineClasses } from "../../../utils/css";
 import { EditProps } from "../../uiModule";
 import styles from "./TextEditView.module.css";
+import TextAlignSelector from "../TextAlignSelector";
 export default function TextEditView({
   edit,
   onEditChanged,
@@ -66,30 +67,11 @@ export default function TextEditView({
         {edit.config.enableAlign && (
           <div className={styles.align}>
             <label htmlFor={id_labelAlign}>align</label>
-            <div className={styles.buttons} id={id_labelAlign}>
-              {[
-                ["<", textJustifications.LEFT_JUSTIFY],
-                ["-", textJustifications.CENTER_JUSTIFY],
-                [">", textJustifications.RIGHT_JUSTIFY],
-                // ["<<", textJustifications.FULL_JUSTIFY_LASTLINE_LEFT],
-                // ["--", textJustifications.FULL_JUSTIFY_LASTLINE_CENTER],
-                // [">>", textJustifications.FULL_JUSTIFY_LASTLINE_RIGHT],
-                // ["||", textJustifications.FULL_JUSTIFY_LASTLINE_FULL],
-              ].map(([title, val]) => (
-                <button
-                  className={combineClasses(styles.btn, {
-                    [styles.selected]: val === edit.execution?.align,
-                  })}
-                  key={val}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAlign(val as textJustifications);
-                  }}
-                >
-                  {title}
-                </button>
-              ))}
-            </div>
+
+            <TextAlignSelector
+              value={edit.execution?.align}
+              onChange={(val) => handleAlign(val)}
+            />
           </div>
         )}
         {/* ------------------------------------------------- */}

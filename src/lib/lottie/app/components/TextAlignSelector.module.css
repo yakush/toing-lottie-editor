@@ -1,0 +1,17 @@
+.root {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.btn {
+}
+
+.btn.selected {
+  background-color: greenyellow;
+}
