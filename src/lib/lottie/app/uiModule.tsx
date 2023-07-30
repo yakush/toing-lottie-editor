@@ -1,5 +1,6 @@
 import { EditData, editTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
+import LayerSelectEditView from "./components/edits/LayerSelectEditView";
 import TextEditView from "./components/edits/TextEditView";
 import UnknownEditView from "./components/edits/UnknownEditView";
 
@@ -17,7 +18,7 @@ export interface ModuleType {
 const edits = new ComponentRegistry<editTypes, EditProps>();
 edits.registerUnknown(UnknownEditView);
 edits.register(editTypes.text, TextEditView);
-edits.register(editTypes.layerSelect, () => <div>layerSelect</div>);
+edits.register(editTypes.layerSelect, LayerSelectEditView);
 edits.register(editTypes.colors, () => <div>colors</div>);
 
 const uiModule: ModuleType = {

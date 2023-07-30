@@ -1,6 +1,43 @@
 {
   "edits": [
     {
+      "type": "layerSelect",
+      "id": "sdghsdbgsdhgbslghbsdjklgb",
+      "name": "the name",
+      "description": "some description...",
+
+      "config": {
+        "enableHide": true,
+        "options": [
+          {
+            "name": "heart",
+            "description": "the heart",
+            "targets": [
+              {
+                "type": "layer",
+                "layerInd": 2,
+                "assetId": "comp_0"
+              }
+            ]
+          },
+          {
+            "name": "star",
+            "description": "the star",
+            "targets": [
+              {
+                "type": "layer",
+                "layerInd": 3,
+                "assetId": "comp_0"
+              }
+            ]
+          }
+        ]
+      },
+      "defaults": {
+        "selectedIdx": 0
+      }
+    },
+    {
       "type": "text",
       "id": "id1",
       "name": "title!!!",
@@ -61,6 +98,15 @@
         "align": 2,
         "color": "#111111"
       }
+    },
+    {
+      "type": "SOME OTHER TYPE",
+      "id": "00000000",
+      "name": "the name",
+      "description": "some description.,,",
+
+      "config": {},
+      "defaults": {}
     }
   ]
 }

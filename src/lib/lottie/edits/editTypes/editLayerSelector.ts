@@ -1,6 +1,7 @@
-import { Lottie, editTypes } from "../../core";
+import { Layer, Lottie, Shape, editTypes } from "../../core";
 import { EditData, EditExecuter } from "../../core/types/edits";
 import { LottieRef } from "../../core/types/edits/lottieRef";
+import { findLottieRef } from "../../utils/lottieUtils";
 
 export interface Config {
   enableHide: boolean;
@@ -32,9 +33,38 @@ export default class EditLayerSelector
     lottie: Lottie | undefined,
     edit: EditData<Config, Execution>
   ): Execution {
-    let defaults: Execution = {};
+    let defaults: Execution = {
+      hide: false,
+      selectedIdx: 0,
+    };
     return defaults;
   }
 
-  execute(lottie: Lottie, edit: EditData<Config, Execution>) {}
+  execute(lottie: Lottie, edit: EditData<Config, Execution>) {
+    console.log("EXEC LAYER SELECT");
+    const { config, execution } = edit;
+    const selectedIdx =
+      execution?.selectedIdx != null ? execution?.selectedIdx : 0;
+    const hide = execution?.hide != null ? execution?.hide : 0;
+
+    config?.options?.forEach((option, i) => {
+      const targets = option.targets.reduce<(Shape | Layer)[]>((acc, ref) => {
+        const target = findLottieRef(lottie, ref);
+        if (target) {
+          acc.push(target);
+        }
+        return acc;
+      }, []);
+
+      targets.forEach((target) => {
+        //hide all
+        if (config.enableHide && hide) {
+          target.hd = true;
+          return;
+        }
+        //hide non selected
+        target.hd = !(selectedIdx === i);
+      });
+    });
+  }
 }
