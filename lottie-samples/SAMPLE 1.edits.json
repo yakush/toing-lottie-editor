@@ -1,0 +1,114 @@
+{
+  "edits": [
+    {
+      "type": "layerSelect",
+      "id": "sdghsdbgsdhgbslghbsdjklgb",
+      "name": "the name",
+      "description": "some description...",
+
+      "config": {
+        "enableHide": true,
+        "options": [
+          {
+            "id": "asfasf344sfh6",
+            "name": "heart",
+            "description": "the heart",
+            "targets": [
+              {
+                "type": "layer",
+                "layerInd": 2,
+                "assetId": "comp_0"
+              }
+            ]
+          },
+          {
+            "id": "asfasfasfasf",
+            "name": "star",
+            "description": "the star",
+            "targets": [
+              {
+                "type": "layer",
+                "layerInd": 3,
+                "assetId": "comp_0"
+              }
+            ]
+          }
+        ]
+      },
+      "defaults": {
+        "selectedIdx": 1
+      }
+    },
+    {
+      "type": "text",
+      "id": "id1",
+      "name": "title!!!",
+      "description": "the main title of the drawing",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 7
+        },
+        "enableMultiline": false,
+        "enableAlign": false,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 1,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "22222",
+      "name": "sub!",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 8
+        },
+        "enableMultiline": true,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "text",
+      "id": "333",
+      "name": "bottom",
+      "description": "bbb",
+
+      "config": {
+        "targetLayer": {
+          "type": "layer",
+          "layerInd": 9
+        },
+        "enableMultiline": false,
+        "enableAlign": true,
+        "enableColor": false
+      },
+      "defaults": {
+        "text": "YES!!",
+        "align": 2,
+        "color": "#111111"
+      }
+    },
+    {
+      "type": "SOME OTHER TYPE",
+      "id": "00000000",
+      "name": "the name",
+      "description": "some description.,,",
+
+      "config": {},
+      "defaults": {}
+    }
+  ]
+}
