@@ -39,10 +39,12 @@ function Page({}: Props) {
   const edits = useLottieStore((state) => state.edits);
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
-  const loadLottieFile = useLottieStore((state) => state.loadFile);
+  const loadFile = useLottieStore((state) => state.loadFile);
   const loadUrl = useLottieStore((store) => store.loadUrl);
 
   const [loaderSelectedIdx, setLoaderSelectedIdx] = useState(0);
+  const [loadedLottieFile, setLoadedLottieFile] = useState<File>();
+  const [loadedEditsFile, setLoadedEditsFile] = useState<File>();
 
   const files = [
     { name: "---" },
@@ -66,10 +68,26 @@ function Page({}: Props) {
     navigator.clipboard.writeText(JSON.stringify(json, null, 2));
   };
 
+  const loadLottieFile = (file: File) => {
+    setLoaderSelectedIdx(0);
+    setLoadedLottieFile(file);
+    setLoadedEditsFile(undefined);
+    loadFile(file);
+  };
+  const loadEditsFile = (file: File) => {
+    if (!loadedLottieFile) {
+      return;
+    }
+    setLoadedEditsFile(file);
+    loadFile(loadedLottieFile, file);
+  };
   const loadSelectedUrl = () => {
     if (loaderSelectedIdx === 0) {
       return;
     }
+
+    setLoadedLottieFile(undefined);
+    setLoadedEditsFile(undefined);
 
     const file = files[loaderSelectedIdx];
     if (!file) {
@@ -80,11 +98,6 @@ function Page({}: Props) {
       ? createPublicLottieSampleUrl(file.edits)
       : undefined;
     loadUrl(path, pathEdits);
-  };
-
-  const loadDroppedFile = (file: File) => {
-    setLoaderSelectedIdx(0);
-    loadLottieFile(file);
   };
 
   return (
@@ -106,17 +119,29 @@ function Page({}: Props) {
                   </option>
                 ))}
               </select>
-
-              <div style={{}}>
+              <div> - OR - </div>
+              <div style={{ display: "flex", gap: 5 }}>
                 <FileDropTarget
-                  onDrop={(fileList) => loadDroppedFile(fileList[0])}
+                  onDrop={(fileList) => loadLottieFile(fileList[0])}
                 >
-                  drop file here
+                  <div>drop lottie file here</div>
+                  <div style={{ fontSize: 14 }}>
+                    {loadedLottieFile?.name || "none"}
+                  </div>
+                </FileDropTarget>
+
+                <FileDropTarget
+                  onDrop={(fileList) => loadEditsFile(fileList[0])}
+                >
+                  <div>drop config file here</div>
+                  <div style={{ fontSize: 14 }}>
+                    {loadedEditsFile?.name || "none"}
+                  </div>
                 </FileDropTarget>
               </div>
 
-              <button style={{}} onClick={exportEdits}>
-                copy edits json to clipboard
+              <button style={{ alignSelf: "stretch" }} onClick={exportEdits}>
+                export edits json <br /> to clipboard
               </button>
             </div>
           </Card>

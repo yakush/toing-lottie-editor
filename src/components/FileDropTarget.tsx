@@ -40,13 +40,16 @@ export default function FileDropTarget({ onDrop, children }: Props) {
 
   return (
     <div
-      className={combineClasses(styles.area, { [styles.dragging]: isDragging })}
+      className={combineClasses({
+        [styles.area]: true,
+        [styles.dragging]: isDragging,
+      })}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
     >
-      {children}
+      <div className={styles.children}>{children}</div>
     </div>
   );
 }
