@@ -3,13 +3,16 @@ import { EditData, EditExecuter } from "../../core/types/edits";
 import { LottieRef } from "../../core/types/edits/lottieRef";
 import { findLottieRef } from "../../utils/lottieUtils";
 
+export interface LayerSelectOption {
+  id: string;
+  name: string;
+  description: string;
+  targets: LottieRef[];
+}
+
 export interface Config {
   enableHide: boolean;
-  options: {
-    name: string;
-    description: string;
-    targets: LottieRef[];
-  }[];
+  options: LayerSelectOption[];
 }
 
 export interface Execution {

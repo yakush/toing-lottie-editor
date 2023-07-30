@@ -1,5 +1,6 @@
 import { EditData, editTypes, Layer, layerTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
+import LayerSelectEditBuilderView from "./components/editsBuilders/LayerSelectEditBuilderView";
 import TextEditBuilderView from "./components/editsBuilders/TextEditBuilderView";
 import BuilderPrecompLayer from "./components/layers/BuilderPrecompLayer";
 import BuilderShapeLayer from "./components/layers/builderShapeLayer";
@@ -47,6 +48,7 @@ layers.register(layerTypes.solid, BuilderSolidLayer);
 //-------------------------------------------------------
 const editBuilders = new ComponentRegistry<editTypes, EditBuilderProps>();
 editBuilders.register(editTypes.text, TextEditBuilderView);
+editBuilders.register(editTypes.layerSelect, LayerSelectEditBuilderView);
 //edits.register("layerSelect".shape, ShapeLayerUI);
 
 export const builderUiModule: ModuleType = {

@@ -40,8 +40,8 @@ export class LottieManager extends EventEmitter {
   loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
     console.log({ lottie, edits });
     this._origLottie = lottie && structuredClone(lottie);
-    this.setLottie(lottie, { digest: false, emitEvent: false });
-    this.setEdits(edits, true);
+    this.setLottie(lottie);
+    this.setEdits  (edits);
 
     this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);

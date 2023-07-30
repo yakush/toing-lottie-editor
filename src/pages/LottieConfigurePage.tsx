@@ -47,6 +47,7 @@ function Page({}: Props) {
   const files = [
     { name: "---" },
     { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" },
+    { name: "SAMPLE 1.json", edits: "" },
     { name: "OLD.json", edits: "OLD.edits.json" },
     { name: "102708-sangoma.json", edits: "" },
     { name: "111228-skilltonblack.json", edits: "" },
@@ -99,7 +100,7 @@ function Page({}: Props) {
               onChange={(e) => setLoaderSelectedIdx(+e.target.value)}
             >
               {files.map((file, idx) => (
-                <option key={file.name} value={idx}>
+                <option key={file.name+file.edits} value={idx}>
                   {file.name} {file.edits && " ---- [HAS EDITS JSON]"}
                 </option>
               ))}

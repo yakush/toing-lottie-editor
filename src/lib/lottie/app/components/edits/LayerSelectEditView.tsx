@@ -44,7 +44,7 @@ export default function LayerSelectEditView({
           )}
 
           {edit.config?.options?.map((option, i) => (
-            <div key={JSON.stringify(option)}>
+            <div key={option.id}>
               <input
                 id={`${id}-${i}`}
                 type="radio"
@@ -64,7 +64,7 @@ export default function LayerSelectEditView({
 
         {/* <select>
           {edit.config?.options?.map((option) => (
-            <option key={JSON.stringify(option)}>
+            <option key={option.id}>
               <div>{option.name}</div>
               <div>{option.description}</div>
             </option>

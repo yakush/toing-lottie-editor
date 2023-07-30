@@ -10,6 +10,7 @@
         "enableHide": true,
         "options": [
           {
+            "id": "asfasf344sfh6",
             "name": "heart",
             "description": "the heart",
             "targets": [
@@ -21,6 +22,7 @@
             ]
           },
           {
+            "id": "asfasfasfasf",
             "name": "star",
             "description": "the star",
             "targets": [
@@ -34,7 +36,7 @@
         ]
       },
       "defaults": {
-        "selectedIdx": 0
+        "selectedIdx": 1
       }
     },
     {

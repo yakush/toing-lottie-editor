@@ -1,0 +1,54 @@
+.root {
+}
+
+hr {
+  margin: 5px 0;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 5px;
+}
+
+.fields .full {
+  grid-column: 1/-1;
+  width: 100%;
+}
+
+.fields input[type="checkbox"] {
+  width: 20px;
+}
+
+.optionsList {
+  border: 2px solid black;
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: gray;
+}
+
+.listItemWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.listItemWrapper .ui {
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.listItemWrapper .gap {
+  flex: 1;
+}
+
+.optionsList .item {
+  flex: 1;
+  background-color: white;
+  border: 1px solid black;
+  padding: 3px;
+}

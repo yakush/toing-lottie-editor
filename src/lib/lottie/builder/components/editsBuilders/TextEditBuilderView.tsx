@@ -16,6 +16,11 @@ import styles from "./TextEditBuilderView.module.css";
 import { textJustifications } from "../../../core/enums/textJustifications";
 import TextAlignSelector from "../../../app/components/TextAlignSelector";
 
+type ChangeFunc<T> = <K extends keyof T, V extends T[K]>(
+  key: K,
+  value: V
+) => void;
+
 type Props = EditBuilderProps<Config, Execution>;
 
 export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
@@ -32,13 +37,13 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     onEditChanged(newData);
   };
 
-  const onChangedConfig = (key: keyof Config, val: boolean) => {
+  const onChangedConfig: ChangeFunc<Config> = (key, val) => {
     const newEdit = structuredClone(edit);
     newEdit.config = { ...newEdit.config, ...{ [key]: val } };
     update(newEdit);
   };
 
-  const onChangedDefaults = (key: keyof Execution, val: any) => {
+  const onChangedDefaults: ChangeFunc<Execution> = (key, val) => {
     const newEdit = structuredClone(edit);
     newEdit.defaults = { ...newEdit.defaults, ...{ [key]: val } };
     update(newEdit);
