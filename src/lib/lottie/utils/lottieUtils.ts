@@ -3,6 +3,7 @@ import {
   Layer,
   LayerRef,
   Lottie,
+  LottieEdits,
   LottieRef,
   Shape,
   ShapeLayer,
@@ -46,7 +47,7 @@ export function findShapeRef(lottie?: Lottie, ref?: ShapeRef) {
   if (!ref) {
     return;
   }
-  
+
   if (ref.type !== "shape") {
     return;
   }
@@ -84,11 +85,11 @@ export function findLottieRef(lottie?: Lottie, ref?: LottieRef) {
   if (!lottie) {
     return;
   }
-  
+
   if (!ref) {
     return;
   }
-  
+
   switch (ref.type) {
     case "layer":
       return findLayerRef(lottie, ref);
@@ -170,4 +171,20 @@ function createShapeRef(
       createShapeRef(layerRef, subShape, shapeIdx, [...subPath, i]);
     });
   }
+}
+
+//-------------------------------------------------------
+
+/**
+ * removes all executions fields from all the edits. (for example: exporting a clean edits json)
+ * @param edits original edits
+ * @returns purged copy of edits
+ */
+export function purgeEditsExecutions(edits: LottieEdits) {
+  let purged = { ...edits };
+  purged.edits = purged.edits?.map((item) => ({
+    ...item,
+    execution: undefined,
+  }));
+  return purged;
 }
