@@ -12,7 +12,7 @@ type Props = EditBuilderProps<Config, Execution>;
 
 export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
   const { config } = edit;
-  const lottie = useLottieStore((store) => store.lottie);
+  const origLottie = useLottieStore((store) => store.origLottie);
 
   const id_enableMultiline = useId();
   const id_enableAlign = useId();
@@ -24,10 +24,11 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     }
 
     const newEdit = structuredClone(edit);
-    newEdit.config = { ...newEdit.config, ...updates };
 
     if (updateDefaults) {
-      const target = findLayerRef(lottie, config.targetLayer);
+      newEdit.execution={}
+
+      const target = findLayerRef(origLottie, config.targetLayer);
       if (target && target.ty === layerTypes.text) {
         const textLayer = target as TextLayer;
         newEdit.defaults = {
@@ -36,8 +37,11 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
           text: textLayer.t?.d?.k?.at(0)?.s?.t || "",
           color: "???",
         };
+        newEdit.execution=newEdit.defaults
       }
     }
+
+    newEdit.config = { ...newEdit.config, ...updates };
 
     onEditChanged(newEdit);
   };
@@ -50,20 +54,10 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
 
   const onChangeRef = (ref?: LottieRef) => {
     if (!ref) {
-      update(
-        {
-          targetLayer: undefined,
-        },
-        true
-      );
+      update({ targetLayer: undefined }, true);
       return;
     }
-    update(
-      {
-        targetLayer: ref as LayerRef,
-      },
-      true
-    );
+    update({ targetLayer: ref as LayerRef }, true);
   };
 
   return (

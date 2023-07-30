@@ -11,7 +11,8 @@ function isCallbackUpdater<T>(x: updater<T>): x is (current: T) => T {
 }
 
 export enum LottieManagerEvents {
-  onChangeLottie = "onChangeJson",
+  onChangeOrigLottie = "onChangeOrigLottie",
+  onChangeLottie = "onChangeLottie",
   onChangeEdits = "onchangeEdits",
 }
 
@@ -38,6 +39,7 @@ export class LottieManager extends EventEmitter {
     this.setLottie(lottie, { digest: false, emitEvent: false });
     this.setEdits(edits, true);
 
+    this.emit(LottieManagerEvents.onChangeOrigLottie, this.lottie);
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }

@@ -2,12 +2,11 @@ import { StateCreator } from "zustand";
 import {
   Layer,
   Lottie,
+  LottieEdits,
   LottieLoader,
   LottieManager,
   LottieManagerEvents,
   Shape,
-  LottieEdits,
-  EditData,
   updater,
 } from "../core";
 
@@ -16,6 +15,7 @@ export interface LottieStore {
   manager: LottieManager;
   loader: LottieLoader;
   lottie?: Lottie;
+  origLottie?: Lottie;
   edits?: LottieEdits;
   isLoading: boolean;
   errorLoading?: string;
@@ -30,18 +30,21 @@ export interface LottieStore {
 
   blinkLayer: (target: Layer) => void;
   blinkShape: (target: Shape) => void;
-  blinkTargetList: (target: (Layer|Shape)[]) => void;  
+  blinkTargetList: (target: (Layer | Shape)[]) => void;
 }
 
 export const LottieStoreCreatorFactory: (
   displayName?: string
 ) => StateCreator<LottieStore> =
   (displayName: string = "lottie store") =>
-  (set, get) => {
+  (set, get,a) => {
     const manager = new LottieManager();
     const loader = new LottieLoader();
 
     //events
+    manager.on(LottieManagerEvents.onChangeOrigLottie, (origLottie) =>
+      set({ origLottie })
+    );
     manager.on(LottieManagerEvents.onChangeLottie, (lottie) => set({ lottie }));
     manager.on(LottieManagerEvents.onChangeEdits, (edits) => set({ edits }));
 
@@ -82,6 +85,7 @@ export const LottieStoreCreatorFactory: (
       manager,
       loader,
       lottie: undefined,
+      origLottie: undefined,
       isLoading: false,
       errorLoading: undefined,
 
@@ -134,9 +138,9 @@ export const LottieStoreCreatorFactory: (
         const { manager } = get();
         manager.blinkShape(target);
       },
-      blinkTargetList(targets: (Layer|Shape)[]){
+      blinkTargetList(targets: (Layer | Shape)[]) {
         const { manager } = get();
         manager.blinkTargetList(targets);
-      }
+      },
     };
   };
