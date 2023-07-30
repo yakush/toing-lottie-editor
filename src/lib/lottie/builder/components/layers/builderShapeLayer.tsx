@@ -16,6 +16,7 @@ import { useLottieStore } from "../../../app";
 import icon_shape from "../../../assets/icon_shape.svg";
 import { getLottieRef } from "../../../utils/lottieUtils";
 import useDragAndDropStore from "../../../app/DragAndDrop";
+import { combineClasses } from "../../../utils/css";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
   return (
@@ -74,7 +75,10 @@ const ShapeTitle = ({ shape }: ShapeTitleProps) => {
 
   return (
     <div
-      className={styles.shapeTitle}
+      className={combineClasses({
+        [styles.shapeTitle]: true,
+        [styles.shapeHidden]: !!shape.hd,
+      })}
       onClick={() => blinkShape(shape)}
       draggable
       onDragStart={onDragStart}
