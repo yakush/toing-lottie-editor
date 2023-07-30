@@ -6,10 +6,12 @@ import CardFooter from "./CardFooter";
 
 type Props = {
   children?: React.ReactNode;
+  collapsed?: boolean;
+  smallestHeight?: boolean;
 };
 
-export default function Card({ children }: Props) {
-  const [open, setOpen] = useState(true);
+export default function Card({ children, collapsed, smallestHeight }: Props) {
+  const [open, setOpen] = useState(collapsed !== null ? !collapsed : true);
 
   let header: ReactNode;
   let footer: ReactNode;
@@ -29,7 +31,13 @@ export default function Card({ children }: Props) {
     }
   });
   return (
-    <div className={combineClasses(styles.root, { [styles.closed]: !open })}>
+    <div
+      className={combineClasses({
+        [styles.root]: true,
+        [styles.closed]: !open,
+        [styles.smallestHeight]: !!smallestHeight,
+      })}
+    >
       <div className={styles.header} onClick={() => setOpen((x) => !x)}>
         <span className={styles.toggle}>{open ? "-" : "+"}</span>
         {header}
