@@ -1,22 +1,26 @@
 import { useRef, useState } from "react";
-import Card from "../lib/lottie/app/components/Card";
 import FileDropTarget from "../components/FileDropTarget";
-import { LottieStoreProvider, useLottieStore } from "../lib/lottie/app";
-import LottieEditor from "../lib/lottie/app/components/LottieEditor";
-import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
-import LottieJson from "../lib/lottie/builder/components/LottieJson";
-import { LottieRef } from "../lib/lottie/core";
-import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
-import { createPublicLottieSampleUrl } from "../utils/paths";
-import styles from "./LottieConfigure.module.css";
+import { useLottieStore } from "../lib/lottie/app";
 import {
   DragAndDropStoreProvider,
   useDragAndDropSource,
   useDragAndDropTarget,
 } from "../lib/lottie/app/DragAndDrop";
-import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
+import Card from "../lib/lottie/app/components/Card";
 import CardHeader from "../lib/lottie/app/components/CardHeader";
+import LottieEditor from "../lib/lottie/app/components/LottieEditor";
+import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
+import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
+import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
+import { LottieRef } from "../lib/lottie/core";
+import {
+  findLayerRef,
+  findShapeRef,
+  purgeEditsExecutions,
+} from "../lib/lottie/utils/lottieUtils";
+import { createPublicLottieSampleUrl } from "../utils/paths";
+import styles from "./LottieConfigure.module.css";
 
 type Props = {};
 
@@ -35,8 +39,9 @@ function Page({}: Props) {
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
   const loadLottieFile = useLottieStore((state) => state.loadFile);
-
   const loadUrl = useLottieStore((store) => store.loadUrl);
+
+  const [loaderSelectedIdx, setLoaderSelectedIdx] = useState(0);
 
   const files = [
     { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" },
@@ -48,26 +53,58 @@ function Page({}: Props) {
     { name: "test-text.json", edits: "" },
   ];
 
+  const exportEdits = () => {
+    const json = edits && purgeEditsExecutions(edits);
+    console.log(JSON.stringify(json, null, 2));
+    navigator.clipboard.writeText(JSON.stringify(json, null, 2));
+  };
+
   return (
     <div className={styles.root}>
       <div className={styles.loader}>
-        {files.map((file) => (
-          <button
-            key={file.name}
-            onClick={() => {
-              const path = createPublicLottieSampleUrl(file.name);
-              const pathEdits = !!file.edits
-                ? createPublicLottieSampleUrl(file.edits)
-                : undefined;
-              loadUrl(path, pathEdits);
-            }}
-          >
-            {file.name} {file.edits && "(+)"}
-          </button>
-        ))}
-        <FileDropTarget onDrop={(fileList) => loadLottieFile(fileList[0])}>
-          drop file here
-        </FileDropTarget>
+        <Card collapsed={false} smallestHeight>
+          <CardHeader>LOADER</CardHeader>
+          <div className={styles.loaderContent}>
+            <button
+              onClick={() => {
+                const file = files[loaderSelectedIdx];
+                if (!file) {
+                  return;
+                }
+                const path = createPublicLottieSampleUrl(file.name);
+                const pathEdits = !!file.edits
+                  ? createPublicLottieSampleUrl(file.edits)
+                  : undefined;
+                loadUrl(path, pathEdits);
+              }}
+            >
+              load {">"}
+            </button>
+            <select
+              style={{ flex: 1 }}
+              value={loaderSelectedIdx}
+              onChange={(e) => setLoaderSelectedIdx(+e.target.value)}
+            >
+              {files.map((file, idx) => (
+                <option key={file.name} value={idx}>
+                  {file.name} {file.edits && "[HAS EDITS JSON]"}
+                </option>
+              ))}
+            </select>
+
+            <div style={{}}>
+              <FileDropTarget
+                onDrop={(fileList) => loadLottieFile(fileList[0])}
+              >
+                drop file here
+              </FileDropTarget>
+            </div>
+
+            <button style={{}} onClick={exportEdits}>
+              copy edits json to clipboard
+            </button>
+          </div>
+        </Card>
       </div>
 
       <div className={styles.messages}>
@@ -75,7 +112,7 @@ function Page({}: Props) {
         {errorLoading && <div>{errorLoading}</div>}
       </div>
 
-      <div className={styles.builder}>
+      <div className={styles.tree}>
         <Card>
           <CardHeader>tree</CardHeader>
           <LottieJson />
@@ -98,6 +135,7 @@ function Page({}: Props) {
         <div className={styles.builder}>
           <Card>
             <CardHeader>builder</CardHeader>
+
             <LottieBuilder />
           </Card>
         </div>
