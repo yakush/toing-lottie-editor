@@ -1,6 +1,6 @@
 import EventEmitter from "events";
 import { GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
-import registry from "../edits/editsModule";
+import editsModule from "../edits/editsModule";
 import { shapeTypes } from "./enums";
 import { createLottieRefs } from "../utils/lottieUtils";
 
@@ -152,7 +152,7 @@ export class LottieManager extends EventEmitter {
     if (!this.edits) {
       return;
     }
-    registry.setDefaultsAll(this.edits);
+    editsModule.setDefaultsAll(this.edits);
     this.updateFromEdits();
   }
 
@@ -240,7 +240,7 @@ export class LottieManager extends EventEmitter {
       return;
     }
 
-    registry.setDefaultsAll(this.edits);
+    editsModule.setDefaultsAll(this.edits);
 
     //perform initial edits
     this.updateFromEdits();
@@ -256,7 +256,7 @@ export class LottieManager extends EventEmitter {
       return;
     }
 
-    registry.executeAll(lottie, edits);
+    editsModule.executeAll(lottie, edits);
     this.setLottie({ ...lottie }, { digest: false });
   }
 }

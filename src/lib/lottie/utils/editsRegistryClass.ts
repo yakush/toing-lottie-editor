@@ -25,13 +25,17 @@ export class EditsRegistry {
     this.editTypes.clear();
   }
 
+  getExecuter(type:editTypes){
+    return this.editTypes.get(type);
+  }
+
   executeAll(lottie: Lottie, edits: LottieEdits) {
     edits.edits?.forEach((edit) => this.execute(lottie, edit));
   }
 
   execute(lottie: Lottie, edit: EditData) {
     const { execution, type } = edit;
-    const handler = this.editTypes.get(type);
+    const handler = this.getExecuter(type);
 
     if (!execution) {
       console.warn(

@@ -1,5 +1,20 @@
 .root {
   display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.buttons {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 1px solid black;
+}
+
+.listWrapper {
+  display: flex;
   justify-content: center;
   overflow-x: auto;
   padding: 2px 2px 10px 2px;
@@ -15,5 +30,4 @@
 }
 
 .item {
-  
 }
