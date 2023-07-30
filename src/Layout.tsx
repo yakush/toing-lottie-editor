@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import styles from "./Layout.module.css";
+import FilesLoader from "./components/FilesLoader";
 
 const Layout = () => {
   return (
@@ -19,6 +20,7 @@ const Layout = () => {
       </header>
 
       <main>
+        <FilesLoader />
         <div className={styles.outletWrapper}>
           <Outlet />
         </div>

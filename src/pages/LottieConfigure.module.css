@@ -9,28 +9,10 @@
   max-width: 1400px;
   min-width: 1105px;
   display: grid;
-  grid-template-areas:
-    "loader loader loader"
-    "messages messages messages"
-    "tree edits player";
+  grid-template-areas: "tree edits player";
 
   grid-template-columns: minmax(200px, 400px) minmax(200px, 1fr) 400px;
-  grid-template-rows: auto auto 1fr;
-}
-
-.loader {
-  grid-area: loader;
-}
-
-.loaderContent {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-}
-
-.messages {
-  grid-area: messages;
+  grid-template-rows: 1fr;
 }
 
 .tree {
