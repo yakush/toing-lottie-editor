@@ -139,11 +139,11 @@ function Page({}: Props) {
 
             <LottiePlayer />
           </Card>
-          <Card>
+          {/* <Card>
             <CardHeader>test</CardHeader>
-            {/* <pre>{edits ? JSON.stringify(edits, null, 2) : "no edits"}</pre> */}
+         
             <Test></Test>
-          </Card>
+          </Card> */}
         </div>
 
         <div className={styles.edits}>

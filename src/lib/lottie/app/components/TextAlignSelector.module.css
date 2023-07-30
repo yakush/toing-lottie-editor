@@ -13,5 +13,6 @@
 }
 
 .btn.selected {
-  background-color: greenyellow;
+  background-color: #479cff;
+  color:white;
 }
