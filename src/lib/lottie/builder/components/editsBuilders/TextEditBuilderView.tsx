@@ -72,54 +72,52 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
   return (
     <div className={styles.root}>
       {/* <pre>{JSON.stringify(edit, null, 2)}</pre> */}
-      <label>target layer</label>
-      <RefSelector
-        value={edit.config.targetLayer}
-        onChange={onChangeRef}
-        disableShape
-        allowLayerTypes={[layerTypes.text]}
-      />
-      <div>
+
+      <div className={styles.fields}>
+        <label>target layer</label>
+        <RefSelector
+          value={edit.config.targetLayer}
+          onChange={onChangeRef}
+          disableShape
+          allowLayerTypes={[layerTypes.text]}
+        />
+
+        <label htmlFor={id_enableMultiline}>enable Multiline</label>
         <input
+          className={styles.left}
           type="checkbox"
           id={id_enableMultiline}
           checked={config.enableMultiline}
           onChange={(e) => onChangedConfig("enableMultiline", e.target.checked)}
         />
-        <label htmlFor={id_enableMultiline}>enable Multiline</label>
-      </div>
-      <div>
+
+        <label htmlFor={id_enableAlign}>enable Align</label>
         <input
           type="checkbox"
           id={id_enableAlign}
           checked={config.enableAlign}
           onChange={(e) => onChangedConfig("enableAlign", e.target.checked)}
         />
-        <label htmlFor={id_enableAlign}>enable Align</label>
-      </div>
 
-      <hr />
-      <div className={styles.defaults}>
-        <div>DEFAULTS</div>
+        <hr className={styles.full} />
+        <div className={styles.full}> DEFAULTS</div>
 
-        <div>
-          <label>default text</label>
-          <input
-            type="text"
-            value={edit.defaults.text || ""}
-            onChange={(e) => onChangedDefaults("text", e.target.value)}
-          />
-        </div>
+        <label>default text</label>
+        <input
+          type="text"
+          value={edit.defaults.text || ""}
+          onChange={(e) => onChangedDefaults("text", e.target.value)}
+        />
 
         {edit.config.enableAlign && (
-          <div>
+          <>
             <label>default align</label>
             {/* <select name="" id="" onChange={e=>onChangedDefaults("align",e.target.value)}> */}
             <TextAlignSelector
               value={edit.defaults.align}
               onChange={(val) => onChangedDefaults("align", val)}
             />
-          </div>
+          </>
         )}
       </div>
     </div>
