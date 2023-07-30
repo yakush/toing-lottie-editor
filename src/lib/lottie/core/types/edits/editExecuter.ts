@@ -8,5 +8,9 @@ export interface EditExecuter<
 > {
   type: editTypes;
   createNewConfig: () => T_CONFIG;
+  updateDefaults: (
+    lottie: Lottie,
+    edit: EditData<T_CONFIG, T_EXECUTION>
+  ) => EditData<T_CONFIG, T_EXECUTION>;
   execute: (lottie: Lottie, edit: EditData<T_CONFIG, T_EXECUTION>) => void;
 }

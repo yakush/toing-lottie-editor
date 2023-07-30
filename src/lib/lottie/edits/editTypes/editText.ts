@@ -14,13 +14,11 @@ export interface Config {
   targetLayer?: LayerRef;
   enableMultiline: boolean;
   enableAlign: boolean;
-  enableColor: boolean;
 }
 
 export interface Execution {
   text?: string;
   align?: number;
-  color?: string;
 }
 
 export default class EditText implements EditExecuter<Config, Execution> {
@@ -30,9 +28,27 @@ export default class EditText implements EditExecuter<Config, Execution> {
     return {
       //targetLayer
       enableAlign: false,
-      enableColor: false,
       enableMultiline: true,
     };
+  }
+
+  updateDefaults(
+    lottie: Lottie,
+    edit: EditData<Config, Execution>
+  ): EditData<Config, Execution> {
+    const newEdit = structuredClone(edit);
+    const targetLayer = findLayerRef(lottie, edit?.config?.targetLayer);
+    if (targetLayer && targetLayer.ty === layerTypes.text) {
+      const textLayer = targetLayer as TextLayer;
+      newEdit.defaults = {
+        align:
+          textLayer.t?.d?.k?.at(0)?.s?.j || textJustifications.CENTER_JUSTIFY,
+        text: textLayer.t?.d?.k?.at(0)?.s?.t || "TEXT",
+      };
+      newEdit.execution = newEdit.defaults;      
+    }
+
+    return newEdit;
   }
 
   execute(lottie: Lottie, edit: EditData<Config, Execution>) {

@@ -29,6 +29,10 @@ export class LottieManager extends EventEmitter {
     return this._lottie;
   }
 
+  get origLottie() {
+    return this._origLottie;
+  }
+
   get edits() {
     return this._edits;
   }
@@ -39,7 +43,7 @@ export class LottieManager extends EventEmitter {
     this.setLottie(lottie, { digest: false, emitEvent: false });
     this.setEdits(edits, true);
 
-    this.emit(LottieManagerEvents.onChangeOrigLottie, this.lottie);
+    this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
     this.emit(LottieManagerEvents.onChangeEdits, this.edits);
   }
