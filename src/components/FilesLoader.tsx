@@ -27,9 +27,9 @@ export default function FilesLoader({}: Props) {
   const [loaderSelectedIdx, setLoaderSelectedIdx] = useState(0);
   const [loadedLottieFile, setLoadedLottieFile] = useState<File>();
   const [loadedEditsFile, setLoadedEditsFile] = useState<File>();
+  const [purgedEditsText, setPurgedEditsText] = useState("");
 
   const [showPopup, setShowPopup] = useState(false);
-  const [popupContent, setPopupContent] = useState("");
 
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
@@ -41,14 +41,38 @@ export default function FilesLoader({}: Props) {
     loadSelectedUrl();
   }, [loaderSelectedIdx]);
 
-  const exportEdits = () => {
+  useEffectOnChanged(() => {
     const json = edits && purgeEditsExecutions(edits);
-    const text = JSON.stringify(json, null, 2);
-    console.log(text);
-    navigator.clipboard.writeText(text);
-    setPopupContent(text);
+    setPurgedEditsText(JSON.stringify(json, null, 2));
+  }, [edits]);
+
+  const exportEdits = () => {
+    console.log(purgedEditsText);
     setShowPopup(true);
   };
+
+  function copyEditsToClipboard() {
+    navigator.clipboard.writeText(purgedEditsText);
+  }
+
+  async function saveEditsToFile() {
+    const json = edits && purgeEditsExecutions(edits);
+    const text = JSON.stringify(json, null, 2);
+
+    const filename = "test.edits.json";
+    const blob = new Blob([text]);
+    const msSaveOrOpenBlob = (window.navigator as any)["msSaveOrOpenBlob"];
+    if (msSaveOrOpenBlob)
+      // IE10+
+      msSaveOrOpenBlob(blob, filename);
+    else {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+  }
 
   const loadLottieFile = (file: File) => {
     setLoaderSelectedIdx(0);
@@ -128,7 +152,14 @@ export default function FilesLoader({}: Props) {
       </div>
 
       <PopOver show={showPopup} onClosed={() => setShowPopup(false)}>
-        <pre style={{ width: "100%", height: "100%" }}>{popupContent}</pre>
+        <div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button onClick={saveEditsToFile}>SAVE TO FILE</button>
+            <button onClick={copyEditsToClipboard}>COPY TO CLIPBOARD</button>
+          </div>
+          <hr />
+          <pre>{purgedEditsText}</pre>
+        </div>
       </PopOver>
     </div>
   );
