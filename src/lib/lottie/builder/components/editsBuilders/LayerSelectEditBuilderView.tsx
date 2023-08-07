@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { EditData } from "../../../core";
+import { ToingEditEndpoint } from "../../../core";
 import {
   Config,
   Execution,
@@ -25,7 +25,7 @@ export default function LayerSelectEditBuilderView({
 
   const id = useId();
 
-  const update = (newData: EditData<Config, Execution>) => {
+  const update = (newData: ToingEditEndpoint<Config, Execution>) => {
     if (!onEditChanged) {
       return;
     }

@@ -6,26 +6,20 @@ import { EditProps } from "../../uiModule";
 import styles from "./TextEditView.module.css";
 import TextAlignSelector from "../TextAlignSelector";
 export default function TextEditView({
-  edit,
-  onEditChanged,
+  editEndpoint,
+  execution,
+  onChange,
 }: EditProps<Config, Execution>) {
   const id_labelText = useId();
   const id_labelAlign = useId();
 
   //-------------------------------------------------------
-  const updateExecution = (exe: Execution) => {
-    const newEdit = structuredClone(edit);
-    newEdit.execution = newEdit.execution ?? { ...newEdit.defaults };
-    newEdit.execution = exe;
-    onEditChanged && onEditChanged(newEdit);
-  };
-
   const handleText = (value: string) => {
-    updateExecution({ ...edit.execution, text: value });
+    onChange && onChange({ ...execution, text: value });
   };
 
   const handleAlign = (value: textJustifications) => {
-    updateExecution({ ...edit.execution, align: value });
+    onChange && onChange({ ...execution, align: value });
   };
 
   //-------------------------------------------------------
@@ -39,12 +33,12 @@ export default function TextEditView({
         {/* ------------------------------------------------- */}
         <div className={styles.text}>
           <label htmlFor={id_labelText}>text</label>
-          {edit.config.enableMultiline ? (
+          {editEndpoint.config.enableMultiline ? (
             <textarea
               className={combineClasses(styles.input, styles.multiLine)}
               id={id_labelText}
               onChange={(e) => handleText(e.target.value)}
-              value={edit.execution?.text || ""}
+              value={execution?.text || ""}
             />
           ) : (
             <input
@@ -52,7 +46,7 @@ export default function TextEditView({
               id={id_labelText}
               type="text"
               autoComplete="off"
-              value={edit.execution?.text || ""}
+              value={execution?.text || ""}
               onChange={(e) => handleText(e.target.value)}
             />
           )}
@@ -64,12 +58,12 @@ export default function TextEditView({
         {/* ------------------------------------------------- */}
         {/* ALIGN */}
         {/* ------------------------------------------------- */}
-        {edit.config.enableAlign && (
+        {editEndpoint.config.enableAlign && (
           <div className={styles.align}>
             <label htmlFor={id_labelAlign}>align</label>
 
             <TextAlignSelector
-              value={edit.execution?.align}
+              value={execution?.align}
               onChange={(val) => handleAlign(val)}
             />
           </div>

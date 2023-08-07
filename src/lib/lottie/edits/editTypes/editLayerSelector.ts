@@ -1,5 +1,8 @@
 import { Layer, Lottie, Shape, editTypes } from "../../core";
-import { EditData, EditExecuter } from "../../core/types/edits";
+import {
+  ToingEditEndpoint,
+  EditEndpointExecuter,
+} from "../../core/types/edits";
 import { LottieRef } from "../../core/types/edits/lottieRef";
 import {
   collectSubShapesTargets,
@@ -24,7 +27,7 @@ export interface Execution {
 }
 
 export default class EditLayerSelector
-  implements EditExecuter<Config, Execution>
+  implements EditEndpointExecuter<Config, Execution>
 {
   type = editTypes.layerSelect;
 
@@ -37,7 +40,7 @@ export default class EditLayerSelector
 
   createNewDefaults(
     lottie: Lottie | undefined,
-    edit: EditData<Config, Execution>
+    edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
     let defaults: Execution = {
       hide: false,
@@ -46,9 +49,13 @@ export default class EditLayerSelector
     return defaults;
   }
 
-  execute(lottie: Lottie, edit: EditData<Config, Execution>) {
+  execute(
+    lottie: Lottie,
+    editEndpoint: ToingEditEndpoint<Config, Execution>,
+    execution: Execution
+  ) {
     console.log("EXEC LAYER SELECT");
-    const { config, execution } = edit;
+    const { config } = editEndpoint;
     const selectedIdx =
       execution?.selectedIdx != null ? execution?.selectedIdx : 0;
     const hide = execution?.hide != null ? execution?.hide : 0;

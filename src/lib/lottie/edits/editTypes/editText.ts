@@ -1,6 +1,6 @@
 import {
-  EditData,
-  EditExecuter,
+  ToingEditEndpoint,
+  EditEndpointExecuter,
   Lottie,
   TextLayer,
   editTypes,
@@ -21,7 +21,9 @@ export interface Execution {
   align?: number;
 }
 
-export default class EditText implements EditExecuter<Config, Execution> {
+export default class EditText
+  implements EditEndpointExecuter<Config, Execution>
+{
   type = editTypes.text;
 
   createNewConfig(): Config {
@@ -34,7 +36,7 @@ export default class EditText implements EditExecuter<Config, Execution> {
 
   createNewDefaults(
     lottie: Lottie | undefined,
-    edit: EditData<Config, Execution>
+    edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
     const targetLayer = findLayerRef(lottie, edit?.config?.targetLayer);
 
@@ -51,8 +53,12 @@ export default class EditText implements EditExecuter<Config, Execution> {
     return defaults;
   }
 
-  execute(lottie: Lottie, edit: EditData<Config, Execution>) {
-    const { config, execution } = edit;
+  execute(
+    lottie: Lottie,
+    editEndpoint: ToingEditEndpoint<Config, Execution>,
+    execution: Execution
+  ) {
+    const { config } = editEndpoint;
     const target: TextLayer = findLayerRef(
       lottie,
       config.targetLayer
@@ -87,7 +93,7 @@ export default class EditText implements EditExecuter<Config, Execution> {
     }
 
     //align
-    if (edit.config.enableAlign) {
+    if (config.enableAlign) {
       let justification = execution?.align;
       if (justification == null) {
         justification = textJustifications.CENTER_JUSTIFY;

@@ -1,14 +1,21 @@
 import { editTypes } from "../core";
-import { EditData, EditExecuter, Lottie, LottieEdits } from "../core/types";
+import {
+  ToingEditEndpoint,
+  EditEndpointExecuter,
+  Lottie,
+  ToingConfig,
+  ToingUserExecutions,
+  ToingCampaign,
+} from "../core/types";
 
 export class EditsRegistry {
-  private editTypes: Map<editTypes, EditExecuter>;
+  private editTypes: Map<editTypes, EditEndpointExecuter>;
 
   constructor() {
     this.editTypes = new Map();
   }
 
-  register(editType: EditExecuter<any, any>) {
+  register(editType: EditEndpointExecuter<any, any>) {
     const { type } = editType;
     if (this.editTypes.has(type)) {
       throw new Error(`handler for type [${type}] already registered`);
@@ -25,17 +32,22 @@ export class EditsRegistry {
     this.editTypes.clear();
   }
 
-  getExecuter(type:editTypes){
+  getExecuter(type: editTypes) {
     return this.editTypes.get(type);
   }
 
-  executeAll(lottie: Lottie, edits: LottieEdits) {
-    edits.edits?.forEach((edit) => this.execute(lottie, edit));
-  }
+  execute(lottie: Lottie, edit: ToingEditEndpoint, execution: object) {
+    const { type, defaults } = edit;
 
-  execute(lottie: Lottie, edit: EditData) {
-    const { execution, type } = edit;
     const handler = this.getExecuter(type);
+
+    if (!defaults) {
+      console.warn(
+        `unable to find default data for edit [${edit.name}] id: ${edit.id}`
+      );
+      // console.log(structuredClone (edit));
+      return;
+    }
 
     if (!execution) {
       console.warn(
@@ -50,26 +62,6 @@ export class EditsRegistry {
       return;
     }
 
-    handler.execute(lottie, edit);
-  }
-
-  //-------------------------------------------------------
-
-  setDefaultsAll(edits: LottieEdits) {
-    edits.edits?.forEach((edit) => this.setDefaults(edit));
-  }
-
-  setDefaults(edit: EditData) {
-    const { defaults } = edit;
-
-    if (!defaults) {
-      console.warn(
-        `unable to find defaults for edit [${edit.name}] id: ${edit.id}`
-      );
-      edit.execution = undefined;
-      return;
-    }
-
-    edit.execution = structuredClone(defaults);
+    handler.execute(lottie, edit, execution);
   }
 }

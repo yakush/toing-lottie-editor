@@ -1,4 +1,4 @@
-import { EditData, editTypes, Layer, layerTypes } from "../core";
+import { ToingEditEndpoint, editTypes, Layer, layerTypes } from "../core";
 import ComponentRegistry from "../utils/componentRegistryClass";
 import LayerSelectEditBuilderView from "./components/editsBuilders/LayerSelectEditBuilderView";
 import TextEditBuilderView from "./components/editsBuilders/TextEditBuilderView";
@@ -16,16 +16,16 @@ export type EditProps<
   T_CONFIG extends {} = any,
   T_EXECUTION extends {} = any
 > = {
-  edit: EditData<T_CONFIG, T_EXECUTION>;
-  onEditChanged?: (edit: EditData<T_CONFIG, T_EXECUTION>) => void;
+  edit: ToingEditEndpoint<T_CONFIG, T_EXECUTION>;
+  onEditChanged?: (edit: ToingEditEndpoint<T_CONFIG, T_EXECUTION>) => void;
 };
 
 export type EditBuilderProps<
   T_CONFIG extends {} = any,
   T_EXECUTION extends {} = any
 > = {
-  edit: EditData<T_CONFIG, T_EXECUTION>;
-  onEditChanged?: (edit: EditData<T_CONFIG, T_EXECUTION>) => void;
+  edit: ToingEditEndpoint<T_CONFIG, T_EXECUTION>;
+  onEditChanged?: (edit: ToingEditEndpoint<T_CONFIG, T_EXECUTION>) => void;
 };
 
 export interface ModuleType {

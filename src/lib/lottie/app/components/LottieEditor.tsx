@@ -1,22 +1,28 @@
-import { EditData } from "../../core";
 import useLottieStore from "../LottieStore";
-import uiModule from "../uiModule";
 import EditView from "./EditView";
 import styles from "./LottieEditor.module.css";
 
 type Props = {};
 
 export default function LottieEditor({}: Props) {
-  const edits = useLottieStore((state) => state.edits);
+  const config = useLottieStore((state) => state.config);
+  const userExecutions = useLottieStore((state) => state.userExecutions);
 
   return (
     <div className={styles.root}>
       <div className={styles.list}>
-        {edits?.edits?.map((edit) => (
-          <div key={edit.id} className={styles.item}>
-            <EditView edit={edit} />
-          </div>
-        ))}
+        {config?.editEndpoints?.map((editEndpoint) => {
+          const id = editEndpoint.id;
+          let execution =
+            userExecutions?.executions && userExecutions?.executions[id];
+          execution = execution ?? editEndpoint.defaults;
+
+          return (
+            <div key={editEndpoint.id} className={styles.item}>
+              <EditView editEndpoint={editEndpoint} execution={execution} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

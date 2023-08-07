@@ -1,3 +1,4 @@
+import { useLottieStore } from "../lib/lottie/app";
 import Card from "../lib/lottie/app/components/Card";
 import LottieEditor from "../lib/lottie/app/components/LottieEditor";
 import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
@@ -26,18 +27,21 @@ function Page({}: Props) {
   //   }
   //   fetchData();
   // }, [loadUrl]);
-  
+  const userExecutions = useLottieStore((state) => state.userExecutions);
+
   return (
     <div className={styles.root}>
       <div className={styles.edits}>
         <Card>
           <LottieEditor />
+        
         </Card>
       </div>
 
       <div className={styles.player}>
         <Card>
           <LottiePlayer />
+          <pre>{JSON.stringify(userExecutions, null, 2)}</pre>
         </Card>
       </div>
     </div>

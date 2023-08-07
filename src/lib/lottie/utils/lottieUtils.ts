@@ -3,15 +3,50 @@ import {
   Layer,
   LayerRef,
   Lottie,
-  LottieEdits,
+  ToingConfig,
   LottieRef,
   Shape,
   ShapeLayer,
   ShapeRef,
   layerTypes,
   shapeTypes,
+  ToingUserExecutions,
+  ToingCampaign,
 } from "../core";
+import editsModule from "../edits/editsModule";
 import __priv__ from "./privateFields";
+
+//-------------------------------------------------------
+
+export function executeLottieConfigs(
+  lottie: Lottie,
+  config: ToingConfig,
+  userExecutions?: ToingUserExecutions,
+  campaign?: ToingCampaign
+) {
+  //1. config defaults
+  config.editEndpoints?.forEach((edit) => {
+    const exe = edit.defaults;
+    editsModule.execute(lottie, edit, exe);
+  });
+
+  //TODO: 2. campaign if exists (overwriting previous step)
+  if (campaign) {
+    config.editEndpoints?.forEach((edit) => {
+      editsModule.execute(lottie, edit, edit.defaults);
+    });
+  }
+
+  //3. executions if exists (overwriting previous step)
+  if (userExecutions && userExecutions.executions) {
+    config.editEndpoints?.forEach((edit) => {
+      const exe = userExecutions.executions[edit.id];
+      if (exe != null) {
+        editsModule.execute(lottie, edit, exe);
+      }
+    });
+  }
+}
 
 //-------------------------------------------------------
 
@@ -171,22 +206,6 @@ function createShapeRef(
       createShapeRef(layerRef, subShape, shapeIdx, [...subPath, i]);
     });
   }
-}
-
-//-------------------------------------------------------
-
-/**
- * removes all executions fields from all the edits. (for example: exporting a clean edits json)
- * @param edits original edits
- * @returns purged copy of edits
- */
-export function purgeEditsExecutions(edits: LottieEdits) {
-  let purged = { ...edits };
-  purged.edits = purged.edits?.map((item) => ({
-    ...item,
-    execution: undefined,
-  }));
-  return purged;
 }
 
 export function collectSubShapesTargets(target: Layer | Shape) {

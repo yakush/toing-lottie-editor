@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { useLottieStore } from "../../app";
-import { EditData, editTypes } from "../../core";
+import { ToingEditEndpoint, editTypes } from "../../core";
 import editsModule from "../../edits/editsModule";
 import BuilderEditView from "./BuilderEditView";
 import styles from "./LottieBuilder.module.css";
@@ -8,8 +8,8 @@ import styles from "./LottieBuilder.module.css";
 type Props = {};
 
 export default function LottieBuilder({}: Props) {
-  const edits = useLottieStore((state) => state.edits);
-  const setEdits = useLottieStore((state) => state.setEdits);
+  const edits = useLottieStore((state) => state.config);
+  const setEdits = useLottieStore((state) => state.setConfig);
   const lottie = useLottieStore(store=>store.lottie);
 
   //-------------------------------------------------------
@@ -19,7 +19,7 @@ export default function LottieBuilder({}: Props) {
       return;
     }
     
-    const newEdit: EditData = {
+    const newEdit: ToingEditEndpoint = {
       type: type,
       id: uuid(),
       name: "",
@@ -30,8 +30,8 @@ export default function LottieBuilder({}: Props) {
     newEdit.defaults = executer.createNewDefaults(lottie, newEdit);
     
     setEdits((old) => {
-      const oldList = old.edits || [];
-      return { ...old, edits: [newEdit, ...oldList] };
+      const oldList = old.editEndpoints || [];
+      return { ...old, editEndpoints: [newEdit, ...oldList] };
     });
   };
 
@@ -44,7 +44,7 @@ export default function LottieBuilder({}: Props) {
       </div>
       <div className={styles.listWrapper}>
         <div className={styles.list}>
-          {edits?.edits?.map((edit) => (
+          {edits?.editEndpoints?.map((edit) => (
             <div key={edit.id} className={styles.item}>
               <BuilderEditView edit={edit} />
             </div>

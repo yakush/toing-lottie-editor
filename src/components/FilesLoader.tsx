@@ -2,23 +2,23 @@ import { useState } from "react";
 import { useLottieStore } from "../lib/lottie/app";
 import Card from "../lib/lottie/app/components/Card";
 import CardHeader from "../lib/lottie/app/components/CardHeader";
-import { purgeEditsExecutions } from "../lib/lottie/utils/lottieUtils";
 import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
 import FileDropTarget from "./FileDropTarget";
 import styles from "./FilesLoader.module.css";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import PopOver from "./PopOver";
+import { LottieLoader, ToingConfig } from "../lib/lottie/core";
 
 const files = [
   { name: "---" },
-  { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" },
-  { name: "SAMPLE 1.json", edits: "" },
-  { name: "OLD.json", edits: "OLD.edits.json" },
-  { name: "102708-sangoma.json", edits: "" },
-  { name: "111228-skilltonblack.json", edits: "" },
-  { name: "138116-sample-again.json", edits: "" },
-  { name: "comp-1.json", edits: "" },
-  { name: "test-text.json", edits: "" },
+  { name: "SAMPLE 1.json", config: "SAMPLE 1.config.json" },
+  { name: "SAMPLE 1.json", config: "" },
+  { name: "OLD.json", config: "OLD.config.json" },
+  { name: "102708-sangoma.json", config: "" },
+  { name: "111228-skilltonblack.json", config: "" },
+  { name: "138116-sample-again.json", config: "" },
+  { name: "comp-1.json", config: "" },
+  { name: "test-text.json", config: "" },
 ];
 
 type Props = {};
@@ -26,38 +26,36 @@ type Props = {};
 export default function FilesLoader({}: Props) {
   const [loaderSelectedIdx, setLoaderSelectedIdx] = useState(0);
   const [loadedLottieFile, setLoadedLottieFile] = useState<File>();
-  const [loadedEditsFile, setLoadedEditsFile] = useState<File>();
-  const [purgedEditsText, setPurgedEditsText] = useState("");
+  const [loadedConfigFile, setLoadedConfigFile] = useState<File>();
 
   const [showPopup, setShowPopup] = useState(false);
 
   const isLottieLoading = useLottieStore((store) => store.isLoading);
   const errorLoading = useLottieStore((store) => store.errorLoading);
-  const edits = useLottieStore((state) => state.edits);
   const loadFile = useLottieStore((state) => state.loadFile);
   const loadUrl = useLottieStore((store) => store.loadUrl);
+  const config = useLottieStore((state) => state.config);
+  const setConfig = useLottieStore((store) => store.setConfig);
+  const setExecutions = useLottieStore((store) => store.setExecutions);
+  const setCampaign = useLottieStore((store) => store.setCampaign);
 
   useEffectOnChanged(() => {
     loadSelectedUrl();
   }, [loaderSelectedIdx]);
 
-  useEffectOnChanged(() => {
-    const json = edits && purgeEditsExecutions(edits);
-    setPurgedEditsText(JSON.stringify(json, null, 2));
-  }, [edits]);
-
   const exportEdits = () => {
-    console.log(purgedEditsText);
+    const text = JSON.stringify(config, null, 2);
+    console.log(text);
     setShowPopup(true);
   };
 
   function copyEditsToClipboard() {
-    navigator.clipboard.writeText(purgedEditsText);
+    const text = JSON.stringify(config, null, 2);
+    navigator.clipboard.writeText(text);
   }
 
   async function saveEditsToFile() {
-    const json = edits && purgeEditsExecutions(edits);
-    const text = JSON.stringify(json, null, 2);
+    const text = JSON.stringify(config, null, 2);
 
     const filename = "test.edits.json";
     const blob = new Blob([text]);
@@ -77,33 +75,64 @@ export default function FilesLoader({}: Props) {
   const loadLottieFile = (file: File) => {
     setLoaderSelectedIdx(0);
     setLoadedLottieFile(file);
-    setLoadedEditsFile(undefined);
+    setLoadedConfigFile(undefined);
     loadFile(file);
+    setConfig(undefined);
+    setExecutions(undefined);
+    setCampaign(undefined);
   };
-  const loadEditsFile = (file: File) => {
+
+  const loadConfigFile = (file: File) => {
     if (!loadedLottieFile) {
       return;
     }
-    setLoadedEditsFile(file);
-    loadFile(loadedLottieFile, file);
+    setLoadedConfigFile(file);
+
+    async function load() {
+      const loader = new LottieLoader<ToingConfig>();
+      const res = await loader.loadFile(file);
+      setConfig(res);
+      setExecutions(undefined);
+      setCampaign(undefined);
+    }
+    load();
   };
+
   const loadSelectedUrl = () => {
     if (loaderSelectedIdx === 0) {
       return;
     }
 
     setLoadedLottieFile(undefined);
-    setLoadedEditsFile(undefined);
+    setLoadedConfigFile(undefined);
+    setExecutions(undefined);
+    setCampaign(undefined);
 
     const file = files[loaderSelectedIdx];
     if (!file) {
       return;
     }
-    const path = createPublicLottieSampleUrl(file.name);
-    const pathEdits = !!file.edits
-      ? createPublicLottieSampleUrl(file.edits)
-      : undefined;
-    loadUrl(path, pathEdits);
+
+    async function load() {
+      const path = createPublicLottieSampleUrl(file.name);
+      const pathConfig = !!file.config
+        ? createPublicLottieSampleUrl(file.config)
+        : undefined;
+
+      console.log("loading lottie: ", path);
+      await loadUrl(path);
+
+      if (pathConfig) {
+        console.log("loading config: ", pathConfig);
+        const configLoader = new LottieLoader<ToingConfig>();
+        const res = await configLoader.loadUrl(pathConfig);
+        setConfig(res);
+      } else {
+        setConfig(undefined);
+      }
+    }
+
+    load();
   };
 
   return (
@@ -118,8 +147,8 @@ export default function FilesLoader({}: Props) {
             onChange={(e) => setLoaderSelectedIdx(+e.target.value)}
           >
             {files.map((file, idx) => (
-              <option key={file.name + file.edits} value={idx}>
-                {file.name} {file.edits && " ---- [HAS EDITS JSON]"}
+              <option key={file.name + file.config} value={idx}>
+                {file.name} {file.config && " ---- [HAS config JSON]"}
               </option>
             ))}
           </select>
@@ -132,10 +161,10 @@ export default function FilesLoader({}: Props) {
               </div>
             </FileDropTarget>
 
-            <FileDropTarget onDrop={(fileList) => loadEditsFile(fileList[0])}>
+            <FileDropTarget onDrop={(fileList) => loadConfigFile(fileList[0])}>
               <div>drop config file here</div>
               <div style={{ fontSize: 14 }}>
-                {loadedEditsFile?.name || "none"}
+                {loadedConfigFile?.name || "none"}
               </div>
             </FileDropTarget>
           </div>
@@ -158,7 +187,7 @@ export default function FilesLoader({}: Props) {
             <button onClick={copyEditsToClipboard}>COPY TO CLIPBOARD</button>
           </div>
           <hr />
-          <pre>{purgedEditsText}</pre>
+          <pre>{JSON.stringify(config, null, 2)}</pre>
         </div>
       </PopOver>
     </div>

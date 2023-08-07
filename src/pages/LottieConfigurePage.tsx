@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import FileDropTarget from "../components/FileDropTarget";
 import { useLottieStore } from "../lib/lottie/app";
 import {
   DragAndDropStoreProvider,
@@ -14,14 +13,8 @@ import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
 import LottieJson from "../lib/lottie/builder/components/LottieJson";
 import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
 import { LottieRef } from "../lib/lottie/core";
-import {
-  findLayerRef,
-  findShapeRef,
-  purgeEditsExecutions,
-} from "../lib/lottie/utils/lottieUtils";
-import { createPublicLottieSampleUrl } from "../utils/paths";
+import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
 import styles from "./LottieConfigure.module.css";
-import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
 
 type Props = {};
 
@@ -36,8 +29,6 @@ export default function LottieConfigurePage({}: Props) {
 }
 
 function Page({}: Props) {
-  
-
   return (
     <div className={styles.root}>
       <div className={styles.container}>

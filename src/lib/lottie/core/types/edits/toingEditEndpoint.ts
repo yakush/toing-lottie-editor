@@ -1,6 +1,6 @@
 import { editTypes } from "../../enums";
 
-export interface EditData<
+export interface ToingEditEndpoint<
   T_CONFIG extends object = {},
   T_EXECUTION extends object = {}
 > {
@@ -12,6 +12,4 @@ export interface EditData<
 
   config: T_CONFIG;
   defaults: T_EXECUTION;
-
-  execution?: T_EXECUTION;
 }

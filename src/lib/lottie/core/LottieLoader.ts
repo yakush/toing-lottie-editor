@@ -1,49 +1,30 @@
-import { Lottie, LottieEdits } from "./types";
-
-export interface LottieLoadResults {
-  lottie: Lottie;
-  edits?: LottieEdits;
-}
-
-export class LottieLoader {
-  async loadUrl(url: string, urlEdits?: string): Promise<LottieLoadResults> {
+export class LottieLoader<T> {
+  async loadUrl(url: string): Promise<T> {
     // fake wait for 1 second
     // await new Promise((res) => setTimeout(res, 1000));
 
     try {
       const res = await fetch(url);
-      const lottie = await res.json();
+      const json = await res.json();
 
-      let edits = undefined;
-      if (urlEdits) {
-        const res = await fetch(urlEdits);
-        const json = await res.json();
-        edits = json;
-      }
-
-      return { lottie, edits };
+      return json as T;
     } catch (e) {
       throw e;
     }
   }
 
-  async loadFile(file: File, editsFile?: File): Promise<LottieLoadResults> {
-    const lottie = await readFileHelper(file);
+  async loadFile(file: File): Promise<T> {
+    const json = await readFileHelper(file);
 
-    let edits = undefined;
-    if (editsFile) {
-      edits = await readFileHelper(editsFile);
-    }
-
-    return { lottie, edits };
+    return json as T;
   }
 }
 
 //-------------------------------------------------------
 //-------------------------------------------------------
 
-function readFileHelper(file: File) {
-  return new Promise<any>((resolve, reject) => {
+function readFileHelper<T>(file: File) {
+  return new Promise<T>((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onabort = () => {
@@ -59,7 +40,7 @@ function readFileHelper(file: File) {
     reader.onload = () => {
       try {
         const str = reader.result as string;
-        const content = JSON.parse(str);
+        const content = JSON.parse(str) as T;
 
         resolve(content);
       } catch (err) {

@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { useLottieStore } from "../../../app";
 import {
-  EditData,
+  ToingEditEndpoint,
   LayerRef,
   LottieRef,
   editTypes,
@@ -30,7 +30,7 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
   const id_enableMultiline = useId();
   const id_enableAlign = useId();
 
-  const update = (newData: EditData<Config, Execution>) => {
+  const update = (newData: ToingEditEndpoint<Config, Execution>) => {
     if (!onEditChanged) {
       return;
     }

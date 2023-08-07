@@ -1,16 +1,22 @@
 import { editTypes } from "../../enums";
 import { Lottie } from "../lottieJson";
-import { EditData } from "./editData";
+import { ToingEditEndpoint } from "./toingEditEndpoint";
 
-export interface EditExecuter<
+export interface EditEndpointExecuter<
   T_CONFIG extends object = {},
   T_EXECUTION extends object = {}
 > {
   type: editTypes;
   createNewConfig: () => T_CONFIG;
+
   createNewDefaults: (
     lottie: Lottie | undefined,
-    edit: EditData<T_CONFIG, T_EXECUTION>
+    edit: ToingEditEndpoint<T_CONFIG, T_EXECUTION>
   ) => T_EXECUTION;
-  execute: (lottie: Lottie, edit: EditData<T_CONFIG, T_EXECUTION>) => void;
+
+  execute: (
+    lottie: Lottie,
+    editEndpoint: ToingEditEndpoint<T_CONFIG, T_EXECUTION>,
+    execution: T_EXECUTION
+  ) => void;
 }

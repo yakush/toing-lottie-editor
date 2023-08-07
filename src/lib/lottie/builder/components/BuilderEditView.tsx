@@ -1,41 +1,41 @@
 import { ChangeEvent, useId } from "react";
 import { useLottieStore } from "../../app";
-import { EditData } from "../../core";
+import { ToingEditEndpoint } from "../../core";
 import builderUiModule from "../builderUiModule";
 import BuilderCard from "./BuilderCard";
 import BuilderCardHeader from "./BuilderCardHeader";
 import styles from "./BuilderEditView.module.css";
 
 type Props = {
-  edit: EditData;
+  edit: ToingEditEndpoint;
 };
 
 export default function BuilderEditView({ edit }: Props) {
-  const setEdits = useLottieStore((state) => state.setEdits);
+  const setEdits = useLottieStore((state) => state.setConfig);
 
   const id_name = useId();
   const id_description = useId();
 
-  const onEditChanged = (newEdit: EditData) => {
+  const onEditChanged = (newEdit: ToingEditEndpoint) => {
     setEdits((old) => {
-      const newEditsList = old?.edits?.map((edit) =>
+      const newEditsList = old?.editEndpoints?.map((edit) =>
         edit.id === newEdit.id ? newEdit : edit
       );
 
-      return { ...old, edits: newEditsList };
+      return { ...old, editEndpoints: newEditsList };
     });
   };
 
   const deleteEdit = () => {
     setEdits((old) => {
-      const newEditsList = old?.edits?.filter((item) => item.id !== edit.id);
-      return { ...old, edits: newEditsList };
+      const newEditsList = old?.editEndpoints?.filter((item) => item.id !== edit.id);
+      return { ...old, editEndpoints: newEditsList };
     });
   };
 
   const move = (dx: number) => {
     setEdits((old) => {
-      const newEditsList = old.edits ? old.edits : [];
+      const newEditsList = old.editEndpoints ? old.editEndpoints : [];
       const currentIdx = newEditsList.findIndex((item) => item.id === edit.id);
       if (currentIdx === -1) {
         return old;
@@ -49,11 +49,11 @@ export default function BuilderEditView({ edit }: Props) {
       //remove then insert
       const item = newEditsList.splice(currentIdx, 1)[0];
       newEditsList.splice(currentIdx + dx, 0, item);
-      return { ...old, edits: newEditsList };
+      return { ...old, editEndpoints: newEditsList };
     });
   };
 
-  const updateEdit = (changes: Partial<EditData>) => {
+  const updateEdit = (changes: Partial<ToingEditEndpoint>) => {
     const newEdit = { ...edit, ...changes };
     onEditChanged(newEdit);
   };

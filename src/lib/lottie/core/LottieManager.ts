@@ -1,10 +1,19 @@
 import EventEmitter from "events";
-import { GroupShape, Layer, Lottie, Shape, LottieEdits } from "./types";
-import editsModule from "../edits/editsModule";
-import { shapeTypes } from "./enums";
-import { collectSubShapesTargets, createLottieRefs } from "../utils/lottieUtils";
+import {
+  collectSubShapesTargets,
+  createLottieRefs,
+  executeLottieConfigs,
+} from "../utils/lottieUtils";
+import {
+  Layer,
+  Lottie,
+  Shape,
+  ToingConfig,
+  ToingUserExecutions,
+} from "./types";
+import { ToingCampaign } from "./types/edits/toingCampaign";
 
-export type updater<T> = T | ((current: T) => T);
+export type updater<T> = null | undefined | T | ((current: T) => T);
 
 function isCallbackUpdater<T>(x: updater<T>): x is (current: T) => T {
   return typeof x === "function";
@@ -13,14 +22,18 @@ function isCallbackUpdater<T>(x: updater<T>): x is (current: T) => T {
 export enum LottieManagerEvents {
   onChangeOrigLottie = "onChangeOrigLottie",
   onChangeLottie = "onChangeLottie",
-  onChangeEdits = "onchangeEdits",
+  onChangeConfig = "onchangeEdits",
+  onChangeExecutions = "onChangeExecutions",
+  onChangeCampaign = "onChangeCampaign",
 }
 
 export class LottieManager extends EventEmitter {
   private _lottie?: Lottie;
   private _origLottie?: Lottie;
 
-  private _edits?: LottieEdits;
+  private _config?: ToingConfig;
+  private _executions?: ToingUserExecutions;
+  private _campaign?: ToingCampaign;
 
   //-------------------------------------------------------
   // public
@@ -28,97 +41,93 @@ export class LottieManager extends EventEmitter {
   get lottie() {
     return this._lottie;
   }
-
   get origLottie() {
     return this._origLottie;
   }
-
-  get edits() {
-    return this._edits;
+  get config() {
+    return this._config;
+  }
+  get executions() {
+    return this._executions;
+  }
+  get campaign() {
+    return this._campaign;
   }
 
-  loadNewLottie(lottie?: Lottie, edits?: LottieEdits) {
-    console.log({ lottie, edits });
-    this._origLottie = lottie && structuredClone(lottie);
-    this.setLottie(lottie);
-    this.setEdits(edits);
-
-    this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
-    this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
-    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
-  }
-
-  loadNewEdits(edits: LottieEdits) {
-    this.setEdits(edits);
-
-    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
-  }
-
-  updateLottie(update: updater<Lottie>) {
-    let newVal: Lottie;
-
-    if (isCallbackUpdater(update)) {
-      if (!this._lottie) {
-        throw new Error("cannot update lottie, current lottie is undefined");
-      }
-      newVal = update(this._lottie);
-    } else {
-      newVal = update as Lottie;
-    }
-
-    this._lottie = newVal;
-    //events
-  }
+  //-------------------------------------------------------
 
   rerenderLottie() {
     this.setLottie({ ...this.lottie });
   }
 
-  updateEdits(
-    update: updater<LottieEdits>,
-    hints?: {
-      changed?: "executions" | "configs";
-    }
-  ) {
-    let newVal: LottieEdits;
+  //-------------------------------------------------------
 
-    if (isCallbackUpdater(update)) {
-      newVal = update(this._edits || { edits: [] });
-    } else {
-      newVal = update as LottieEdits;
-    }
+  loadNewLottie(lottie?: Lottie) {
+    this._origLottie = lottie && structuredClone(lottie);
+    this.setLottie(lottie);
 
-    const changedConfigs =
-      hints?.changed === "configs" || hints?.changed === undefined;
-    const changedExecutions =
-      hints?.changed === "executions" || hints?.changed === undefined;
-
-    this.setEdits(newVal, false);
-
-    if (changedConfigs) {
-      //create defaults if needed
-      //events
-    }
-
-    if (changedExecutions) {
-      //events
-    }
-
-    //events
+    this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
+    this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
   }
 
-  private setLottie(
-    val?: Lottie,
-    options?: { digest?: boolean; emitEvent?: boolean }
-  ) {
+  loadNewConfig(config: ToingConfig) {
+    this.setConfig(config);
+  }
+
+  loadNewExecutions(executions: ToingUserExecutions) {
+    this.setExecutions(executions);
+  }
+
+  loadNewCampaign(campaign: ToingCampaign) {
+    this.setCampaign(campaign);
+  }
+
+  //-------------------------------------------------------
+
+  updateConfig(update: updater<ToingConfig>) {
+    let newVal: ToingConfig;
+
+    if (isCallbackUpdater(update)) {
+      newVal = update(this._config || { editEndpoints: [] });
+    } else {
+      newVal = update as ToingConfig;
+    }
+
+    this.setConfig(newVal, false);
+  }
+
+  updateExecutions(update: updater<ToingUserExecutions>) {
+    let newVal: ToingUserExecutions;
+
+    if (isCallbackUpdater(update)) {
+      newVal = update(this._executions || { executions: {} });
+    } else {
+      newVal = update as ToingUserExecutions;
+    }
+
+    this.setExecutions(newVal);
+  }
+
+  updateCampaign(update: updater<ToingCampaign>) {
+    let newVal: ToingCampaign;
+
+    if (isCallbackUpdater(update)) {
+      newVal = update(this._campaign || {});
+    } else {
+      newVal = update as ToingCampaign;
+    }
+
+    this.setCampaign(newVal);
+  }
+
+  private setLottie(val?: Lottie, options?: { digest?: boolean }) {
     options = {
       ...{
         digest: true,
-        emitEvent: true,
       },
       ...options,
     };
-    const { digest, emitEvent } = options;
+    const { digest } = options;
 
     if (val === this.lottie) {
       return;
@@ -130,17 +139,15 @@ export class LottieManager extends EventEmitter {
       this.digestLottie();
     }
 
-    if (emitEvent) {
-      this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
-    }
+    this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
   }
 
-  private setEdits(val?: LottieEdits, digest = true) {
-    if (val === this.edits) {
+  private setConfig(val?: ToingConfig, digest = true) {
+    if (val === this.config) {
       return;
     }
 
-    this._edits = val;
+    this._config = val;
 
     if (val && digest) {
       this.digestLottie();
@@ -148,16 +155,40 @@ export class LottieManager extends EventEmitter {
 
     this.updateFromEdits();
 
-    this.emit(LottieManagerEvents.onChangeEdits, this.edits);
+    this.emit(LottieManagerEvents.onChangeConfig, this.config);
+  }
+
+  private setExecutions(val?: ToingUserExecutions) {
+    if (val === this.executions) {
+      return;
+    }
+    this._executions = val;
+    this.updateFromEdits();
+    this.emit(LottieManagerEvents.onChangeExecutions, this.executions);
+  }
+
+  private setCampaign(val?: ToingCampaign) {
+    if (val === this.campaign) {
+      return;
+    }
+    this._campaign = val;
+    this.updateFromEdits();
+    this.emit(LottieManagerEvents.onChangeCampaign, this.campaign);
   }
 
   resetDefaults() {
-    if (!this.edits) {
+    if (!this.config) {
       return;
     }
-    editsModule.setDefaultsAll(this.edits);
+
+    this._executions = {
+      executions: {},
+    };
+
     this.updateFromEdits();
   }
+
+  //-------------------------------------------------------
 
   blinkShape(target: Shape) {
     const allTargets = collectSubShapesTargets(target);
@@ -169,7 +200,7 @@ export class LottieManager extends EventEmitter {
     this.performBlinkList(allTargets);
   }
 
-  public blinkTargetList(targets: (Shape | Layer)[]) {
+  blinkTargetList(targets: (Shape | Layer)[]) {
     let allTargets: (Shape | Layer)[] = [];
     targets.forEach((target) => {
       const subTargets = collectSubShapesTargets(target);
@@ -238,27 +269,23 @@ export class LottieManager extends EventEmitter {
     if (!this.lottie) {
       return;
     }
-    if (!this.edits) {
+    if (!this.config) {
       return;
     }
-
-    editsModule.setDefaultsAll(this.edits);
-
-    //perform initial edits
-    this.updateFromEdits();
   }
   //-------------------------------------------------------
 
   private updateFromEdits() {
-    const { lottie, edits } = this;
+    const { lottie, config } = this;
     if (!lottie) {
       return;
     }
-    if (!edits) {
+    if (!config) {
       return;
     }
 
-    editsModule.executeAll(lottie, edits);
+    executeLottieConfigs(lottie, config, this.executions, this.campaign);
+
     this.setLottie({ ...lottie }, { digest: false });
   }
 }

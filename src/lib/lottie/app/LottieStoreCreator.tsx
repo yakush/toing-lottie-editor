@@ -2,30 +2,37 @@ import { StateCreator } from "zustand";
 import {
   Layer,
   Lottie,
-  LottieEdits,
+  ToingConfig,
   LottieLoader,
   LottieManager,
   LottieManagerEvents,
   Shape,
   updater,
+  ToingUserExecutions,
+  ToingCampaign,
 } from "../core";
 
 export interface LottieStore {
   displayName: string;
   manager: LottieManager;
-  loader: LottieLoader;
   lottie?: Lottie;
   origLottie?: Lottie;
-  edits?: LottieEdits;
+  config?: ToingConfig;
+  userExecutions?: ToingUserExecutions;
+  campaign?: ToingCampaign;
+
   isLoading: boolean;
   errorLoading?: string;
 
-  loadUrl: (lottieUrl: string, editsUrl?: string) => Promise<void>;
-  loadFile: (lottieFile: File, editsFile?: File) => Promise<void>;
+  loadUrl: (lottieUrl: string) => Promise<void>;
+  loadFile: (lottieFile: File) => Promise<void>;
 
   rerenderLottie: () => void;
 
-  setEdits: (update: updater<LottieEdits>) => void;
+  setConfig: (update: updater<ToingConfig>) => void;
+  setExecutions: (update: updater<ToingUserExecutions>) => void;
+  setCampaign: (update: updater<ToingUserExecutions>) => void;
+
   resetExecutions: () => void;
 
   blinkLayer: (target: Layer) => void;
@@ -37,16 +44,21 @@ export const LottieStoreCreatorFactory: (
   displayName?: string
 ) => StateCreator<LottieStore> =
   (displayName: string = "lottie store") =>
-  (set, get,a) => {
+  (set, get, a) => {
     const manager = new LottieManager();
-    const loader = new LottieLoader();
 
     //events
     manager.on(LottieManagerEvents.onChangeOrigLottie, (origLottie) =>
       set({ origLottie })
     );
     manager.on(LottieManagerEvents.onChangeLottie, (lottie) => set({ lottie }));
-    manager.on(LottieManagerEvents.onChangeEdits, (edits) => set({ edits }));
+    manager.on(LottieManagerEvents.onChangeConfig, (config) => set({ config }));
+    manager.on(LottieManagerEvents.onChangeExecutions, (userExecutions) =>
+      set({ userExecutions })
+    );
+    manager.on(LottieManagerEvents.onChangeCampaign, (campaign) =>
+      set({ campaign })
+    );
 
     //TODO: when do i unsubscribe store events?
 
@@ -55,7 +67,6 @@ export const LottieStoreCreatorFactory: (
       set({
         isLoading: true,
         errorLoading: undefined,
-        edits: undefined,
         lottie: undefined,
       });
     };
@@ -83,19 +94,22 @@ export const LottieStoreCreatorFactory: (
     return {
       displayName,
       manager,
-      loader,
       lottie: undefined,
       origLottie: undefined,
+      config: undefined,
+      userExecutions: undefined,
+      campaign: undefined,
       isLoading: false,
       errorLoading: undefined,
 
-      async loadUrl(lottieUrl, editsUrl) {
-        const { loader, manager } = get();
+      async loadUrl(lottieUrl) {
+        const { manager } = get();
+        const loader = new LottieLoader<Lottie>();
         try {
           startLoading();
-          const res = await loader.loadUrl(lottieUrl, editsUrl);
+          const res = await loader.loadUrl(lottieUrl);
           finishLoading();
-          manager.loadNewLottie(res.lottie, res.edits);
+          manager.loadNewLottie(res);
         } catch (err: any) {
           finishLoading(err);
           manager.loadNewLottie();
@@ -103,12 +117,13 @@ export const LottieStoreCreatorFactory: (
       },
 
       async loadFile(lottieFile: File, editsFile?: File) {
-        const { loader, manager } = get();
+        const { manager } = get();
+        const loader = new LottieLoader<Lottie>();
         try {
           startLoading();
-          const res = await loader.loadFile(lottieFile, editsFile);
+          const res = await loader.loadFile(lottieFile);
           finishLoading();
-          manager.loadNewLottie(res.lottie, res.edits);
+          manager.loadNewLottie(res);
         } catch (err: any) {
           finishLoading(err);
           manager.loadNewLottie();
@@ -120,9 +135,17 @@ export const LottieStoreCreatorFactory: (
         manager.rerenderLottie();
       },
 
-      setEdits(update) {
+      setConfig(update) {
         const { manager } = get();
-        manager.updateEdits(update);
+        manager.updateConfig(update);
+      },
+      setExecutions(update) {
+        const { manager } = get();
+        manager.updateExecutions(update);
+      },
+      setCampaign(update) {
+        const { manager } = get();
+        manager.updateCampaign(update);
       },
 
       resetExecutions() {

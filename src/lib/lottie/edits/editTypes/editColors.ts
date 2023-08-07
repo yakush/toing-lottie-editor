@@ -1,14 +1,9 @@
-import { version } from "punycode";
 import {
-  EditData,
-  EditExecuter,
+  EditEndpointExecuter,
   Lottie,
-  TextLayer,
+  ToingEditEndpoint,
   editTypes,
-  layerTypes,
 } from "../../core";
-import { textJustifications } from "../../core/enums/textJustifications";
-import { findLayerRef } from "../../utils/lottieUtils";
 
 type Color = string;
 
@@ -35,7 +30,9 @@ export interface Execution {
   userDefinedColors?: Color[];
 }
 
-export default class EditText implements EditExecuter<Config, Execution> {
+export default class EditText
+  implements EditEndpointExecuter<Config, Execution>
+{
   type = editTypes.colors;
 
   createNewConfig(): Config {
@@ -47,7 +44,7 @@ export default class EditText implements EditExecuter<Config, Execution> {
 
   createNewDefaults(
     lottie: Lottie | undefined,
-    edit: EditData<Config, Execution>
+    edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
     let defaults: Execution = {
       isCustomSchema: false,
@@ -56,7 +53,11 @@ export default class EditText implements EditExecuter<Config, Execution> {
     return defaults;
   }
 
-  execute(lottie: Lottie, edit: EditData<Config, Execution>) {
-    const { config, execution } = edit;
+  execute(
+    lottie: Lottie,
+    editEndpoint: ToingEditEndpoint<Config, Execution>,
+    execution: Execution
+  ) {
+    const { config } = editEndpoint;
   }
 }
