@@ -7,7 +7,7 @@ import {
 } from "../core";
 import { executeLottieEdits } from "../utils/lottieUtils";
 import GifRenderer, { GifRendererEvents } from "./gifRenderer";
-import { srcToObject as resolveSource } from "../utils/path";
+import { resolveSrcToObject as resolveSource } from "../utils/path";
 
 const FPS = 25;
 

@@ -5,6 +5,7 @@ import {
   ToingUserExecutions,
 } from "../../core";
 import styles from "./ToingBuilder.module.css";
+import { withToingStore } from "./ToingStoreWrapper";
 
 type Props = {
   src: string | Lottie;
@@ -13,9 +14,9 @@ type Props = {
   campaign?: ToingCampaign;
 };
 
-function ToingBuilder({}: Props) {
+const ToingBuilder = withToingStore(({}: Props) => {
   return <div className={styles.root}>ToingBuilder</div>;
-}
+});
 
 export { ToingBuilder };
 export default ToingBuilder;

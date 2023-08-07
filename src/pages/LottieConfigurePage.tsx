@@ -42,7 +42,7 @@ function Page({}: Props) {
           <Card>
             <CardHeader>player</CardHeader>
 
-            <LottiePlayer />
+            <LottiePlayer controls />
           </Card>
           {/* <Card>
             <CardHeader>test</CardHeader>

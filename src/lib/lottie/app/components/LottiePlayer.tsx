@@ -1,15 +1,22 @@
 import { Controls, Player } from "@lottiefiles/react-lottie-player";
-import { AnimationItem, BMDestroyEvent, BMEnterFrameEvent } from "lottie-web";
+import { AnimationItem } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import { Lottie } from "../../core";
 import useLottieStore from "../LottieStore";
 
-type Props = {};
+type buttons = "play" | "stop" | "repeat" | "frame" | "background" | "snapshot";
+const defaultButtons: buttons[] = ["play", "repeat", "frame"];
 
-export default function LottiePlayer({}: Props) {
+type Props = {
+  controls?: boolean;
+  buttons?: buttons[];
+  debug?: boolean;
+};
+
+export default function LottiePlayer({ controls, buttons }: Props) {
   const [playerRef, setPlayerRef] = useState<AnimationItem>();
   const [json, setJson] = useState<Lottie | null>();
-  const lottie = useLottieStore((state) => state.lottie);  
+  const lottie = useLottieStore((state) => state.lottie);
 
   const refCurrentTime = useRef(0);
   const refIsPaused = useRef(false);
@@ -76,9 +83,8 @@ export default function LottiePlayer({}: Props) {
     }
   }, [playerRef, lottie]);
 
-
-  if (!lottie){
-    return <div>no lottie loaded</div>
+  if (!lottie) {
+    return <div>no lottie loaded</div>;
   }
 
   return (
@@ -94,8 +100,9 @@ export default function LottiePlayer({}: Props) {
         // style={{ height: "300px", width: "300px" }}
       >
         <Controls
-          visible={true}
-          buttons={["play", "repeat", "frame", "debug"]}
+          visible={controls}
+          buttons={buttons || defaultButtons}
+          debug
         />
       </Player>
     </div>

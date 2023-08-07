@@ -15,6 +15,9 @@ const Layout = () => {
             <li>
               <Link to="editor">editor</Link>
             </li>
+            <li>
+              <Link to="test">test</Link>
+            </li>
           </ul>
         </nav>
       </header>

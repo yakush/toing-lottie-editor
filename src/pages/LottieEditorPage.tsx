@@ -40,7 +40,7 @@ function Page({}: Props) {
 
       <div className={styles.player}>
         <Card>
-          <LottiePlayer />
+          <LottiePlayer controls />
           {/* <pre>{JSON.stringify(userExecutions, null, 2)}</pre> */}
         </Card>
       </div>

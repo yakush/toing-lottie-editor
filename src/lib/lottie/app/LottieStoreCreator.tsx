@@ -92,7 +92,7 @@ export const LottieStoreCreatorFactory: (
 
       resetExecutions() {
         const { manager } = get();
-        manager.resetDefaults();
+        manager.resetExecutions();
       },
 
       blinkLayer(target: Layer) {

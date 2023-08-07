@@ -8,6 +8,7 @@ import Layout from "./Layout";
 import LottieConfigurePage from "./pages/LottieConfigurePage";
 import LottieEditorPage from "./pages/LottieEditorPage";
 import NoPage from "./pages/NoPage";
+import TestPage from "./pages/TestPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<Navigate to="/config" />} />
           <Route path="editor" element={<LottieEditorPage />} />
           <Route path="config" element={<LottieConfigurePage />} />
+          <Route path="test" element={<TestPage />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

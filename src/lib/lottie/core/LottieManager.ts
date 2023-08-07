@@ -67,12 +67,10 @@ export class LottieManager extends EventEmitter {
 
   //-------------------------------------------------------
 
-  loadNewLottie(lottie?: Lottie) {    
+  loadNewLottie(lottie?: Lottie) {
     this._origLottie = lottie && structuredClone(lottie);
-    this.setLottie(lottie);
-
     this.emit(LottieManagerEvents.onChangeOrigLottie, this.origLottie);
-    this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
+    this.setLottie(lottie);
   }
 
   loadNewConfig(config: ToingConfig) {
@@ -125,14 +123,18 @@ export class LottieManager extends EventEmitter {
     this.setCampaign(newVal);
   }
 
-  private setLottie(val?: Lottie, options?: { digest?: boolean }) {
+  private setLottie(
+    val?: Lottie,
+    options?: { digest?: boolean; updateFromEdits?: boolean }
+  ) {
     options = {
       ...{
         digest: true,
+        updateFromEdits: true,
       },
       ...options,
     };
-    const { digest } = options;
+    const { digest, updateFromEdits } = options;
 
     if (val === this.lottie) {
       return;
@@ -142,6 +144,10 @@ export class LottieManager extends EventEmitter {
 
     if (val && digest) {
       this.digestLottie();
+    }
+
+    if (val && updateFromEdits) {
+      this.updateFromEdits();
     }
 
     this.emit(LottieManagerEvents.onChangeLottie, this.lottie);
@@ -181,7 +187,7 @@ export class LottieManager extends EventEmitter {
     this.emit(LottieManagerEvents.onChangeCampaign, this.campaign);
   }
 
-  resetDefaults() {
+  resetExecutions() {
     if (!this.config) {
       return;
     }
@@ -233,13 +239,19 @@ export class LottieManager extends EventEmitter {
           targets.forEach((target) => {
             target.hd = true;
           });
-          this.setLottie({ ...this.lottie }, { digest: false });
+          this.setLottie(
+            { ...this.lottie },
+            { digest: false, updateFromEdits: false }
+          );
         }, TIME / 2);
         setTimeout(() => {
           targets.forEach((target) => {
             target.hd = false;
           });
-          this.setLottie({ ...this.lottie }, { digest: false });
+          this.setLottie(
+            { ...this.lottie },
+            { digest: false, updateFromEdits: false }
+          );
           blinkOnce();
         }, TIME);
       } else {
@@ -291,6 +303,6 @@ export class LottieManager extends EventEmitter {
 
     executeLottieEdits(lottie, config, this.executions, this.campaign);
 
-    this.setLottie({ ...lottie }, { digest: false });
+    this.setLottie({ ...lottie }, { digest: false, updateFromEdits: false });
   }
 }

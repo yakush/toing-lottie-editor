@@ -100,15 +100,6 @@
         "align": 2,
         "color": "#111111"
       }
-    },
-    {
-      "type": "SOME OTHER TYPE",
-      "id": "00000000",
-      "name": "the name",
-      "description": "some description.,,",
-
-      "config": {},
-      "defaults": {}
     }
   ]
 }
