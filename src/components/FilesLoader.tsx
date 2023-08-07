@@ -8,6 +8,7 @@ import styles from "./FilesLoader.module.css";
 import { createPublicLottieSampleUrl, createPublicUrl } from "../utils/paths";
 import PopOver from "./PopOver";
 import {
+  Lottie,
   LottieLoader,
   ToingConfig,
   default_ToingCampaign,
@@ -34,17 +35,16 @@ export default function FilesLoader({}: Props) {
   const [loadedConfigFile, setLoadedConfigFile] = useState<File>();
   const [isRenderingGif, setIsRenderingGif] = useState(false);
   const [renderGifProgress, setRenderGifProgress] = useState(0);
+  const [isLottieLoading, setIsLottieLoading] = useState(false);
+  const [errorLoading, setErrorLoading] = useState<string | null>(null);
 
   const [showPopup, setShowPopup] = useState(false);
 
-  const isLottieLoading = useLottieStore((store) => store.isLoading);
-  const errorLoading = useLottieStore((store) => store.errorLoading);
-  const loadFile = useLottieStore((state) => state.loadFile);
-  const loadUrl = useLottieStore((store) => store.loadUrl);
   const lottie = useLottieStore((state) => state.lottie);
   const config = useLottieStore((state) => state.config);
   const userExecutions = useLottieStore((state) => state.userExecutions);
   const campaign = useLottieStore((state) => state.campaign);
+  const setLottie = useLottieStore((store) => store.setLottie);
   const setConfig = useLottieStore((store) => store.setConfig);
   const setExecutions = useLottieStore((store) => store.setExecutions);
   const setCampaign = useLottieStore((store) => store.setCampaign);
@@ -151,67 +151,104 @@ export default function FilesLoader({}: Props) {
     }
   }
 
-  const loadLottieFile = (file: File) => {
-    setLoaderSelectedIdx(0);
-    setLoadedLottieFile(file);
-    setLoadedConfigFile(undefined);
-    loadFile(file);
-    setConfig(undefined);
-    setExecutions(undefined);
-    setCampaign(undefined);
+  const loadLottieFile = async (file: File) => {
+    try {
+      setIsLottieLoading(true);
+      setErrorLoading(null);
+
+      setLoaderSelectedIdx(0);
+      setLoadedLottieFile(file);
+      setLoadedConfigFile(undefined);
+
+      setConfig(undefined);
+      setExecutions(undefined);
+      setCampaign(undefined);
+
+      const loader = new LottieLoader<Lottie>();
+      const json = await loader.loadFile(file);
+      setLottie(json);
+      setIsLottieLoading(false);
+      setErrorLoading(null);
+    } catch (error: any) {
+      setIsLottieLoading(false);
+      setErrorLoading(`error loading toing, ${error.toString()}`);
+    }
   };
 
-  const loadConfigFile = (file: File) => {
+  const loadConfigFile = async (file: File) => {
     if (!loadedLottieFile) {
       return;
     }
-    setLoadedConfigFile(file);
 
-    async function load() {
-      const loader = new LottieLoader<ToingConfig>();
-      const res = await loader.loadFile(file);
-      setConfig(res);
+    try {
+      setIsLottieLoading(true);
+      setErrorLoading(null);
+
+      setLoadedConfigFile(file);
       setExecutions(undefined);
       setCampaign(undefined);
+
+      const loader = new LottieLoader<ToingConfig>();
+      const json = await loader.loadFile(file);
+      setConfig(json);
+
+      setIsLottieLoading(false);
+      setErrorLoading(null);
+    } catch (error: any) {
+      setIsLottieLoading(false);
+      setErrorLoading(`error loading toing config, ${error.toString()}`);
     }
-    load();
   };
 
-  const loadSelectedUrl = () => {
+  const loadSelectedUrl = async () => {
     if (loaderSelectedIdx === 0) {
       return;
     }
-
-    setLoadedLottieFile(undefined);
-    setLoadedConfigFile(undefined);
-    setExecutions(undefined);
-    setCampaign(undefined);
 
     const file = files[loaderSelectedIdx];
     if (!file) {
       return;
     }
 
-    async function load() {
-      const path = createPublicLottieSampleUrl(file.name);
+    try {
+      setIsLottieLoading(true);
+      setErrorLoading(null);
+
+      setLoadedLottieFile(undefined);
+      setLoadedConfigFile(undefined);
+      setExecutions(undefined);
+      setCampaign(undefined);
+
+      const pathLottie = createPublicLottieSampleUrl(file.name);
       const pathConfig = !!file.config
         ? createPublicLottieSampleUrl(file.config)
         : undefined;
 
-      console.log("loading lottie: ", path);
-      await loadUrl(path);
+      if (pathLottie) {
+        console.log("loading lottie: ", pathLottie);
+        const loader = new LottieLoader<Lottie>();
+        const json = await loader.loadUrl(pathLottie);
+        setLottie(json);
+      } else {
+        setLottie(undefined);
+      }
 
       if (pathConfig) {
         console.log("loading config: ", pathConfig);
-        const configLoader = new LottieLoader<ToingConfig>();
-        const res = await configLoader.loadUrl(pathConfig);
-        setConfig(res);
+        const loader = new LottieLoader<ToingConfig>();
+        const json = await loader.loadUrl(pathConfig);
+        setConfig(json);
       } else {
         setConfig(undefined);
       }
-    }
 
-    load();
+      setIsLottieLoading(false);
+      setErrorLoading(null);
+    } catch (error: any) {
+      setIsLottieLoading(false);
+      setErrorLoading(`error loading toing config, ${error.toString()}`);
+    }
+    //-------------------------------------------------------
   };
 
   return (

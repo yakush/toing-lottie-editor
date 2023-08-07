@@ -54,8 +54,7 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
     let newEdit = structuredClone(edit);
 
     newEdit.config = { ...newEdit.config, targetLayer: targetLayerRef };
-    newEdit.defaults = {};
-    newEdit.execution = undefined;
+    newEdit.defaults = {};    
 
     //TODO: get defaults from target layer should NOT BE in the view logic!
     //get defaults from target layer:
@@ -65,8 +64,6 @@ export default function TextEditBuilderView({ edit, onEditChanged }: Props) {
       if (editExecuter && origLottie) {
         newEdit.defaults = editExecuter.createNewDefaults(origLottie, newEdit);
       }
-
-      newEdit.execution = newEdit.defaults;
     }
     update(newEdit);
   };

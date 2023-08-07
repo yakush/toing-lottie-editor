@@ -3,7 +3,6 @@ import {
   Layer,
   Lottie,
   ToingConfig,
-  LottieLoader,
   LottieManager,
   LottieManagerEvents,
   Shape,
@@ -21,14 +20,9 @@ export interface LottieStore {
   userExecutions?: ToingUserExecutions;
   campaign?: ToingCampaign;
 
-  isLoading: boolean;
-  errorLoading?: string;
-
-  loadUrl: (lottieUrl: string) => Promise<void>;
-  loadFile: (lottieFile: File) => Promise<void>;
-
   rerenderLottie: () => void;
 
+  setLottie: (lottie: Lottie | undefined) => void;
   setConfig: (update: updater<ToingConfig>) => void;
   setExecutions: (update: updater<ToingUserExecutions>) => void;
   setCampaign: (update: updater<ToingCampaign>) => void;
@@ -48,6 +42,7 @@ export const LottieStoreCreatorFactory: (
     const manager = new LottieManager();
 
     //events
+    //TODO: when do i unsubscribe store events?
     manager.on(LottieManagerEvents.onChangeOrigLottie, (origLottie) =>
       set({ origLottie })
     );
@@ -60,37 +55,8 @@ export const LottieStoreCreatorFactory: (
       set({ campaign })
     );
 
-    //TODO: when do i unsubscribe store events?
-
-    // HELPERS
-    const startLoading = () => {
-      set({
-        isLoading: true,
-        errorLoading: undefined,
-        lottie: undefined,
-      });
-    };
-
-    const finishLoading = (err?: any) => {
-      //error
-      if (err) {
-        console.warn("error loading lottie", err);
-        set({
-          isLoading: false,
-          errorLoading: `error loading lottie, ${err.toString()}`,
-        });
-        return;
-      }
-      //success
-      set({
-        isLoading: false,
-        errorLoading: undefined,
-      });
-    };
-
     //-------------------------------------------------------
     // STORE :
-
     return {
       displayName,
       manager,
@@ -102,39 +68,15 @@ export const LottieStoreCreatorFactory: (
       isLoading: false,
       errorLoading: undefined,
 
-      async loadUrl(lottieUrl) {
-        const { manager } = get();
-        const loader = new LottieLoader<Lottie>();
-        try {
-          startLoading();
-          const res = await loader.loadUrl(lottieUrl);
-          finishLoading();
-          manager.loadNewLottie(res);
-        } catch (err: any) {
-          finishLoading(err);
-          manager.loadNewLottie();
-        }
-      },
-
-      async loadFile(lottieFile: File, editsFile?: File) {
-        const { manager } = get();
-        const loader = new LottieLoader<Lottie>();
-        try {
-          startLoading();
-          const res = await loader.loadFile(lottieFile);
-          finishLoading();
-          manager.loadNewLottie(res);
-        } catch (err: any) {
-          finishLoading(err);
-          manager.loadNewLottie();
-        }
-      },
-
       rerenderLottie() {
         const { manager } = get();
         manager.rerenderLottie();
       },
 
+      setLottie(lottie) {
+        const { manager } = get();
+        manager.loadNewLottie(lottie);
+      },
       setConfig(update) {
         const { manager } = get();
         manager.updateConfig(update);

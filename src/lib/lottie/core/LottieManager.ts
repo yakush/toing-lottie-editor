@@ -67,7 +67,7 @@ export class LottieManager extends EventEmitter {
 
   //-------------------------------------------------------
 
-  loadNewLottie(lottie?: Lottie) {
+  loadNewLottie(lottie?: Lottie) {    
     this._origLottie = lottie && structuredClone(lottie);
     this.setLottie(lottie);
 
