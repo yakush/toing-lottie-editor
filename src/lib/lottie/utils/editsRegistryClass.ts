@@ -37,17 +37,9 @@ export class EditsRegistry {
   }
 
   execute(lottie: Lottie, edit: ToingEditEndpoint, execution: object) {
-    const { type, defaults } = edit;
+    const { type } = edit;
 
     const handler = this.getExecuter(type);
-
-    if (!defaults) {
-      console.warn(
-        `unable to find default data for edit [${edit.name}] id: ${edit.id}`
-      );
-      // console.log(structuredClone (edit));
-      return;
-    }
 
     if (!execution) {
       console.warn(

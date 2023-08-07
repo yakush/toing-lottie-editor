@@ -31,7 +31,7 @@ export interface LottieStore {
 
   setConfig: (update: updater<ToingConfig>) => void;
   setExecutions: (update: updater<ToingUserExecutions>) => void;
-  setCampaign: (update: updater<ToingUserExecutions>) => void;
+  setCampaign: (update: updater<ToingCampaign>) => void;
 
   resetExecutions: () => void;
 

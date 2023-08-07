@@ -2,7 +2,7 @@ import EventEmitter from "events";
 import {
   collectSubShapesTargets,
   createLottieRefs,
-  executeLottieConfigs,
+  executeLottieEdits,
 } from "../utils/lottieUtils";
 import {
   Layer,
@@ -10,8 +10,13 @@ import {
   Shape,
   ToingConfig,
   ToingUserExecutions,
+  default_ToingConfig,
+  default_ToingUserExecutions,
 } from "./types";
-import { ToingCampaign } from "./types/edits/toingCampaign";
+import {
+  ToingCampaign,
+  default_ToingCampaign,
+} from "./types/edits/toingCampaign";
 
 export type updater<T> = null | undefined | T | ((current: T) => T);
 
@@ -88,7 +93,7 @@ export class LottieManager extends EventEmitter {
     let newVal: ToingConfig;
 
     if (isCallbackUpdater(update)) {
-      newVal = update(this._config || { editEndpoints: [] });
+      newVal = update(this._config || default_ToingConfig);
     } else {
       newVal = update as ToingConfig;
     }
@@ -100,7 +105,7 @@ export class LottieManager extends EventEmitter {
     let newVal: ToingUserExecutions;
 
     if (isCallbackUpdater(update)) {
-      newVal = update(this._executions || { executions: {} });
+      newVal = update(this._executions || default_ToingUserExecutions);
     } else {
       newVal = update as ToingUserExecutions;
     }
@@ -112,7 +117,7 @@ export class LottieManager extends EventEmitter {
     let newVal: ToingCampaign;
 
     if (isCallbackUpdater(update)) {
-      newVal = update(this._campaign || {});
+      newVal = update(this._campaign || default_ToingCampaign);
     } else {
       newVal = update as ToingCampaign;
     }
@@ -284,7 +289,7 @@ export class LottieManager extends EventEmitter {
       return;
     }
 
-    executeLottieConfigs(lottie, config, this.executions, this.campaign);
+    executeLottieEdits(lottie, config, this.executions, this.campaign);
 
     this.setLottie({ ...lottie }, { digest: false });
   }

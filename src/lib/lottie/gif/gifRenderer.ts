@@ -2,11 +2,11 @@ import { EventEmitter } from "events";
 import GIF from "gif.js";
 import { AnimationItem } from "lottie-web";
 
-const DEBUG = false;
+const DEBUG = true;
 
 const FRAME_ADD_DELAY = 1;
 const WORKERS = 2;
-const QUALITY = 3;
+const QUALITY = 10;
 const BACKGROUND = "#fff";
 
 function logDebug(...args: any[]) {
@@ -45,42 +45,41 @@ class GifRenderer extends EventEmitter {
 
   private saved_currentFrame: number = 0;
   private saved_isPaused: boolean = false;
-  private width: number;
-  private height: number;
 
   private logoUrl?: string;
   private logoPos?: LogoPos;
 
+  private width?: number;
+  private height?: number;
+
   constructor({
-    width,
-    height,
     animationItem,
     fps = 25,
     logoUrl,
     logoPos,
+    width,
+    height,
   }: {
-    width: number;
-    height: number;
     animationItem: AnimationItem;
     fps?: number;
+    width?: number;
+    height?: number;
 
     logoUrl?: string;
     logoPos?: LogoPos;
   }) {
     super();
 
-    this.width = width;
-    this.height = height;
     this.logoUrl = logoUrl;
     this.logoPos = logoPos;
     this.animationItem = animationItem;
     this.svg = animationItem.renderer.svgElement;
     this.fps = fps;
+    this.width = width;
+    this.height = height;
 
     this.gif = new GIF({
       workerScript: createPublicUrl("gif.worker.js"),
-      width,
-      height,
       workers: WORKERS,
       quality: QUALITY,
       background: BACKGROUND,
@@ -94,10 +93,26 @@ class GifRenderer extends EventEmitter {
 
     this.isStarted = true;
 
+    const lottieW = this.animationItem?.renderer?.data?.w || 100;
+    const lottieH = this.animationItem?.renderer?.data?.h || 100;
+
+    let requestedW = this.width;
+    let requestedH = this.height;
+
+    //match ASPECT RATIOS:
+    if (requestedW && !requestedH) {
+      requestedH = requestedW * (lottieH / lottieW);
+    } else if (!requestedW && requestedH) {
+      requestedW = requestedH * (lottieW / lottieH);
+    }
+
+    const outputW = requestedW || lottieW;
+    const outputH = requestedH || lottieH;
+
     //create elements
     const imgFrame = new Image();
-    imgFrame.width = this.width;
-    imgFrame.height = this.height;
+    imgFrame.width = lottieW;
+    imgFrame.height = lottieH;
 
     const imgLogo = new Image();
 
@@ -105,13 +120,18 @@ class GifRenderer extends EventEmitter {
       await loadImageAndWait(imgLogo, this.logoUrl);
     }
 
+    console.log(lottieW, lottieH);
+
     const canvas = document.createElement("canvas");
-    canvas.width = this.width;
-    canvas.height = this.height;
+
+    canvas.width = outputW;
+    canvas.height = outputH;
+    canvas.style.background = BACKGROUND;
+
     if (!canvas.getContext) {
       throw new Error("canvas get context not supported");
     }
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (ctx == null) {
       throw new Error("unable to get canvas 2d context");
     }
@@ -121,8 +141,10 @@ class GifRenderer extends EventEmitter {
 
     logDebug("totalFrames :", this.totalFrames);
     logDebug("frameRate :", this.animationItem.frameRate);
-    logDebug("width:", +(this.svg?.getAttribute("width") || 100));
-    logDebug("height:", +(this.svg?.getAttribute("height") || 100));
+    logDebug("lottie width:", lottieW);
+    logDebug("lottie height:", lottieH);
+    logDebug("output width:", outputW);
+    logDebug("output height:", outputH);
 
     //save state:
     this.saveState();
@@ -147,9 +169,12 @@ class GifRenderer extends EventEmitter {
       const imageFrame = this.frame;
       imgFrame.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = BACKGROUND;
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.fill();
 
         //frame
-        ctx.drawImage(imgFrame, 0, 0);
+        ctx.drawImage(imgFrame, 0, 0, lottieW, lottieH, 0, 0, outputW, outputH);
 
         //logo:
         if (this.logoUrl && this.logoPos) {
@@ -162,10 +187,7 @@ class GifRenderer extends EventEmitter {
           ctx.drawImage(
             imgLogo,
             this.logoPos.x + logoFit.offsetX,
-            this.height -
-              this.logoPos.y -
-              this.logoPos.height +
-              logoFit.offsetY,
+            outputH - this.logoPos.y - this.logoPos.height + logoFit.offsetY,
             logoFit.width,
             logoFit.height
           );
@@ -176,7 +198,7 @@ class GifRenderer extends EventEmitter {
             ctx.strokeStyle = "red";
             ctx.rect(
               this.logoPos.x,
-              this.height - this.logoPos.y - this.logoPos.height,
+              outputH - this.logoPos.y - this.logoPos.height,
               this.logoPos.width,
               this.logoPos.height
             );

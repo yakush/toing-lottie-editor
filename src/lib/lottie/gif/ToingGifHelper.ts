@@ -1,5 +1,15 @@
-import Lottie, { AnimationItem } from "lottie-web";
+import lottie from "lottie-web";
+import {
+  Lottie,
+  ToingCampaign,
+  ToingConfig,
+  ToingUserExecutions,
+} from "../core";
+import { executeLottieEdits } from "../utils/lottieUtils";
 import GifRenderer, { GifRendererEvents } from "./gifRenderer";
+import { srcToObject as resolveSource } from "../utils/path";
+
+const FPS = 25;
 
 const LOGO_POS = {
   x: 10,
@@ -8,35 +18,51 @@ const LOGO_POS = {
   height: 30,
 };
 
+const defaultRendererSettings = {
+  clearCanvas: false,
+  hideOnTransparent: true,
+  progressiveLoad: true,
+};
+
 export type CreateGifParams = {
-  url: string;
-  config: {};
-  execution: {};
-  campaign: { logoUrl: string };
-
-  width: number;
-  height: number;
-
-  progressCallback: (progress: number) => void;
+  src: string | Lottie;
+  config?: ToingConfig;
+  execution?: ToingUserExecutions;
+  campaign?: ToingCampaign;
+  width?: number;
+  height?: number;
+  progressCallback?: (progress: number) => void;
 };
 
 export async function createGif(params: CreateGifParams): Promise<Blob> {
-  const { url, execution, campaign, config, width, height, progressCallback } =
+  const { src, execution, campaign, config, progressCallback, width, height } =
     params;
 
-  const { animationData, container, instance } = await createLottie(url);
+  //load
+  const json = await resolveSource<Lottie>(src);
 
-  //todo: execute execution, config, executions,...
+  executeLottieEdits(json, config, execution, campaign);
+
+  //load animation
+  const container = document.createElement("svg");
+  const animationItem = lottie.loadAnimation({
+    rendererSettings: defaultRendererSettings,
+    animationData: json,
+    autoplay: true,
+    loop: true,
+    container,
+    renderer: "svg",
+  });
 
   return new Promise<Blob>((resolve, reject) => {
     //execute
     const gifRenderer = new GifRenderer({
-      animationItem: instance,
+      animationItem,
+      logoUrl: campaign?.logoUrl,
+      logoPos: LOGO_POS,
+      fps: animationItem.frameRate || FPS,
       width,
       height,
-      logoUrl: campaign.logoUrl,
-      logoPos: LOGO_POS,
-      fps: 25,
     });
 
     //register events:
@@ -61,37 +87,4 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
     //render:
     gifRenderer.start();
   });
-}
-
-//-------------------------------------------------------
-
-const defaultRendererSettings = {
-  clearCanvas: false,
-  hideOnTransparent: true,
-  progressiveLoad: true,
-};
-
-async function createLottie(url: string): Promise<{
-  animationData: string;
-  container: Element;
-  instance: AnimationItem;
-}> {
-  const animationData = await (await fetch(url)).json();
-  const container = document.createElement("svg");
-
-  // Initialize lottie player and load animation
-  const instance = Lottie.loadAnimation({
-    rendererSettings: defaultRendererSettings,
-    animationData,
-    autoplay: true,
-    loop: true,
-    container,
-    renderer: "svg",
-  });
-
-  return {
-    animationData,
-    container,
-    instance,
-  };
 }

@@ -18,28 +18,27 @@ import __priv__ from "./privateFields";
 
 //-------------------------------------------------------
 
-export function executeLottieConfigs(
+export function executeLottieEdits(
   lottie: Lottie,
-  config: ToingConfig,
+  config?: ToingConfig,
   userExecutions?: ToingUserExecutions,
   campaign?: ToingCampaign
 ) {
   //1. config defaults
-  config.editEndpoints?.forEach((edit) => {
-    const exe = edit.defaults;
-    editsModule.execute(lottie, edit, exe);
-  });
-
-  //TODO: 2. campaign if exists (overwriting previous step)
-  if (campaign) {
+  if (config) {
     config.editEndpoints?.forEach((edit) => {
       editsModule.execute(lottie, edit, edit.defaults);
     });
   }
 
+  //2. campaign if exists (overwriting previous step)
+  if (campaign) {
+    //todo: execute campaign
+  }
+
   //3. executions if exists (overwriting previous step)
   if (userExecutions && userExecutions.executions) {
-    config.editEndpoints?.forEach((edit) => {
+    config?.editEndpoints?.forEach((edit) => {
       const exe = userExecutions.executions[edit.id];
       if (exe != null) {
         editsModule.execute(lottie, edit, exe);
