@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { v4 as uuid } from "uuid";
-import RefListSelector from "../../builder/components/RefListSelector";
+import RefListSelector from "../../components/builder/RefListSelector";
 import { EditBuilderProps } from "../../modules/builderUiModule";
 import { ToingEditEndpoint } from "../../types";
 import styles from "./LayerSelectorBuilderView.module.css";

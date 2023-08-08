@@ -1,8 +1,8 @@
-import { LayerProps } from "../../../modules/lottieLayersUiModule";
-import useToingStore from "../../../stores/ToingStore";
-import { PrecompLayer } from "../../../types";
-import LayerTitle from "../LayerTitle";
-import LottieLayersTree from "../LottieLayersTree";
+import LottieLayersTree from "../builder/LottieLayersTree";
+import { LayerProps } from "../../modules/lottieLayersUiModule";
+import useToingStore from "../../stores/ToingStore";
+import { PrecompLayer } from "../../types";
+import LayerTitle from "./LayerTitle";
 
 const BuilderPrecompLayer = ({ layer }: LayerProps<PrecompLayer>) => {
   const lottie = useToingStore((state) => state.lottie);

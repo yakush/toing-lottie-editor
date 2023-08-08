@@ -1,5 +1,5 @@
-import Card from "../lib/lottie/components/Card";
-import LottieEditor from "../lib/lottie/components/LottieEditor";
+import Card from "../lib/lottie/components/ui/Card";
+import LottieEditor from "../lib/lottie/components/editor/LottieEditor";
 import LottiePlayer from "../lib/lottie/components/LottiePlayer";
 import useToingStore from "../lib/lottie/stores/ToingStore";
 import styles from "./LottieEditorPage.module.css";
@@ -34,7 +34,6 @@ function Page({}: Props) {
       <div className={styles.edits}>
         <Card>
           <LottieEditor />
-        
         </Card>
       </div>
 

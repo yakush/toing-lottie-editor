@@ -1,6 +1,6 @@
-import { SolidLayer } from "../../../types";
-import { LayerProps } from "../../../modules/lottieLayersUiModule";
-import LayerTitle from "../LayerTitle";
+import { LayerProps } from "../../modules/lottieLayersUiModule";
+import { SolidLayer } from "../../types";
+import LayerTitle from "./LayerTitle";
 
 const BuilderSolidLayer = ({ layer }: LayerProps<SolidLayer>) => {
   const color = layer.sc;

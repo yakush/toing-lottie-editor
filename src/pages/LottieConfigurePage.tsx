@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import Card from "../lib/lottie/components/Card";
-import CardHeader from "../lib/lottie/components/CardHeader";
-import LottieEditor from "../lib/lottie/components/LottieEditor";
+import Card from "../lib/lottie/components/ui/Card";
+import CardHeader from "../lib/lottie/components/ui/CardHeader";
+import LottieEditor from "../lib/lottie/components/editor/LottieEditor";
 import LottiePlayer from "../lib/lottie/components/LottiePlayer";
-import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
-import LottieJson from "../lib/lottie/builder/components/LottieJson";
-import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
+import LottieBuilder from "../lib/lottie/components/builder/LottieBuilder";
+import LottieJson from "../lib/lottie/components/builder/LottieJson";
+import RefListSelector from "../lib/lottie/components/builder/RefListSelector";
 
 import {
   DragAndDropStoreProvider,

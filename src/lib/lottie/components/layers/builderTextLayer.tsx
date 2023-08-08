@@ -1,6 +1,6 @@
-import { TextLayer } from "../../../types";
-import { LayerProps } from "../../../modules/lottieLayersUiModule";
-import LayerTitle from "../LayerTitle";
+import { LayerProps } from "../../modules/lottieLayersUiModule";
+import { TextLayer } from "../../types";
+import LayerTitle from "./LayerTitle";
 
 const BuilderTextLayer = ({ layer }: LayerProps<TextLayer>) => {
   const keys = layer.t?.d?.k;
@@ -8,7 +8,7 @@ const BuilderTextLayer = ({ layer }: LayerProps<TextLayer>) => {
 
   return (
     <>
-      <LayerTitle layer={layer}/>
+      <LayerTitle layer={layer} />
       <div>{text}</div>
       {/* text {JSON.stringify(layer)} */}
     </>

@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import styles from "./Card.module.css";
-import { combineClasses } from "../utils/css";
+import { combineClasses } from "../../utils/css";
 import CardHeader from "./CardHeader";
 import CardFooter from "./CardFooter";
 

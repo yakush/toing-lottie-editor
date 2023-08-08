@@ -1,4 +1,4 @@
-import useToingStore from "../stores/ToingStore";
+import useToingStore from "../../stores/ToingStore";
 import EditView from "./EditView";
 import styles from "./LottieEditor.module.css";
 

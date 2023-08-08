@@ -1,6 +1,6 @@
-import uiModule from "../modules/editorUiModule";
-import useToingStore from "../stores/ToingStore";
-import { ToingEditEndpoint } from "../types";
+import uiModule from "../../modules/editorUiModule";
+import useToingStore from "../../stores/ToingStore";
+import { ToingEditEndpoint } from "../../types";
 import EditCard from "./EditCard";
 import EditCardHeader from "./EditCardHeader";
 import styles from "./EditView.module.css";

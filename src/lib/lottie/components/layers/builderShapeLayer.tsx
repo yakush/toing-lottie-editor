@@ -1,15 +1,15 @@
 import React from "react";
-import icon_shape from "../../../assets/icon_shape.svg";
-import { shapeTypeToName, shapeTypes } from "../../../enums";
-import { LayerProps } from "../../../modules/lottieLayersUiModule";
-import useDragAndDropStore from "../../../stores/DragAndDropStore";
-import useToingStore from "../../../stores/ToingStore";
-import { GroupShape, Shape, ShapeLayer } from "../../../types";
-import { combineClasses } from "../../../utils/css";
-import { getLottieRef } from "../../../utils/lottieUtils";
-import LayerTitle from "../LayerTitle";
-import List from "../List";
-import ListHeader from "../ListHeader";
+import icon_shape from "../../assets/icon_shape.svg";
+import { shapeTypeToName, shapeTypes } from "../../enums";
+import { LayerProps } from "../../modules/lottieLayersUiModule";
+import useDragAndDropStore from "../../stores/DragAndDropStore";
+import useToingStore from "../../stores/ToingStore";
+import { GroupShape, Shape, ShapeLayer } from "../../types";
+import { combineClasses } from "../../utils/css";
+import { getLottieRef } from "../../utils/lottieUtils";
+import List from "../builder/List";
+import ListHeader from "../builder/ListHeader";
+import LayerTitle from "./LayerTitle";
 import styles from "./builderShapeLayer.module.css";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {

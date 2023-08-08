@@ -1,8 +1,8 @@
-import BuilderPrecompLayer from "../builder/components/layers/BuilderPrecompLayer";
-import BuilderUnknownLayer from "../builder/components/layers/BuilderUnknownLayer";
-import BuilderShapeLayer from "../builder/components/layers/builderShapeLayer";
-import BuilderSolidLayer from "../builder/components/layers/builderSolidLayer";
-import BuilderTextLayer from "../builder/components/layers/builderTextLayer";
+import BuilderPrecompLayer from "../components/layers/BuilderPrecompLayer";
+import BuilderUnknownLayer from "../components/layers/BuilderUnknownLayer";
+import BuilderShapeLayer from "../components/layers/builderShapeLayer";
+import BuilderSolidLayer from "../components/layers/builderSolidLayer";
+import BuilderTextLayer from "../components/layers/builderTextLayer";
 import { layerTypes } from "../enums";
 import ComponentsRegistry from "../helpers/componentsRegistry";
 import { Layer } from "../types";

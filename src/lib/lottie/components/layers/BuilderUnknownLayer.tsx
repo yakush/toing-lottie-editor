@@ -1,6 +1,6 @@
-import { Layer } from "../../../types";
-import { LayerProps } from "../../../modules/lottieLayersUiModule";
-import LayerTitle from "../LayerTitle";
+import { LayerProps } from "../../modules/lottieLayersUiModule";
+import { Layer } from "../../types";
+import LayerTitle from "./LayerTitle";
 
 const BuilderUnknownLayer = ({ layer }: LayerProps<Layer>) => {
   return (

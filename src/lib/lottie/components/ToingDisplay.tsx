@@ -5,7 +5,7 @@ import {
   ToingConfig,
   ToingUserExecutions,
 } from "../types";
-import LottieEditor from "./LottieEditor";
+import LottieEditor from "./editor/LottieEditor";
 import LottiePlayer from "./LottiePlayer";
 import styles from "./ToingDisplay.module.css";
 import { withToingStore } from "./ToingStoreWrapper";

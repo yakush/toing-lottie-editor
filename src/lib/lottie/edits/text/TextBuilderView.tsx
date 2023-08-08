@@ -1,6 +1,6 @@
 import { useId } from "react";
 import TextAlignSelector from "../../components/TextAlignSelector";
-import RefSelector from "../../builder/components/RefSelector";
+import RefSelector from "../../components/builder/RefSelector";
 import { editTypes, layerTypes } from "../../enums";
 import { EditBuilderProps } from "../../modules/builderUiModule";
 import editsModule from "../../modules/editorModule";

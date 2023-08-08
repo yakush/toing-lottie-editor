@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ToingDisplay } from "../lib/lottie";
 import styles from "./TestPage.module.css";
-import Card from "../lib/lottie/components/Card";
+import Card from "../lib/lottie/components/ui/Card";
 import { createPublicLottieSampleUrl } from "../utils/paths";
 import { resolveSrcToObject } from "../lib/lottie/utils/path";
 import {

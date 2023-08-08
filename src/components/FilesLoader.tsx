@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createGif } from "../lib/lottie";
-import Card from "../lib/lottie/components/Card";
-import CardHeader from "../lib/lottie/components/CardHeader";
+import Card from "../lib/lottie/components/ui/Card";
+import CardHeader from "../lib/lottie/components/ui/CardHeader";
 import { Loader } from "../lib/lottie/helpers/Loader";
 import useToingStore from "../lib/lottie/stores/ToingStore";
 import {
