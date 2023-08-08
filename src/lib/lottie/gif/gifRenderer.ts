@@ -120,8 +120,6 @@ class GifRenderer extends EventEmitter {
       await loadImageAndWait(imgLogo, this.logoUrl);
     }
 
-    console.log(lottieW, lottieH);
-
     const canvas = document.createElement("canvas");
 
     canvas.width = outputW;

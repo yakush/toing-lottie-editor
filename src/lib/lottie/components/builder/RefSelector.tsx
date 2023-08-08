@@ -11,6 +11,7 @@ import {
   findShapeRef,
 } from "../../utils/lottieUtils";
 import styles from "./RefSelector.module.css";
+import Button from "../ui/Button";
 
 type Props = {
   value?: LottieRef;
@@ -159,13 +160,13 @@ export default function RefSelector({
             {target && (target?.nm || "has target")}
           </div>
         </div>
-        <button
+        <Button
           className={styles.delete}
           onClick={onClickDelete}
           disabled={!targetRef}
         >
           X
-        </button>
+        </Button>
       </div>
     </div>
   );

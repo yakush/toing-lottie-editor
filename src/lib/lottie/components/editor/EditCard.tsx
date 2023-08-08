@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import styles from "./EditCard.module.css";
 import EditCardHeader from "./EditCardHeader";
+import Button from "../ui/Button";
 
 type Props = {
   onReset?: () => void;
@@ -27,9 +28,9 @@ export default function EditCard({ onReset, children }: Props) {
     <div className={styles.root}>
       <div className={styles.header}>
         <div className={styles.cardHeaderContent}> {header} </div>
-        <button className={styles.reset} onClick={() => onReset && onReset()}>
+        <Button className={styles.reset} onClick={() => onReset && onReset()}>
           reset
-        </button>
+        </Button>
       </div>
       <div className={styles.content}>{content}</div>
     </div>

@@ -77,10 +77,10 @@ const ShapeTitle = ({ shape }: ShapeTitleProps) => {
       draggable
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        console.log(JSON.stringify(getLottieRef(shape), null, 2));
-      }}
+      // onContextMenu={(e) => {
+      //   e.preventDefault();
+      //   console.log(JSON.stringify(getLottieRef(shape), null, 2));
+      // }}
     >
       <img className={styles.icon} src={icon_shape} alt="icon_layer" />
       <div className={styles.type}>{shapeTypeToName(shape.ty)}</div>

@@ -35,10 +35,10 @@ export default function LayerTitle({ layer, children }: Props) {
       draggable
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        console.log(JSON.stringify(getLottieRef(layer), null, 2));
-      }}
+      // onContextMenu={(e) => {
+      //   e.preventDefault();
+      //   console.log(JSON.stringify(getLottieRef(layer), null, 2));
+      // }}
     >
       <img className={styles.icon} src={icon_layer} alt="icon_layer" />
       <div className={styles.layer}>

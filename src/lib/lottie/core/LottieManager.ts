@@ -274,7 +274,7 @@ export class LottieManager extends EventEmitter {
    * @returns
    */
   private digestLottie() {
-    console.log("DIGESTING LOTTIE");
+    // console.log("DIGESTING LOTTIE");
 
     if (this.lottie) {
       //add refs:

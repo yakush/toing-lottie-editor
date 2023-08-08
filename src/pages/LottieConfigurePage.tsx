@@ -1,20 +1,11 @@
-import { useRef, useState } from "react";
-import Card from "../lib/lottie/components/ui/Card";
-import CardHeader from "../lib/lottie/components/ui/CardHeader";
-import LottieEditor from "../lib/lottie/components/editor/LottieEditor";
 import LottiePlayer from "../lib/lottie/components/LottiePlayer";
 import LottieBuilder from "../lib/lottie/components/builder/LottieBuilder";
 import LottieJson from "../lib/lottie/components/builder/LottieJson";
-import RefListSelector from "../lib/lottie/components/builder/RefListSelector";
+import LottieEditor from "../lib/lottie/components/editor/LottieEditor";
+import Card from "../lib/lottie/components/ui/Card";
+import CardHeader from "../lib/lottie/components/ui/CardHeader";
 
-import {
-  DragAndDropStoreProvider,
-  useDragAndDropSource,
-  useDragAndDropTarget,
-} from "../lib/lottie/stores/DragAndDropStore";
-import useToingStore from "../lib/lottie/stores/ToingStore";
-import { LottieRef } from "../lib/lottie/types";
-import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
+import { DragAndDropStoreProvider } from "../lib/lottie/stores/DragAndDropStore";
 import styles from "./LottieConfigure.module.css";
 
 type Props = {};
@@ -69,75 +60,5 @@ function Page({}: Props) {
         </div>
       </div>
     </div>
-  );
-}
-
-function Test() {
-  const lottie = useToingStore((s) => s.lottie);
-  const blinkLayer = useToingStore((s) => s.blinkLayer);
-  const blinkShape = useToingStore((s) => s.blinkShape);
-
-  const [text, setText] = useState(() => {
-    const ref: LottieRef = {
-      type: "layer",
-      layerInd: 1,
-      assetId: "55",
-    };
-    return JSON.stringify(ref, null, 2);
-  });
-
-  const onclick = () => {
-    try {
-      if (!lottie) {
-        console.log("no json");
-        return;
-      }
-      const ref: LottieRef = JSON.parse(text);
-      console.log(ref);
-
-      if (ref.type === "layer") {
-        const target = findLayerRef(lottie, ref);
-        !target && console.log("not found");
-        target && blinkLayer(target);
-      }
-
-      if (ref.type === "shape") {
-        const target = findShapeRef(lottie, ref);
-        !target && console.log("not found");
-        target && blinkShape(target);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const refSource1 = useRef(null);
-  const refSource2 = useRef(null);
-  const refTarget1 = useRef(null);
-  const refTarget2 = useRef(null);
-  useDragAndDropSource(refSource1, true, "1");
-  useDragAndDropSource(refSource2, true, "2");
-  useDragAndDropTarget(refTarget1, true, "1");
-  useDragAndDropTarget(refTarget2, true, "2");
-
-  return (
-    <>
-      <div>
-        <textarea
-          ref={refTarget2}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          style={{ minHeight: 100 }}
-        />
-        <button onClick={onclick}>go</button>
-      </div>
-
-      <RefListSelector disableShape />
-
-      <div ref={refSource1}>from 1</div>
-      <div ref={refSource2}>from 2</div>
-      <div ref={refTarget1}>to 1</div>
-      <div>to 2</div>
-    </>
   );
 }

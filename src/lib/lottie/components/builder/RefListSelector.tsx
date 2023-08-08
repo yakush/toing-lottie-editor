@@ -11,6 +11,7 @@ import styles from "./RefListSelector.module.css";
 import { layerTypes, shapeTypes } from "../../enums";
 import useToingStore from "../../stores/ToingStore";
 import useDragAndDropStore from "../../stores/DragAndDropStore";
+import Button from "../ui/Button";
 type Props = {
   values?: LottieRef[];
   onChange?: (refs: LottieRef[]) => void;
@@ -182,7 +183,7 @@ export default function RefListSelector({
               : `(${targetRefs.length} items)`)}
         </div>
         <div className={styles.ui}>
-          <button onClick={() => clearRefs()}>clear</button>
+          <Button onClick={() => clearRefs()}>clear</Button>
         </div>
       </div>
       <div className={styles.list}>
@@ -222,7 +223,7 @@ function Item({ value, target, onDelete }: ItemProps) {
         <div className={styles.details}>ref {target?.nm}</div>
       </div>
       <div className={styles.ui}>
-        <button onClick={() => onDelete && onDelete(value)}>x</button>
+        <Button onClick={() => onDelete && onDelete(value)}>x</Button>
       </div>
     </div>
   );

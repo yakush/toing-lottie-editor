@@ -5,6 +5,7 @@ import useToingStore from "../../stores/ToingStore";
 import { ToingEditEndpoint } from "../../types";
 import BuilderEditView from "./BuilderEditView";
 import styles from "./LottieBuilder.module.css";
+import Button from "../ui/Button";
 
 type Props = {};
 
@@ -39,11 +40,11 @@ export default function LottieBuilder({}: Props) {
   return (
     <div className={styles.root}>
       <div className={styles.buttons}>
-        <button onClick={() => createEdit(editTypes.text)}>add text</button>
-        <button onClick={() => createEdit(editTypes.layerSelector)}>
+        <Button onClick={() => createEdit(editTypes.text)}>add text</Button>
+        <Button onClick={() => createEdit(editTypes.layerSelector)}>
           add LayerSelect
-        </button>
-        <button onClick={() => createEdit(editTypes.colors)}>add Color</button>
+        </Button>
+        <Button onClick={() => createEdit(editTypes.colors)}>add Color</Button>
       </div>
       <div className={styles.listWrapper}>
         <div className={styles.list}>

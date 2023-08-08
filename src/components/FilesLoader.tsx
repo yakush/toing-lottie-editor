@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createGif } from "../lib/lottie";
+import Button from "../lib/lottie/components/ui/Button";
 import Card from "../lib/lottie/components/ui/Card";
 import CardHeader from "../lib/lottie/components/ui/CardHeader";
 import { Loader } from "../lib/lottie/helpers/Loader";
@@ -225,7 +226,6 @@ export default function FilesLoader({}: Props) {
         : undefined;
 
       if (pathLottie) {
-        console.log("loading lottie: ", pathLottie);
         const loader = new Loader<Lottie>();
         const json = await loader.loadUrl(pathLottie);
         setLottie(json);
@@ -234,7 +234,6 @@ export default function FilesLoader({}: Props) {
       }
 
       if (pathConfig) {
-        console.log("loading config: ", pathConfig);
         const loader = new Loader<ToingConfig>();
         const json = await loader.loadUrl(pathConfig);
         setConfig(json);
@@ -285,10 +284,10 @@ export default function FilesLoader({}: Props) {
             </FileDropTarget>
           </div>
 
-          <button style={{ alignSelf: "stretch" }} onClick={exportEdits}>
+          <Button style={{ alignSelf: "stretch" }} onClick={exportEdits}>
             export edits json <br /> to clipboard
-          </button>
-          <button
+          </Button>
+          <Button
             style={{ alignSelf: "stretch", width: 70 }}
             onClick={saveGif}
             disabled={isRenderingGif}
@@ -300,7 +299,7 @@ export default function FilesLoader({}: Props) {
                 {Math.round(renderGifProgress * 100) + "%"}
               </>
             )}
-          </button>
+          </Button>
         </div>
       </Card>
 
@@ -312,8 +311,8 @@ export default function FilesLoader({}: Props) {
       <PopOver show={showPopup} onClosed={() => setShowPopup(false)}>
         <div>
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={saveEditsToFile}>SAVE TO FILE</button>
-            <button onClick={copyEditsToClipboard}>COPY TO CLIPBOARD</button>
+            <Button onClick={saveEditsToFile}>SAVE TO FILE</Button>
+            <Button onClick={copyEditsToClipboard}>COPY TO CLIPBOARD</Button>
           </div>
           <hr />
           <pre>{JSON.stringify(config, null, 2)}</pre>

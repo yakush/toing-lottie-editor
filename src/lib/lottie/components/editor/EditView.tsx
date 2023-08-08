@@ -22,7 +22,6 @@ export default function EditView({ editEndpoint, execution }: Props) {
   };
 
   const onReset = () => {
-    console.log("reset to default", editEndpoint.id, editEndpoint.name);
     setExecutions((old) => {
       const newExecutions = { ...old?.executions };
       delete newExecutions[editEndpoint.id];

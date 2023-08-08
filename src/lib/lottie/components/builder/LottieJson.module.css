@@ -1,0 +1,7 @@
+.root {
+}
+
+.listHeader {
+  display: flex;
+  gap: 0 5px;
+}

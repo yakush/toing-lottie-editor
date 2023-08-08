@@ -9,6 +9,7 @@ import {
   Execution,
   LayerSelectorOption,
 } from "./LayerSelectorExecuter";
+import Button from "../../components/ui/Button";
 
 type ChangeFunc<T> = <K extends keyof T, V extends T[K]>(
   key: K,
@@ -172,14 +173,14 @@ const List = ({ options, onChange }: ListProps) => {
             option={option}
           />
           <div className={styles.ui}>
-            <button onClick={() => onDeleteListItem(i)}>x</button>
+            <Button onClick={() => onDeleteListItem(i)}>x</Button>
             <div className={styles.gap}></div>
-            <button onClick={() => moveListItem(i, -1)}>up</button>
-            <button onClick={() => moveListItem(i, +1)}>down</button>
+            <Button onClick={() => moveListItem(i, -1)}>up</Button>
+            <Button onClick={() => moveListItem(i, +1)}>down</Button>
           </div>
         </div>
       ))}
-      <button onClick={createOption}>add option</button>
+      <Button onClick={createOption}>add option</Button>
     </div>
   );
 };

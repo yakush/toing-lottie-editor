@@ -9,6 +9,7 @@ import {
   ToingConfig,
   ToingUserExecutions,
 } from "../lib/lottie/types";
+import Button from "../lib/lottie/components/ui/Button";
 
 type Props = {};
 const files = [
@@ -54,9 +55,9 @@ function Page({}: Props) {
     <div className={styles.root}>
       <Card>
         {files.map(({ name, config }, i) => (
-          <button key={i} onClick={() => onClick(name, config)}>
+          <Button key={i} onClick={() => onClick(name, config)}>
             {i}
-          </button>
+          </Button>
         ))}
 
         <div style={{ width: 500 }}>

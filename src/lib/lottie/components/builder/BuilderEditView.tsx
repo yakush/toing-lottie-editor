@@ -5,6 +5,7 @@ import BuilderCard from "./BuilderCard";
 import BuilderCardHeader from "./BuilderCardHeader";
 import styles from "./BuilderEditView.module.css";
 import useToingStore from "../../stores/ToingStore";
+import Button from "../ui/Button";
 
 type Props = {
   edit: ToingEditEndpoint;
@@ -67,9 +68,9 @@ export default function BuilderEditView({ edit }: Props) {
           {/* <div className={styles.id}>[{edit.id}]</div> */}
           <div className={styles.type}>{edit.type} edit</div>
           <div className={styles.ui}>
-            <button onClick={(e) => move(-1)}>UP</button>
-            <button onClick={(e) => move(+1)}>DOWN</button>
-            <button onClick={deleteEdit}>delete</button>
+            <Button onClick={(e) => move(-1)}>UP</Button>
+            <Button onClick={(e) => move(+1)}>DOWN</Button>
+            <Button onClick={deleteEdit}>delete</Button>
           </div>
         </div>
       </BuilderCardHeader>

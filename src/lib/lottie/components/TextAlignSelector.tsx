@@ -2,6 +2,7 @@ import React from "react";
 import { textJustifications } from "../enums/textJustifications";
 import { combineClasses } from "../utils/css";
 import styles from "./TextAlignSelector.module.css";
+import Button from "./ui/Button";
 
 type Props = {
   value?: textJustifications;
@@ -25,7 +26,7 @@ export default function TextAlignSelector({ value, onChange }: Props) {
 
         
       {options.map(({ label, option }) => (
-        <button
+        <Button
           key={option}
           className={combineClasses(styles.btn, {
             [styles.selected]: option === value,
@@ -33,7 +34,7 @@ export default function TextAlignSelector({ value, onChange }: Props) {
           onClick={(e) => onChange && onChange(option)}
         >
           {label}
-        </button>
+        </Button>
       ))}
       </div>
     </div>

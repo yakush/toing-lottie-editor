@@ -57,7 +57,7 @@ export default class LayerSelectorExecuter
     editEndpoint: ToingEditEndpoint<Config, Execution>,
     execution: Execution
   ) {
-    console.log("EXEC LAYER SELECT");
+    // console.log("EXEC LAYER SELECT");
     const { config } = editEndpoint;
     const selectedIdx =
       execution?.selectedIdx != null ? execution?.selectedIdx : 0;

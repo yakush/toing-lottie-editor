@@ -17,7 +17,7 @@
 
 .tree {
   grid-area: tree;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .player {
