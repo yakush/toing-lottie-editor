@@ -5,7 +5,6 @@ import {
   ToingConfig,
   ToingUserExecutions,
 } from "../types";
-
 import useToingStore, { LottieStoreProvider } from "../stores/ToingStore";
 import { resolveSrcToObject } from "../utils/path";
 
@@ -66,6 +65,8 @@ function Inner(props: PropsWithChildren) {
 }
 
 //-------------------------------------------------------
+
+/** wrapper for components. puts a toing-store around the component */
 export const withToingStore =
   <P extends Props>(Component: React.ComponentType<P>) =>
   (props: P) => {

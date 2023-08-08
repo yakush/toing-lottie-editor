@@ -4,6 +4,8 @@ export interface ToingConfig {
   editEndpoints?: ToingEditEndpoint[];
 }
 
+//-------------------------------------------------------
+
 export const default_ToingConfig: ToingConfig = {
   editEndpoints: [],
 };

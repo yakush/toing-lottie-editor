@@ -15,6 +15,8 @@ export interface ToingCampaign {
   };
 }
 
+//-------------------------------------------------------
+
 export const default_ToingCampaign: ToingCampaign = {
   logoUrl: "",
   colors: {
