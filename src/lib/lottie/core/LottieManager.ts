@@ -1,22 +1,20 @@
 import EventEmitter from "events";
 import {
+  Layer,
+  Lottie,
+  Shape,
+  ToingCampaign,
+  ToingConfig,
+  ToingUserExecutions,
+  default_ToingCampaign,
+  default_ToingConfig,
+  default_ToingUserExecutions,
+} from "../types";
+import {
   collectSubShapesTargets,
   createLottieRefs,
   executeLottieEdits,
 } from "../utils/lottieUtils";
-import {
-  Layer,
-  Lottie,
-  Shape,
-  ToingConfig,
-  ToingUserExecutions,
-  default_ToingConfig,
-  default_ToingUserExecutions,
-} from "./types";
-import {
-  ToingCampaign,
-  default_ToingCampaign,
-} from "./types/edits/toingCampaign";
 
 export type updater<T> = null | undefined | T | ((current: T) => T);
 

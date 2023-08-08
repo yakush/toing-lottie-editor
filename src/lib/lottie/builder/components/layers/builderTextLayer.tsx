@@ -1,5 +1,5 @@
-import { TextLayer } from "../../../core";
-import { LayerProps } from "../../builderUiModule";
+import { TextLayer } from "../../../types";
+import { LayerProps } from "../../../modules/lottieLayersUiModule";
 import LayerTitle from "../LayerTitle";
 
 const BuilderTextLayer = ({ layer }: LayerProps<TextLayer>) => {

@@ -1,8 +1,9 @@
 import { DragEvent, useMemo, useState } from "react";
-import { useLottieStore } from "../../app";
-import useDragAndDropStore from "../../app/DragAndDrop";
 import icon_target from "../../assets/icon_target.svg";
-import { LottieRef, layerTypes, shapeTypes } from "../../core";
+import { layerTypes, shapeTypes } from "../../enums";
+import useDragAndDropStore from "../../stores/DragAndDropStore";
+import useToingStore from "../../stores/ToingStore";
+import { LottieRef } from "../../types";
 import { combineClasses } from "../../utils/css";
 import {
   findLayerRef,
@@ -33,8 +34,8 @@ export default function RefSelector({
   allowLayerTypes,
   allowShapeTypes,
 }: Props) {
-  const lottie = useLottieStore((store) => store.lottie);
-  const blinkTargetList = useLottieStore((store) => store.blinkTargetList);
+  const lottie = useToingStore((store) => store.lottie);
+  const blinkTargetList = useToingStore((store) => store.blinkTargetList);
 
   const getDragAndDropState = useDragAndDropStore((store) => store.getState);
 

@@ -1,18 +1,19 @@
 import { useRef, useState } from "react";
-import { useLottieStore } from "../lib/lottie/app";
+import Card from "../lib/lottie/components/Card";
+import CardHeader from "../lib/lottie/components/CardHeader";
+import LottieEditor from "../lib/lottie/components/LottieEditor";
+import LottiePlayer from "../lib/lottie/components/LottiePlayer";
+import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
+import LottieJson from "../lib/lottie/builder/components/LottieJson";
+import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
+
 import {
   DragAndDropStoreProvider,
   useDragAndDropSource,
   useDragAndDropTarget,
-} from "../lib/lottie/app/DragAndDrop";
-import Card from "../lib/lottie/app/components/Card";
-import CardHeader from "../lib/lottie/app/components/CardHeader";
-import LottieEditor from "../lib/lottie/app/components/LottieEditor";
-import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
-import LottieBuilder from "../lib/lottie/builder/components/LottieBuilder";
-import LottieJson from "../lib/lottie/builder/components/LottieJson";
-import RefListSelector from "../lib/lottie/builder/components/RefListSelector";
-import { LottieRef } from "../lib/lottie/core";
+} from "../lib/lottie/stores/DragAndDropStore";
+import useToingStore from "../lib/lottie/stores/ToingStore";
+import { LottieRef } from "../lib/lottie/types";
 import { findLayerRef, findShapeRef } from "../lib/lottie/utils/lottieUtils";
 import styles from "./LottieConfigure.module.css";
 
@@ -72,9 +73,9 @@ function Page({}: Props) {
 }
 
 function Test() {
-  const lottie = useLottieStore((s) => s.lottie);
-  const blinkLayer = useLottieStore((s) => s.blinkLayer);
-  const blinkShape = useLottieStore((s) => s.blinkShape);
+  const lottie = useToingStore((s) => s.lottie);
+  const blinkLayer = useToingStore((s) => s.blinkLayer);
+  const blinkShape = useToingStore((s) => s.blinkShape);
 
   const [text, setText] = useState(() => {
     const ref: LottieRef = {

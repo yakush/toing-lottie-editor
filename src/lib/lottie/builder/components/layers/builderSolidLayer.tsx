@@ -1,5 +1,5 @@
-import { SolidLayer } from "../../../core";
-import { LayerProps } from "../../builderUiModule";
+import { SolidLayer } from "../../../types";
+import { LayerProps } from "../../../modules/lottieLayersUiModule";
 import LayerTitle from "../LayerTitle";
 
 const BuilderSolidLayer = ({ layer }: LayerProps<SolidLayer>) => {

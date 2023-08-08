@@ -1,23 +1,23 @@
-import { ChangeEvent, useId } from "react";
-import { useLottieStore } from "../../app";
-import { ToingEditEndpoint } from "../../core";
-import builderUiModule from "../builderUiModule";
+import { useId } from "react";
+import builderUiModule from "../../modules/builderUiModule";
+import { ToingEditEndpoint } from "../../types";
 import BuilderCard from "./BuilderCard";
 import BuilderCardHeader from "./BuilderCardHeader";
 import styles from "./BuilderEditView.module.css";
+import useToingStore from "../../stores/ToingStore";
 
 type Props = {
   edit: ToingEditEndpoint;
 };
 
 export default function BuilderEditView({ edit }: Props) {
-  const setEdits = useLottieStore((state) => state.setConfig);
+  const setConfig = useToingStore((state) => state.setConfig);
 
   const id_name = useId();
   const id_description = useId();
 
   const onEditChanged = (newEdit: ToingEditEndpoint) => {
-    setEdits((old) => {
+    setConfig((old) => {
       const newEditsList = old?.editEndpoints?.map((edit) =>
         edit.id === newEdit.id ? newEdit : edit
       );
@@ -27,14 +27,16 @@ export default function BuilderEditView({ edit }: Props) {
   };
 
   const deleteEdit = () => {
-    setEdits((old) => {
-      const newEditsList = old?.editEndpoints?.filter((item) => item.id !== edit.id);
+    setConfig((old) => {
+      const newEditsList = old?.editEndpoints?.filter(
+        (item) => item.id !== edit.id
+      );
       return { ...old, editEndpoints: newEditsList };
     });
   };
 
   const move = (dx: number) => {
-    setEdits((old) => {
+    setConfig((old) => {
       const newEditsList = old.editEndpoints ? old.editEndpoints : [];
       const currentIdx = newEditsList.findIndex((item) => item.id === edit.id);
       if (currentIdx === -1) {

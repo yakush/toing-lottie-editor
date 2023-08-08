@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { useLottieStore } from "../lib/lottie/app";
-import Card from "../lib/lottie/app/components/Card";
-import CardHeader from "../lib/lottie/app/components/CardHeader";
-import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
-import FileDropTarget from "./FileDropTarget";
-import styles from "./FilesLoader.module.css";
-import { createPublicLottieSampleUrl, createPublicUrl } from "../utils/paths";
-import PopOver from "./PopOver";
+import { createGif } from "../lib/lottie";
+import Card from "../lib/lottie/components/Card";
+import CardHeader from "../lib/lottie/components/CardHeader";
+import { Loader } from "../lib/lottie/helpers/Loader";
+import useToingStore from "../lib/lottie/stores/ToingStore";
 import {
   Lottie,
-  LottieLoader,
   ToingConfig,
   default_ToingCampaign,
-} from "../lib/lottie/core";
-import { createGif } from "../lib/lottie";
+} from "../lib/lottie/types";
+import { useEffectOnChanged } from "../lib/lottie/utils/useEffectOnUpdate";
+import { createPublicLottieSampleUrl, createPublicUrl } from "../utils/paths";
+import FileDropTarget from "./FileDropTarget";
+import styles from "./FilesLoader.module.css";
+import PopOver from "./PopOver";
 
 const files = [
   { name: "---" },
@@ -40,14 +40,14 @@ export default function FilesLoader({}: Props) {
 
   const [showPopup, setShowPopup] = useState(false);
 
-  const lottie = useLottieStore((state) => state.lottie);
-  const config = useLottieStore((state) => state.config);
-  const userExecutions = useLottieStore((state) => state.userExecutions);
-  const campaign = useLottieStore((state) => state.campaign);
-  const setLottie = useLottieStore((store) => store.setLottie);
-  const setConfig = useLottieStore((store) => store.setConfig);
-  const setExecutions = useLottieStore((store) => store.setExecutions);
-  const setCampaign = useLottieStore((store) => store.setCampaign);
+  const lottie = useToingStore((state) => state.lottie);
+  const config = useToingStore((state) => state.config);
+  const userExecutions = useToingStore((state) => state.userExecutions);
+  const campaign = useToingStore((state) => state.campaign);
+  const setLottie = useToingStore((store) => store.setLottie);
+  const setConfig = useToingStore((store) => store.setConfig);
+  const setExecutions = useToingStore((store) => store.setExecutions);
+  const setCampaign = useToingStore((store) => store.setCampaign);
 
   useEffectOnChanged(() => {
     loadSelectedUrl();
@@ -164,7 +164,7 @@ export default function FilesLoader({}: Props) {
       setExecutions(undefined);
       setCampaign(undefined);
 
-      const loader = new LottieLoader<Lottie>();
+      const loader = new Loader<Lottie>();
       const json = await loader.loadFile(file);
       setLottie(json);
       setIsLottieLoading(false);
@@ -188,7 +188,7 @@ export default function FilesLoader({}: Props) {
       setExecutions(undefined);
       setCampaign(undefined);
 
-      const loader = new LottieLoader<ToingConfig>();
+      const loader = new Loader<ToingConfig>();
       const json = await loader.loadFile(file);
       setConfig(json);
 
@@ -226,7 +226,7 @@ export default function FilesLoader({}: Props) {
 
       if (pathLottie) {
         console.log("loading lottie: ", pathLottie);
-        const loader = new LottieLoader<Lottie>();
+        const loader = new Loader<Lottie>();
         const json = await loader.loadUrl(pathLottie);
         setLottie(json);
       } else {
@@ -235,7 +235,7 @@ export default function FilesLoader({}: Props) {
 
       if (pathConfig) {
         console.log("loading config: ", pathConfig);
-        const loader = new LottieLoader<ToingConfig>();
+        const loader = new Loader<ToingConfig>();
         const json = await loader.loadUrl(pathConfig);
         setConfig(json);
       } else {

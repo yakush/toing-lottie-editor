@@ -1,19 +1,19 @@
+import { layerTypes, shapeTypes } from "../enums";
+import editsModule from "../modules/editorModule";
 import {
   GroupShape,
   Layer,
   LayerRef,
   Lottie,
-  ToingConfig,
   LottieRef,
   Shape,
   ShapeLayer,
   ShapeRef,
-  layerTypes,
-  shapeTypes,
-  ToingUserExecutions,
   ToingCampaign,
-} from "../core";
-import editsModule from "../edits/editsModule";
+  ToingConfig,
+  ToingUserExecutions,
+} from "../types";
+
 import __priv__ from "./privateFields";
 
 //-------------------------------------------------------
@@ -27,7 +27,7 @@ export function executeLottieEdits(
   //1. config defaults
   if (config) {
     config.editEndpoints?.forEach((edit) => {
-      editsModule.execute(lottie, edit, edit.defaults);
+      editsModule.edits.get(edit.type)?.execute(lottie, edit, edit.defaults);
     });
   }
 
@@ -41,7 +41,7 @@ export function executeLottieEdits(
     config?.editEndpoints?.forEach((edit) => {
       const exe = userExecutions.executions[edit.id];
       if (exe != null) {
-        editsModule.execute(lottie, edit, exe);
+        editsModule.edits.get(edit.type)?.execute(lottie, edit, exe);
       }
     });
   }

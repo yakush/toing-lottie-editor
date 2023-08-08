@@ -1,22 +1,16 @@
 import React from "react";
-import {
-  GroupShape,
-  Shape,
-  ShapeLayer,
-  shapeTypeToName,
-  shapeTypes,
-} from "../../../core";
-import { LayerProps } from "../../builderUiModule";
+import icon_shape from "../../../assets/icon_shape.svg";
+import { shapeTypeToName, shapeTypes } from "../../../enums";
+import { LayerProps } from "../../../modules/lottieLayersUiModule";
+import useDragAndDropStore from "../../../stores/DragAndDropStore";
+import useToingStore from "../../../stores/ToingStore";
+import { GroupShape, Shape, ShapeLayer } from "../../../types";
+import { combineClasses } from "../../../utils/css";
+import { getLottieRef } from "../../../utils/lottieUtils";
 import LayerTitle from "../LayerTitle";
 import List from "../List";
 import ListHeader from "../ListHeader";
-
 import styles from "./builderShapeLayer.module.css";
-import { useLottieStore } from "../../../app";
-import icon_shape from "../../../assets/icon_shape.svg";
-import { getLottieRef } from "../../../utils/lottieUtils";
-import useDragAndDropStore from "../../../app/DragAndDrop";
-import { combineClasses } from "../../../utils/css";
 
 const BuilderShapeLayer = ({ layer }: LayerProps<ShapeLayer>) => {
   return (
@@ -61,7 +55,7 @@ type ShapeTitleProps = {
 };
 
 const ShapeTitle = ({ shape }: ShapeTitleProps) => {
-  const blinkShape = useLottieStore((state) => state.blinkShape);
+  const blinkShape = useToingStore((state) => state.blinkShape);
 
   const startDrag = useDragAndDropStore((store) => store.start);
   const endDrag = useDragAndDropStore((store) => store.end);

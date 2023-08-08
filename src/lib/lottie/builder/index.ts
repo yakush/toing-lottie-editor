@@ -1,4 +1,4 @@
-import builderUiModule from "./builderUiModule";
+import builderUiModule from "../modules/builderUiModule";
 import LottieLayer from "./components/lottieLayer";
 
 export {builderUiModule};

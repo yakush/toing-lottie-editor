@@ -1,6 +1,6 @@
-import { useLottieStore } from "../../app";
-import { Layer } from "../../core";
-import builderUiModule from "../builderUiModule";
+import lottieLayersUiModule from "../../modules/lottieLayersUiModule";
+import useToingStore from "../../stores/ToingStore";
+import { Layer } from "../../types";
 import styles from "./lottieLayer.module.css";
 
 type Props = {
@@ -8,12 +8,11 @@ type Props = {
 };
 
 export default function LottieLayer({ layer }: Props) {
-  
-  useLottieStore((state) => state.lottie);
+  useToingStore((state) => state.lottie);
 
   return (
     <div className={styles.root}>
-      {builderUiModule.layers.getComponent(layer.ty, { layer })}
+      {lottieLayersUiModule.layers.getComponent(layer.ty, { layer })}
     </div>
   );
 }

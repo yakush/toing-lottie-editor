@@ -1,7 +1,7 @@
 {
   "editEndpoints": [
     {
-      "type": "layerSelect",
+      "type": "layerSelector",
       "id": "sdghsdbgsdhgbslghbsdjklgb",
       "name": "the name",
       "description": "some description...",

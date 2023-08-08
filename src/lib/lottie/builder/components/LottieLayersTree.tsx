@@ -1,4 +1,4 @@
-import { Layer } from "../../core";
+import { Layer } from "../../types";
 import List from "./List";
 import ListHeader from "./ListHeader";
 import styles from "./LottieLayersTree.module.css";

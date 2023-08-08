@@ -1,13 +1,8 @@
 import lottie from "lottie-web";
-import {
-  Lottie,
-  ToingCampaign,
-  ToingConfig,
-  ToingUserExecutions,
-} from "../core";
 import { executeLottieEdits } from "../utils/lottieUtils";
 import GifRenderer, { GifRendererEvents } from "./gifRenderer";
 import { resolveSrcToObject as resolveSource } from "../utils/path";
+import { Lottie, ToingCampaign, ToingConfig, ToingUserExecutions } from "../types";
 
 const FPS = 25;
 

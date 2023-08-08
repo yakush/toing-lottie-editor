@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { ToingDisplay } from "../lib/lottie";
 import styles from "./TestPage.module.css";
-import Card from "../lib/lottie/app/components/Card";
+import Card from "../lib/lottie/components/Card";
 import { createPublicLottieSampleUrl } from "../utils/paths";
+import { resolveSrcToObject } from "../lib/lottie/utils/path";
 import {
-  LottieLoader,
   ToingCampaign,
   ToingConfig,
   ToingUserExecutions,
-} from "../lib/lottie/core";
-import { resolveSrcToObject } from "../lib/lottie/utils/path";
+} from "../lib/lottie/types";
 
 type Props = {};
 const files = [
@@ -36,7 +35,7 @@ function Page({}: Props) {
 
   async function onClick(name: string, config?: string) {
     setConfig(undefined);
-    setExecutions({executions:{}});
+    setExecutions({ executions: {} });
     // setCampaign(undefined);
 
     setSrc(createPublicLottieSampleUrl(name));

@@ -1,10 +1,10 @@
-import { useLottieStore } from "../../app";
+import useToingStore from "../../stores/ToingStore";
 import LottieTree from "./LottieLayersTree";
 
 type Props = {};
 
 export default function LottieJson({}: Props) {
-  const lottie = useLottieStore((state) => state.lottie);
+  const lottie = useToingStore((state) => state.lottie);
 
   if (!lottie) {
     return <>no lottie json</>;

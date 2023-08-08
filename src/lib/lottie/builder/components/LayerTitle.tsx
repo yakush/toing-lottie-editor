@@ -1,10 +1,11 @@
-import { useLottieStore } from "../../app";
-import { Layer, layerTypes } from "../../core";
-import styles from "./LayerTitle.module.css";
 import icon_layer from "../../assets/icon_layer.svg";
+import { Layer } from "../../types";
 import { combineClasses } from "../../utils/css";
 import { getLottieRef } from "../../utils/lottieUtils";
-import useDragAndDropStore from "../../app/DragAndDrop";
+import styles from "./LayerTitle.module.css";
+import { layerTypes } from "../../enums";
+import useDragAndDropStore from "../../stores/DragAndDropStore";
+import useToingStore from "../../stores/ToingStore";
 
 type Props = {
   layer: Layer;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export default function LayerTitle({ layer, children }: Props) {
-  const blinkLayer = useLottieStore((state) => state.blinkLayer);
+  const blinkLayer = useToingStore((state) => state.blinkLayer);
   const startDrag = useDragAndDropStore((store) => store.start);
   const endDrag = useDragAndDropStore((store) => store.end);
 

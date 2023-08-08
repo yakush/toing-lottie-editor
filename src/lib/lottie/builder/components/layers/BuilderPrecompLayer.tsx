@@ -1,13 +1,11 @@
-import { useLottieStore } from "../../../app";
-import { PrecompLayer } from "../../../core";
-import { LayerProps } from "../../builderUiModule";
+import { LayerProps } from "../../../modules/lottieLayersUiModule";
+import useToingStore from "../../../stores/ToingStore";
+import { PrecompLayer } from "../../../types";
 import LayerTitle from "../LayerTitle";
 import LottieLayersTree from "../LottieLayersTree";
-import LottieLayer from "../lottieLayer";
-import styles from "./BuilderPrecompLayer.module.css";
 
 const BuilderPrecompLayer = ({ layer }: LayerProps<PrecompLayer>) => {
-  const lottie = useLottieStore((state) => state.lottie);
+  const lottie = useToingStore((state) => state.lottie);
 
   const refId = layer.refId;
   const asset = lottie?.assets?.find((asset) => asset.id === refId);
@@ -17,8 +15,8 @@ const BuilderPrecompLayer = ({ layer }: LayerProps<PrecompLayer>) => {
       <div>
         {asset ? (
           <LottieLayersTree layers={asset.layers}>
-            <LayerTitle layer={layer} >
-            {asset.id} : {asset.nm ?? "untitled"}
+            <LayerTitle layer={layer}>
+              {asset.id} : {asset.nm ?? "untitled"}
             </LayerTitle>
           </LottieLayersTree>
         ) : (

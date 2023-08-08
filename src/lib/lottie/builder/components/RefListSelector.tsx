@@ -1,8 +1,6 @@
 import { DragEvent, useMemo, useState } from "react";
-import { useLottieStore } from "../../app";
-import useDragAndDropStore from "../../app/DragAndDrop";
 import icon_target from "../../assets/icon_target.svg";
-import { Layer, LottieRef, Shape, layerTypes, shapeTypes } from "../../core";
+import { Layer, LottieRef, Shape } from "../../types";
 import { combineClasses } from "../../utils/css";
 import {
   findLayerRef,
@@ -10,6 +8,9 @@ import {
   findShapeRef,
 } from "../../utils/lottieUtils";
 import styles from "./RefListSelector.module.css";
+import { layerTypes, shapeTypes } from "../../enums";
+import useToingStore from "../../stores/ToingStore";
+import useDragAndDropStore from "../../stores/DragAndDropStore";
 type Props = {
   values?: LottieRef[];
   onChange?: (refs: LottieRef[]) => void;
@@ -32,8 +33,8 @@ export default function RefListSelector({
   allowLayerTypes,
   allowShapeTypes,
 }: Props) {
-  const lottie = useLottieStore((store) => store.lottie);
-  const blinkTargetList = useLottieStore((store) => store.blinkTargetList);
+  const lottie = useToingStore((store) => store.lottie);
+  const blinkTargetList = useToingStore((store) => store.blinkTargetList);
 
   const getDragAndDropState = useDragAndDropStore((store) => store.getState);
 
@@ -209,7 +210,7 @@ type ItemProps = {
 };
 
 function Item({ value, target, onDelete }: ItemProps) {
-  const blinkTargetList = useLottieStore((store) => store.blinkTargetList);
+  const blinkTargetList = useToingStore((store) => store.blinkTargetList);
 
   return (
     <div

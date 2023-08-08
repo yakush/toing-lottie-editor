@@ -1,7 +1,7 @@
-import { useLottieStore } from "../lib/lottie/app";
-import Card from "../lib/lottie/app/components/Card";
-import LottieEditor from "../lib/lottie/app/components/LottieEditor";
-import LottiePlayer from "../lib/lottie/app/components/LottiePlayer";
+import Card from "../lib/lottie/components/Card";
+import LottieEditor from "../lib/lottie/components/LottieEditor";
+import LottiePlayer from "../lib/lottie/components/LottiePlayer";
+import useToingStore from "../lib/lottie/stores/ToingStore";
 import styles from "./LottieEditorPage.module.css";
 
 type Props = {};
@@ -15,7 +15,7 @@ export default function LottieEditorPage({}: Props) {
 }
 
 function Page({}: Props) {
-  // const loadUrl = useLottieStore((state) => state.loadUrl);
+  // const loadUrl = useToingStore((state) => state.loadUrl);
   // useEffect(() => {
   //   async function fetchData() {
   //     const file = { name: "SAMPLE 1.json", edits: "SAMPLE 1.edits.json" };
@@ -27,7 +27,7 @@ function Page({}: Props) {
   //   }
   //   fetchData();
   // }, [loadUrl]);
-  const userExecutions = useLottieStore((state) => state.userExecutions);
+  const userExecutions = useToingStore((state) => state.userExecutions);
 
   return (
     <div className={styles.root}>
