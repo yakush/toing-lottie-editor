@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 import GIF from "gif.js";
 import { AnimationItem } from "lottie-web";
 
-const DEBUG = true;
+const DEBUG = false;
 
 const FRAME_ADD_DELAY = 1;
 const WORKERS = 2;

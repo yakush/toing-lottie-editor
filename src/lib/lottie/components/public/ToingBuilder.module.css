@@ -1,0 +1,40 @@
+.root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  flex: 1;
+  max-width: 1400px;
+  min-width: 1105px;
+  display: grid;
+  grid-template-areas:
+    ". export ."
+    "tree edits player";
+
+  grid-template-columns: minmax(200px, 400px) minmax(200px, 1fr) 400px;
+  grid-template-rows: auto 1fr;
+}
+
+.export {
+  grid-area: export;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0 10px;
+}
+
+.tree {
+  grid-area: tree;
+  overflow-y: scroll;
+}
+
+.player {
+  grid-area: player;
+}
+
+.edits {
+  grid-area: edits;
+  overflow-y: auto;
+}

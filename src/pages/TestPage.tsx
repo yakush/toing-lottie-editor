@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToingDisplay } from "../lib/lottie";
+import { ToingDebug, ToingDisplay } from "../lib/lottie";
 import styles from "./TestPage.module.css";
 import Card from "../lib/lottie/components/ui/Card";
 import { createPublicLottieSampleUrl } from "../utils/paths";
@@ -62,12 +62,23 @@ function Page({}: Props) {
 
         <div style={{ width: 500 }}>
           <ToingDisplay
-            src={src}
-            config={config}
-            campaign={campaign}
-            execution={executions}
+            toingData={{
+              src: src,
+              config: config,
+              campaign: campaign,
+              execution: executions,
+            }}
           />
         </div>
+
+        <ToingDebug
+          toingData={{
+            src: src,
+            config: config,
+            campaign: campaign,
+            execution: executions,
+          }}
+        />
       </Card>
     </div>
   );

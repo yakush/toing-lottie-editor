@@ -1,0 +1,34 @@
+.demoSelect {
+  display: flex;
+  background-color: white;
+  padding: 5px;
+  gap: 5px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid black;  
+}
+.demoContent {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  align-items: center;
+}
+
+/* ********************* */
+
+.DemoDisplay {
+  width: 400px;
+}
+
+.DemoDisplay .content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.DemoDisplay .display {
+  border: 1px solid black;
+}

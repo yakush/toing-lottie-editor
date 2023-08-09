@@ -1,23 +1,11 @@
-import useToingStore from "../stores/ToingStore";
-import {
-  Lottie,
-  ToingCampaign,
-  ToingConfig,
-  ToingUserExecutions,
-} from "../types";
-import LottieEditor from "./editor/LottieEditor";
-import LottiePlayer from "./LottiePlayer";
+import useToingStore from "../../stores/ToingStore";
+import { withToingStore } from "../ToingStoreWrapper";
+import { ToingPublicProps } from "../toing-public-props";
 import styles from "./ToingDisplay.module.css";
-import { withToingStore } from "./ToingStoreWrapper";
 
-type Props = {
-  src: string | Lottie;
-  config?: ToingConfig;
-  execution?: ToingUserExecutions;
-  campaign?: ToingCampaign;
-};
+type Props = ToingPublicProps & {};
 
-const ToingDisplay = withToingStore((props: Props) => {
+const ToingDebug = withToingStore((props: Props) => {
   const displayName = useToingStore((store) => store.displayName);
   const lottie = useToingStore((store) => store.lottie);
   const config = useToingStore((store) => store.config);
@@ -33,12 +21,9 @@ const ToingDisplay = withToingStore((props: Props) => {
         userExecutions: {JSON.stringify(userExecutions)?.slice(0, 50)} ...{" "}
       </div>
       <div> campaign: {JSON.stringify(campaign)?.slice(0, 50)} ...</div>
-
-      <LottiePlayer />
-      <LottieEditor />
     </div>
   );
 });
 
-export { ToingDisplay };
-export default ToingDisplay;
+export { ToingDebug };
+export default ToingDebug;

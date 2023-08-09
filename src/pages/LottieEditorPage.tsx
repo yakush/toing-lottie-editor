@@ -39,7 +39,7 @@ function Page({}: Props) {
 
       <div className={styles.player}>
         <Card>
-          <LottiePlayer controls />
+          <LottiePlayer controls buttons={["play", "repeat", "frame"]} />
           {/* <pre>{JSON.stringify(userExecutions, null, 2)}</pre> */}
         </Card>
       </div>

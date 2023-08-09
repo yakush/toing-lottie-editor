@@ -1,21 +1,10 @@
 import React, { ReactNode, useEffect } from "react";
-import {
-  Lottie,
-  ToingCampaign,
-  ToingConfig,
-  ToingUserExecutions,
-} from "../types";
 import useToingStore, { LottieStoreProvider } from "../stores/ToingStore";
+import { Lottie } from "../types";
 import { resolveSrcToObject } from "../utils/path";
+import { ToingPublicProps } from "./toing-public-props";
 
-type Props = {
-  src: string | Lottie;
-  config?: ToingConfig;
-  execution?: ToingUserExecutions;
-  campaign?: ToingCampaign;
-};
-
-type PropsWithChildren = Props & {
+type PropsWithChildren = ToingPublicProps & {
   children?: ReactNode;
 };
 
@@ -39,7 +28,7 @@ function Inner(props: PropsWithChildren) {
   useEffect(() => {
     const run = async () => {
       try {
-        const json = await resolveSrcToObject<Lottie>(props.src);
+        const json = await resolveSrcToObject<Lottie>(props.toingData.src);
         setLottie(json);
       } catch (e) {
         setLottie(undefined);
@@ -47,19 +36,19 @@ function Inner(props: PropsWithChildren) {
       }
     };
     run();
-  }, [props.src, setLottie]);
+  }, [props.toingData.src, setLottie]);
 
   useEffect(() => {
-    setConfig(props.config);
-  }, [props.config, setConfig]);
+    setConfig(props.toingData.config);
+  }, [props.toingData.config, setConfig]);
 
   useEffect(() => {
-    setCampaign(props.campaign);
-  }, [props.campaign, setCampaign]);
+    setCampaign(props.toingData.campaign);
+  }, [props.toingData.campaign, setCampaign]);
 
   useEffect(() => {
-    setExecutions(props.execution);
-  }, [props.execution, setExecutions]);
+    setExecutions(props.toingData.execution);
+  }, [props.toingData.execution, setExecutions]);
 
   return <>{props.children}</>;
 }
@@ -68,7 +57,7 @@ function Inner(props: PropsWithChildren) {
 
 /** wrapper for components. puts a toing-store around the component */
 export const withToingStore =
-  <P extends Props>(Component: React.ComponentType<P>) =>
+  <P extends ToingPublicProps>(Component: React.ComponentType<P>) =>
   (props: P) => {
     return (
       <ToingStoreWrapper {...props}>
