@@ -1,7 +1,7 @@
 {
-  "edits": [
+  "editEndpoints": [
     {
-      "type": "layerSelect",
+      "type": "layerSelector",
       "id": "sdghsdbgsdhgbslghbsdjklgb",
       "name": "the name",
       "description": "some description...",
@@ -100,15 +100,6 @@
         "align": 2,
         "color": "#111111"
       }
-    },
-    {
-      "type": "SOME OTHER TYPE",
-      "id": "00000000",
-      "name": "the name",
-      "description": "some description.,,",
-
-      "config": {},
-      "defaults": {}
     }
   ]
 }
