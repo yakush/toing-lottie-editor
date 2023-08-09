@@ -19,7 +19,9 @@
 }
 
 .json {
+  min-height: 100px;
   height: 100px;
+
   overflow-y: scroll;
   padding: 3px;
   border: 1px solid gray;
