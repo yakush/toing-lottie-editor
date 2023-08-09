@@ -3,7 +3,7 @@
  * @param src url or object
  * @returns the object
  */
-export async function resolveSrcToObject<T>(
+export async function  resolveSrcToObject<T>(
   src: string | object | undefined | null
 ): Promise<T> {
   if (src == null) {

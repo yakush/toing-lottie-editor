@@ -2,15 +2,20 @@ import lottie from "lottie-web";
 import { executeLottieEdits } from "../utils/lottieUtils";
 import GifRenderer, { GifRendererEvents } from "./gifRenderer";
 import { resolveSrcToObject as resolveSource } from "../utils/path";
-import { Lottie, ToingCampaign, ToingConfig, ToingUserExecutions } from "../types";
+import {
+  Lottie,
+  ToingCampaign,
+  ToingConfig,
+  ToingUserExecutions,
+} from "../types";
 
 const FPS = 25;
 
 const LOGO_POS = {
   x: 10,
   y: 10,
-  width: 30,
-  height: 30,
+  width: 50,
+  height: 50,
 };
 
 const defaultRendererSettings = {
@@ -26,15 +31,25 @@ export type CreateGifParams = {
   campaign?: ToingCampaign;
   width?: number;
   height?: number;
+  quality?: number;
   progressCallback?: (progress: number) => void;
 };
 
 export async function createGif(params: CreateGifParams): Promise<Blob> {
-  const { src, execution, campaign, config, progressCallback, width, height } =
-    params;
+  const {
+    src,
+    execution,
+    campaign,
+    config,
+    progressCallback,
+    width,
+    height,
+    quality,
+  } = params;
 
   //load
-  const json = await resolveSource<Lottie>(src);
+  const jsonOrig = await resolveSource<Lottie>(src);
+  const json = structuredClone(jsonOrig);
 
   executeLottieEdits(json, config, execution, campaign);
 
@@ -58,6 +73,7 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
       fps: animationItem.frameRate || FPS,
       width,
       height,
+      quality,
     });
 
     //register events:

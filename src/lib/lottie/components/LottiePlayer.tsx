@@ -22,7 +22,7 @@ export default function LottiePlayer({ controls, buttons }: Props) {
   const refIsPaused = useRef(false);
 
   useEffect(() => {
-    setJson(structuredClone(lottie));
+    setJson(lottie && structuredClone(lottie));
   }, [lottie]);
 
   useEffect(() => {

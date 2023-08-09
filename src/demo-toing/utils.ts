@@ -46,3 +46,32 @@ export async function uploadToServer(
     console.error(err);
   }
 }
+
+export function readFileHelper<T>(file: File) {
+  return new Promise<T>((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onabort = () => {
+      console.log("file reading was aborted");
+      reject("file reading was aborted");
+    };
+
+    reader.onerror = () => {
+      console.log("file reading has failed");
+      reject("file reading has failed");
+    };
+
+    reader.onload = () => {
+      try {
+        const str = reader.result as string;
+        const content = JSON.parse(str) as T;
+
+        resolve(content);
+      } catch (err) {
+        console.log("JSON parsing failed");
+        reject("JSON parsing failedF");
+      }
+    };
+    reader.readAsText(file);
+  });
+}

@@ -6,7 +6,7 @@ const DEBUG = false;
 
 const FRAME_ADD_DELAY = 1;
 const WORKERS = 2;
-const QUALITY = 10;
+const DEFAULT_QUALITY = 5;
 const BACKGROUND = "#fff";
 
 function logDebug(...args: any[]) {
@@ -42,6 +42,7 @@ class GifRenderer extends EventEmitter {
   private totalFrames = 0;
   private frame = 0;
   private isStarted = false;
+  private isAborted = false;
 
   private saved_currentFrame: number = 0;
   private saved_isPaused: boolean = false;
@@ -59,11 +60,13 @@ class GifRenderer extends EventEmitter {
     logoPos,
     width,
     height,
+    quality = 5,
   }: {
     animationItem: AnimationItem;
     fps?: number;
     width?: number;
     height?: number;
+    quality?: number;
 
     logoUrl?: string;
     logoPos?: LogoPos;
@@ -81,7 +84,7 @@ class GifRenderer extends EventEmitter {
     this.gif = new GIF({
       workerScript: createPublicUrl("gif.worker.js"),
       workers: WORKERS,
-      quality: QUALITY,
+      quality,
       background: BACKGROUND,
     });
   }
@@ -92,6 +95,7 @@ class GifRenderer extends EventEmitter {
     }
 
     this.isStarted = true;
+    this.isAborted = false;
 
     const lottieW = this.animationItem?.renderer?.data?.w || 100;
     const lottieH = this.animationItem?.renderer?.data?.h || 100;
@@ -114,10 +118,44 @@ class GifRenderer extends EventEmitter {
     imgFrame.width = lottieW;
     imgFrame.height = lottieH;
 
+    //logo:
     const imgLogo = new Image();
+    const canvasLogo = document.createElement("canvas");
 
-    if (this.logoUrl) {
-      await loadImageAndWait(imgLogo, this.logoUrl);
+    let shouldDrawLogo = !!this.logoUrl;
+    if (this.logoUrl && this.logoPos) {
+      try {
+        await loadImageAndWait(imgLogo, this.logoUrl);
+
+        const logoFit = scaleToFit(
+          imgLogo,
+          this.logoPos.width,
+          this.logoPos.height
+        );
+
+        canvasLogo.width = this.logoPos.width;
+        canvasLogo.height = this.logoPos.height;
+
+        const ctx = canvasLogo.getContext("2d");
+        if (!ctx) {
+          throw new Error("can't create logo canvas context");
+        }
+        ctx.drawImage(
+          imgLogo,
+          0,
+          0,
+          imgLogo.width,
+          imgLogo.height,
+
+          +logoFit.offsetX,
+          -logoFit.offsetY,
+          canvasLogo.width,
+          canvasLogo.height
+        );
+      } catch (error) {
+        console.warn(error);
+        shouldDrawLogo = false;
+      }
     }
 
     const canvas = document.createElement("canvas");
@@ -175,19 +213,11 @@ class GifRenderer extends EventEmitter {
         ctx.drawImage(imgFrame, 0, 0, lottieW, lottieH, 0, 0, outputW, outputH);
 
         //logo:
-        if (this.logoUrl && this.logoPos) {
-          const logoFit = scaleToFit(
-            imgLogo,
-            this.logoPos.width,
-            this.logoPos.height
-          );
-
+        if (shouldDrawLogo && this.logoPos) {
           ctx.drawImage(
-            imgLogo,
-            this.logoPos.x + logoFit.offsetX,
-            outputH - this.logoPos.y - this.logoPos.height + logoFit.offsetY,
-            logoFit.width,
-            logoFit.height
+            canvasLogo,
+            this.logoPos.x,
+            outputH - this.logoPos.y - canvasLogo.height
           );
 
           if (DEBUG) {
@@ -204,23 +234,30 @@ class GifRenderer extends EventEmitter {
           }
         }
 
-        this.gif.addFrame(canvas, {
-          delay: 1000 / this.fps,
-          copy: true,
-        });
+        try {
+          this.gif.addFrame(canvas, {
+            delay: 1000 / this.fps,
+            copy: true,
+          });
+        } catch (err) {
+          console.error("aborting gif render\n",err);
+          this.abort();
+        }
 
-        setTimeout(() => {
-          if (imageFrame + 1 >= this.totalFrames) {
-            this.finish();
-          } else {
-            //note: half is images, half is gif render
-            this.emit(
-              GifRendererEvents.progress,
-              0.5 * (imageFrame / this.totalFrames)
-            );
-            addFrame();
-          }
-        }, FRAME_ADD_DELAY);
+        if (!this.isAborted) {
+          setTimeout(() => {
+            if (imageFrame + 1 >= this.totalFrames) {
+              this.finish();
+            } else {
+              //note: half is images, half is gif render
+              this.emit(
+                GifRendererEvents.progress,
+                0.5 * (imageFrame / this.totalFrames)
+              );
+              addFrame();
+            }
+          }, FRAME_ADD_DELAY);
+        }
       };
 
       imgFrame.src = url;
@@ -232,6 +269,7 @@ class GifRenderer extends EventEmitter {
 
   abort() {
     this.gif.abort();
+    this.isAborted = true;
   }
 
   //-------------------------------------------------------
