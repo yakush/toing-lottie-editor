@@ -1,0 +1,30 @@
+.root {
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 500px;
+}
+
+.item {
+  padding: 5px;
+}
+
+.itemHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.json {
+  height: 100px;
+  overflow-y: scroll;
+  padding: 3px;
+  border: 1px solid gray;
+}
+
+.json[data-opened="true"] {
+  height: auto;
+}

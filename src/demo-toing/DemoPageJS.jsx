@@ -60,6 +60,7 @@ export default function DemoPageJs() {
               <Tab label="display" value="display" />
               <Tab label="editor" value="editor" />
               <Tab label="builder" value="builder" />
+              <Tab label="debug" value="debug" />
             </Tabs>
           </Box>
 
@@ -80,8 +81,9 @@ export default function DemoPageJs() {
                 toingData={toingData}
               ></DemoBuilder>
             )}
-            <hr />
-            <ToingDebug toingData={toingData}></ToingDebug>
+            {demo === "debug" && (
+              <DemoDebug toingData={toingData}></DemoDebug>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -182,6 +184,15 @@ function DemoBuilder({ toingData, onExportConfig }) {
   );
 }
 
+function DemoDebug({ toingData }) {
+  return (
+    <div className={styles.DemoDebug}>
+      {!toingData && "no data"}
+      {toingData && <ToingDebug toingData={toingData} />}
+    </div>
+  );
+}
+
 //-------------------------------------------------------
 
 function DemoLoader({ onLoadedData }) {
@@ -272,12 +283,10 @@ function DemoLoader({ onLoadedData }) {
           <CardContent className={styles.content}>
             <SourceBox
               title="source"
-              defaultUrl={createPublicLottieSampleUrl("SAMPLE 1.json")}
               onChangeSource={(source) => setSrc_source(source)}
             />
             <SourceBox
               title="config"
-              defaultUrl={createPublicLottieSampleUrl("SAMPLE 1.config.json")}
               onChangeSource={(source) => setConfig_source(source)}
             />
             <SourceBox
@@ -345,7 +354,7 @@ function SourceBox({ title, defaultUrl, onChangeSource }) {
 
   //JSX
   return (
-    <Card variant="outlined" className={styles.rootSourceBox }>
+    <Card variant="outlined" className={styles.rootSourceBox}>
       <Typography className={styles.title}>{title}</Typography>
 
       <IconButton onClick={() => clear()}>
