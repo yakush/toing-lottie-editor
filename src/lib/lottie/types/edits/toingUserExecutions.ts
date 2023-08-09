@@ -1,5 +1,5 @@
 export interface ToingUserExecutions {
-  executions: { [key: string]: object };
+  executions?: { [key: string]: object };
 }
 
 //-------------------------------------------------------

@@ -5,6 +5,7 @@ import LottieEditorPage from "./pages/LottieEditorPage";
 import NoPage from "./pages/NoPage";
 import TestPage from "./pages/TestPage";
 import DemoPage from "./demo-toing/DemoPage";
+import DemoPageJs from "./demo-toing/DemoPageJS";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route path="editor" element={<LottieEditorPage />} />
           <Route path="config" element={<LottieConfigurePage />} />
           <Route path="test" element={<TestPage />} />
-          <Route path="demo" element={<DemoPage />} />
+          {/* <Route path="demo" element={<DemoPage />} /> */}
+          <Route path="demo" element={<DemoPageJs />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

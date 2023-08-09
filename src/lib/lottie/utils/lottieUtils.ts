@@ -25,7 +25,8 @@ export function executeLottieEdits(
   campaign?: ToingCampaign
 ) {
   config?.editEndpoints?.forEach((edit) => {
-    const exec = userExecutions?.executions[edit.id];
+    const exec =
+      userExecutions?.executions && userExecutions?.executions[edit.id];
     editsModule.edits.get(edit.type)?.execute(lottie, edit, campaign, exec);
   });
 }

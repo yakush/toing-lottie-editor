@@ -1,0 +1,35 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.title {
+  min-width: 100px;
+}
+
+.file {
+  padding: 2px;
+  border: 1px solid gray;
+}
+
+.file[data-selected="true"] {
+  background-color: rgb(211, 232, 255);
+}
+
+.url {
+  padding: 2px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.url[data-selected="true"] {
+  background-color: rgb(211, 232, 255);
+}
+
+.url input {
+  flex: 1;
+}

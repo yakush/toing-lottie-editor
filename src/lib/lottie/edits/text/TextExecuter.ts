@@ -123,7 +123,7 @@ export default class TextExecuter
     //set align
     if (config.enableAlign) {
       if (target.t?.d?.k && target.t?.d?.k[0] && target.t?.d?.k[0].s) {
-        target.t.d.k[0].s.j = execution?.align;
+        target.t.d.k[0].s.j = justification;
       }
     }
   }

@@ -1,8 +1,20 @@
 .root {
-  display: flex;
-  background-color: white;
+}
+
+.loaderHeader {
   padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  border:1px solid black;
+  gap: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+
+.content > * {
+  flex: 1;
 }

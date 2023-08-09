@@ -19,7 +19,7 @@ type Props = ToingPublicProps & {
 const ToingBuilder = withToingStore(({ onExportConfig }: Props) => {
   const config = useToingStore((store) => store.config);
   const onClickExport = () => {
-    onExportConfig && config && onExportConfig(config);
+    onExportConfig && onExportConfig(config || {});
   };
   return (
     <DragAndDropStoreProvider>

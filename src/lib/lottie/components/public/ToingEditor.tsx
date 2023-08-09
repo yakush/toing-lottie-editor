@@ -16,7 +16,7 @@ const ToingEditor = withToingStore(({ onExportExecution }: Props) => {
   const userExecutions = useToingStore((store) => store.userExecutions);
 
   const onClickExport = () => {
-    onExportExecution && userExecutions && onExportExecution(userExecutions);
+    onExportExecution &&  onExportExecution(userExecutions ?? {});
   };
 
   return (

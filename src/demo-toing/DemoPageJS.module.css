@@ -1,0 +1,94 @@
+.rootDemoPage {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+
+.rootDemoPage .demoContent {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  align-items: center;
+}
+
+/* ********************* */
+
+.DemoDisplay {
+  width: 400px;
+}
+
+.DemoDisplay .content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.DemoDisplay .display {
+  border: 1px solid black;
+}
+
+/* ********************* */
+/* LOADER */
+/* ********************* */
+.rootLoader {
+}
+
+.rootLoader .loaderHeader {
+  padding: 10px;
+  gap: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rootLoader .content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rootLoader .content > * {
+  flex: 1;
+}
+
+/* ********************* */
+/* SOURCE BOX */
+/* ********************* */
+
+.rootSourceBox {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.rootSourceBox .title {
+  min-width: 100px;
+}
+
+.rootSourceBox .file {
+  padding: 2px;
+  border: 1px solid gray;
+}
+
+.rootSourceBox .file[data-selected="true"] {
+  background-color: rgb(211, 232, 255);
+}
+
+.rootSourceBox .url {
+  padding: 2px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.rootSourceBox .url[data-selected="true"] {
+  background-color: rgb(211, 232, 255);
+}
+
+.rootSourceBox .url input {
+  flex: 1;
+}

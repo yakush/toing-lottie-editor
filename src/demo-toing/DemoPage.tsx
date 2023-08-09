@@ -11,7 +11,16 @@ import {
 } from "../lib/lottie";
 import DemoLoader from "./DemoLoader";
 import styles from "./DemoPage.module.css";
-import { saveFile, uploadToServer } from "./utils";
+import {
+  createPublicLottieSampleUrl,
+  createPublicUrl,
+  saveFile,
+} from "./utils";
+
+import { Card, CardContent } from "@mui/material";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 
 type Props = {};
 type demoType = "display" | "editor" | "builder";
@@ -21,7 +30,7 @@ export default function DemoPage({}: Props) {
   const [toingData, setToingData] = useState<ToingData>();
 
   const onExportExecution = (execution: ToingUserExecutions) => {
-    console.log(JSON.stringify(execution, null, 2));
+    console.log(JSON.stringify(execution ?? {}, null, 2));
     setToingData((data) => {
       return (
         data && {
@@ -33,7 +42,7 @@ export default function DemoPage({}: Props) {
   };
 
   const onExportConfig = (config: ToingConfig) => {
-    console.log(JSON.stringify(config, null, 2));
+    console.log(JSON.stringify(config ?? {}, null, 2));
     setToingData((data) => {
       return (
         data && {
@@ -48,31 +57,45 @@ export default function DemoPage({}: Props) {
     <div className={styles.root}>
       <DemoLoader onLoadedData={setToingData} />
 
-      <div className={styles.demoSelect}>
-        <button style={{ flex: 1 }} onClick={() => setDemo("display")}>
-          display
-        </button>
-        <button style={{ flex: 1 }} onClick={() => setDemo("editor")}>
-          editor
-        </button>
-        <button style={{ flex: 1 }} onClick={() => setDemo("builder")}>
-          builder
-        </button>
-      </div>
-      <div className={styles.demoContent}>
-        {demo === "display" && <DemoDisplay toingData={toingData} />}
-        {demo === "editor" && (
-          <DemoEditor
-            onExportExecution={onExportExecution}
-            toingData={toingData}
-          />
-        )}
-        {demo === "builder" && (
-          <DemoBuilder onExportConfig={onExportConfig} toingData={toingData} />
-        )}
-        <hr />
-        {toingData && <ToingDebug toingData={toingData} />}
-      </div>
+      <Card variant="elevation">
+        <CardContent>
+          {/* TABS */}
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={demo}
+              onChange={(event, value) => {
+                setDemo(value);
+              }}
+              aria-label="tabs"
+            >
+              <Tab label="display" value="display" />
+              <Tab label="editor" value="editor" />
+              <Tab label="builder" value="builder" />
+            </Tabs>
+          </Box>
+
+          {/* CONTENT */}
+          <div className={styles.demoContent}>
+            {demo === "display" && (
+              <DemoDisplay toingData={toingData}></DemoDisplay>
+            )}
+            {demo === "editor" && (
+              <DemoEditor
+                onExportExecution={onExportExecution}
+                toingData={toingData}
+              ></DemoEditor>
+            )}
+            {demo === "builder" && (
+              <DemoBuilder
+                onExportConfig={onExportConfig}
+                toingData={toingData}
+              ></DemoBuilder>
+            )}
+            <hr />
+            <ToingDebug toingData={toingData}></ToingDebug>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -99,6 +122,7 @@ function DemoDisplay({ toingData }: { toingData?: ToingData }) {
 
           //width: 200, //<= omit one of the dimensions to auto calc according to the aspect ratio
           height: 200,
+          quality: 2,
 
           progressCallback: (progress) => setRenderGifProgress(progress),
         });
