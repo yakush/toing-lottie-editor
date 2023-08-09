@@ -13,5 +13,5 @@ export type ToingData = {
 };
 
 export type ToingPublicProps = {
-  toingData: ToingData;
+  toingData: ToingData | undefined | null;
 };

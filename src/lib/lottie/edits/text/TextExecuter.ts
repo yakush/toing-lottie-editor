@@ -4,6 +4,7 @@ import {
   LayerRef,
   Lottie,
   TextLayer,
+  ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
 import { findLayerRef } from "../../utils/lottieUtils";
@@ -12,6 +13,8 @@ export interface Config {
   targetLayer?: LayerRef;
   enableMultiline: boolean;
   enableAlign: boolean;
+
+  campaignSlot?: "title" | "subtitle";
 }
 
 export interface Execution {
@@ -54,9 +57,11 @@ export default class TextExecuter
   execute(
     lottie: Lottie,
     editEndpoint: ToingEditEndpoint<Config, Execution>,
-    execution: Execution
+    campaign?: ToingCampaign,
+    execution?: Execution
   ) {
-    const { config } = editEndpoint;
+    const { config, defaults } = editEndpoint;
+
     const target: TextLayer = findLayerRef(
       lottie,
       config.targetLayer
@@ -74,29 +79,49 @@ export default class TextExecuter
       return;
     }
 
-    //text
-    let text = execution?.text;
+    //defaults
+    let text = defaults.text;
+    let justification = defaults?.align;
+
+    //campaign slot:
+    if (
+      config.campaignSlot &&
+      campaign?.texts &&
+      campaign?.texts[config.campaignSlot] &&
+      campaign?.texts[config.campaignSlot]?.text
+    ) {
+      text = campaign.texts[config.campaignSlot]?.text;
+    }
+
+    //execution
+    if (execution?.text) {
+      text = execution?.text;
+    }
+    if (execution?.align) {
+      justification = execution?.align;
+    }
+
+    //normalize
     if (text == null) {
       text = "";
     }
     if (text === "") {
       text = " ";
     }
-
     //all breaks should be "\r"
     text = text.replace(/\r\n/gm, "\r").replace(/\n/gm, "\r");
 
+    //set text
     if (target.t?.d?.k && target.t?.d?.k[0] && target.t?.d?.k[0].s?.t) {
       target.t.d.k[0].s.t = text;
     }
 
-    //align
-    if (config.enableAlign) {
-      let justification = execution?.align;
-      if (justification == null) {
-        justification = textJustifications.CENTER_JUSTIFY;
-      }
+    if (justification == null) {
+      justification = textJustifications.CENTER_JUSTIFY;
+    }
 
+    //set align
+    if (config.enableAlign) {
       if (target.t?.d?.k && target.t?.d?.k[0] && target.t?.d?.k[0].s) {
         target.t.d.k[0].s.j = execution?.align;
       }

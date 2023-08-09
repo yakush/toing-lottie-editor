@@ -1,5 +1,5 @@
 import { editTypes } from "../../enums";
-import { EditEndpointExecuter, Lottie, ToingEditEndpoint } from "../../types";
+import { EditEndpointExecuter, Lottie, ToingCampaign, ToingEditEndpoint } from "../../types";
 
 type Color = string;
 
@@ -52,7 +52,8 @@ export default class ColorsExecuter
   execute(
     lottie: Lottie,
     editEndpoint: ToingEditEndpoint<Config, Execution>,
-    execution: Execution
+    campaign?: ToingCampaign,
+    execution?: Execution
   ) {
     const { config } = editEndpoint;
   }

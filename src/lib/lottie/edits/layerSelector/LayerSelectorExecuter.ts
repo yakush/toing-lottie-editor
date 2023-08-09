@@ -5,6 +5,7 @@ import {
   Lottie,
   LottieRef,
   Shape,
+  ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
 import {
@@ -55,13 +56,27 @@ export default class LayerSelectorExecuter
   execute(
     lottie: Lottie,
     editEndpoint: ToingEditEndpoint<Config, Execution>,
-    execution: Execution
+    campaign?: ToingCampaign,
+    execution?: Execution
   ) {
     // console.log("EXEC LAYER SELECT");
-    const { config } = editEndpoint;
-    const selectedIdx =
-      execution?.selectedIdx != null ? execution?.selectedIdx : 0;
-    const hide = execution?.hide != null ? execution?.hide : 0;
+    const { config, defaults } = editEndpoint;
+
+    //defaults
+    let selectedIdx = defaults?.selectedIdx;
+    let hide = defaults?.hide;
+
+    //executions
+    if (execution?.selectedIdx != null) {
+      selectedIdx = execution?.selectedIdx;
+    }
+    if (execution?.hide !== null) {
+      hide = execution?.hide;
+    }
+
+    //normalize
+    selectedIdx = selectedIdx != null ? selectedIdx : 0;
+    hide = hide != null ? hide : false;
 
     // hide all:
     config?.options?.forEach((option, i) => {

@@ -28,7 +28,7 @@ function Inner(props: PropsWithChildren) {
   useEffect(() => {
     const run = async () => {
       try {
-        const json = await resolveSrcToObject<Lottie>(props.toingData.src);
+        const json = await resolveSrcToObject<Lottie>(props.toingData?.src);
         setLottie(json);
       } catch (e) {
         setLottie(undefined);
@@ -36,19 +36,19 @@ function Inner(props: PropsWithChildren) {
       }
     };
     run();
-  }, [props.toingData.src, setLottie]);
+  }, [props.toingData?.src, setLottie]);
 
   useEffect(() => {
-    setConfig(props.toingData.config);
-  }, [props.toingData.config, setConfig]);
+    setConfig(props.toingData?.config);
+  }, [props.toingData?.config, setConfig]);
 
   useEffect(() => {
-    setCampaign(props.toingData.campaign);
-  }, [props.toingData.campaign, setCampaign]);
+    setCampaign(props.toingData?.campaign);
+  }, [props.toingData?.campaign, setCampaign]);
 
   useEffect(() => {
-    setExecutions(props.toingData.execution);
-  }, [props.toingData.execution, setExecutions]);
+    setExecutions(props.toingData?.execution);
+  }, [props.toingData?.execution, setExecutions]);
 
   return <>{props.children}</>;
 }

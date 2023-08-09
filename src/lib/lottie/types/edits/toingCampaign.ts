@@ -5,13 +5,14 @@ export interface ToingCampaignTextEntry {
 
 export interface ToingCampaign {
   //todo: ToingCampaign type
-  logoUrl: string;
-  colors: {
-    primary: string;
-    secondary: string;
+  logoUrl?: string;
+  colors?: {
+    primary?: string;
+    secondary?: string;
   };
-  texts: {
-    title: ToingCampaignTextEntry;
+  texts?: {
+    title?: ToingCampaignTextEntry;
+    subtitle?: ToingCampaignTextEntry;
   };
 }
 
@@ -25,6 +26,10 @@ export const default_ToingCampaign: ToingCampaign = {
   },
   texts: {
     title: {
+      text: "no text",
+      color: "#000",
+    },
+    subtitle: {
       text: "no text",
       color: "#000",
     },

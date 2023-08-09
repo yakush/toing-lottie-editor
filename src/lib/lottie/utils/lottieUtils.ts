@@ -24,27 +24,10 @@ export function executeLottieEdits(
   userExecutions?: ToingUserExecutions,
   campaign?: ToingCampaign
 ) {
-  //1. config defaults
-  if (config) {
-    config.editEndpoints?.forEach((edit) => {
-      editsModule.edits.get(edit.type)?.execute(lottie, edit, edit.defaults);
-    });
-  }
-
-  //2. campaign if exists (overwriting previous step)
-  if (campaign) {
-    //todo: execute campaign
-  }
-
-  //3. executions if exists (overwriting previous step)
-  if (userExecutions && userExecutions.executions) {
-    config?.editEndpoints?.forEach((edit) => {
-      const exe = userExecutions.executions[edit.id];
-      if (exe != null) {
-        editsModule.edits.get(edit.type)?.execute(lottie, edit, exe);
-      }
-    });
-  }
+  config?.editEndpoints?.forEach((edit) => {
+    const exec = userExecutions?.executions[edit.id];
+    editsModule.edits.get(edit.type)?.execute(lottie, edit, campaign, exec);
+  });
 }
 
 //-------------------------------------------------------

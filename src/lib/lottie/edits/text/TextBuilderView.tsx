@@ -10,6 +10,12 @@ import { findLayerRef } from "../../utils/lottieUtils";
 import styles from "./TextBuilderView.module.css";
 import { Config, Execution } from "./TextExecuter";
 
+const campaignSlotOptions = [
+  { name: "---", value: undefined },
+  { name: "Title", value: "title" },
+  { name: "Subtitle", value: "subtitle" },
+];
+
 type ChangeFunc<T> = <K extends keyof T, V extends T[K]>(
   key: K,
   value: V
@@ -21,8 +27,7 @@ export default function TextBuilderView({ edit, onEditChanged }: Props) {
   const { config } = edit;
   const origLottie = useToingStore((store) => store.origLottie);
 
-  const id_enableMultiline = useId();
-  const id_enableAlign = useId();
+  const id = useId();
 
   const update = (newData: ToingEditEndpoint<Config, Execution>) => {
     if (!onEditChanged) {
@@ -75,19 +80,32 @@ export default function TextBuilderView({ edit, onEditChanged }: Props) {
           allowLayerTypes={[layerTypes.text]}
         />
 
-        <label htmlFor={id_enableMultiline}>enable Multiline</label>
+        <label htmlFor={`${id}-campaign-slot`}>campaign slot</label>
+        <select
+          id={`${id}-campaign-slot`}
+          value={campaignSlotOptions[0].value}
+          onChange={(e) => onChangedConfig("campaignSlot", e.target.value as any)}
+        >
+          {campaignSlotOptions.map((item) => (
+            <option key={item.name} value={item.value}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor={`${id}-enable-multiline`}>enable Multiline</label>
         <input
           className={styles.left}
           type="checkbox"
-          id={id_enableMultiline}
+          id={`${id}-enable-multiline`}
           checked={config.enableMultiline}
           onChange={(e) => onChangedConfig("enableMultiline", e.target.checked)}
         />
 
-        <label htmlFor={id_enableAlign}>enable Align</label>
+        <label htmlFor={`${id}-enable-align`}>enable Align</label>
         <input
           type="checkbox"
-          id={id_enableAlign}
+          id={`${id}-enable-align`}
           checked={config.enableAlign}
           onChange={(e) => onChangedConfig("enableAlign", e.target.checked)}
         />

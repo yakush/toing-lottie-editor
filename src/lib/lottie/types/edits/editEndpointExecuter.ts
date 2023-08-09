@@ -1,5 +1,6 @@
 import { editTypes } from "../../enums";
 import { Lottie } from "../lottieJson";
+import { ToingCampaign } from "./toingCampaign";
 import { ToingEditEndpoint } from "./toingEditEndpoint";
 
 export interface EditEndpointExecuter<
@@ -17,6 +18,7 @@ export interface EditEndpointExecuter<
   execute: (
     lottie: Lottie,
     editEndpoint: ToingEditEndpoint<T_CONFIG, T_EXECUTION>,
-    execution: T_EXECUTION
+    campaign?: ToingCampaign,
+    execution?: T_EXECUTION
   ) => void;
 }
