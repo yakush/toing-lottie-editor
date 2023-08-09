@@ -11,6 +11,7 @@ import {
 } from "../lib/lottie";
 import DemoLoader from "./DemoLoader";
 import styles from "./DemoPage.module.css";
+import { saveFile, uploadToServer } from "./utils";
 
 type Props = {};
 type demoType = "display" | "editor" | "builder";
@@ -48,9 +49,15 @@ export default function DemoPage({}: Props) {
       <DemoLoader onLoadedData={setToingData} />
 
       <div className={styles.demoSelect}>
-        <button style={{flex:1}} onClick={() => setDemo("display")}>display</button>
-        <button style={{flex:1}} onClick={() => setDemo("editor")}>editor</button>
-        <button style={{flex:1}} onClick={() => setDemo("builder")}>builder</button>
+        <button style={{ flex: 1 }} onClick={() => setDemo("display")}>
+          display
+        </button>
+        <button style={{ flex: 1 }} onClick={() => setDemo("editor")}>
+          editor
+        </button>
+        <button style={{ flex: 1 }} onClick={() => setDemo("builder")}>
+          builder
+        </button>
       </div>
       <div className={styles.demoContent}>
         {demo === "display" && <DemoDisplay toingData={toingData} />}
@@ -81,67 +88,29 @@ function DemoDisplay({ toingData }: { toingData?: ToingData }) {
       setIsRenderingGif(true);
       setRenderGifProgress(0);
 
+      const { src, campaign, config, execution } = toingData;
+
       try {
         const blob = await createGif({
-          src: toingData.src,
-          //width: 200,
+          src,
+          config,
+          execution,
+          campaign,
+
+          //width: 200, //<= omit one of the dimensions to auto calc according to the aspect ratio
           height: 200,
-          config: toingData.config,
-          execution: toingData.execution,
-          campaign: toingData.campaign,
-          // campaign: {
-          //   ...default_ToingCampaign,
-          //   logoUrl: createPublicUrl("logo192.png"),
-          // },
-          progressCallback: (progress) => {
-            setRenderGifProgress(progress);
-          },
+
+          progressCallback: (progress) => setRenderGifProgress(progress),
         });
 
-        await saveFile(blob);
+        await saveFile(blob, "toing.gif");
+        //await uploadToServer(blob,"toing.gif","http://localhost:3001/api/upload");
+
         setIsRenderingGif(false);
         setRenderGifProgress(100);
       } catch (error) {
         console.warn(error);
         setIsRenderingGif(false);
-      }
-    }
-
-    async function saveFile(blob: Blob) {
-      const filename = "test.gif";
-      const msSaveOrOpenBlob = (window.navigator as any)["msSaveOrOpenBlob"];
-      if (msSaveOrOpenBlob)
-        // IE10+
-        msSaveOrOpenBlob(blob, filename);
-      else {
-        // Others
-        const a = document.createElement("a");
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-        }, 0);
-      }
-    }
-
-    //upload to server:
-    async function uploadToServer(blob: Blob) {
-      const formData = new FormData();
-      formData.append("content", blob, "test.gif");
-
-      try {
-        const response = await fetch("http://localhost:3001/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        console.log(data);
-      } catch (err) {
-        console.error(err);
       }
     }
   }
