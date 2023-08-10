@@ -21,8 +21,10 @@
 .json {
   min-height: 100px;
   height: 100px;
+  max-width: 700px;
 
   overflow-y: scroll;
+  overflow-x: auto;
   padding: 3px;
   border: 1px solid gray;
 }
