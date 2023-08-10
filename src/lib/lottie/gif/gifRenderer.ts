@@ -120,6 +120,7 @@ class GifRenderer extends EventEmitter {
 
     //logo:
     const imgLogo = new Image();
+    imgLogo.crossOrigin = 'anonymous';
     const canvasLogo = document.createElement("canvas");
 
     let shouldDrawLogo = !!this.logoUrl;
