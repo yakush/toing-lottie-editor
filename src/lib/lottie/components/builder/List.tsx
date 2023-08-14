@@ -4,7 +4,6 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { combineClasses } from "../../utils/css";

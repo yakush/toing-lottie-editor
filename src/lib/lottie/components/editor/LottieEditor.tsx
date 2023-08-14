@@ -2,9 +2,9 @@ import useToingStore from "../../stores/ToingStore";
 import EditView from "./EditView";
 import styles from "./LottieEditor.module.css";
 
-type Props = {};
+// type Props = {};
 
-export default function LottieEditor({}: Props) {
+export default function LottieEditor() {
   const config = useToingStore((state) => state.config);
   const userExecutions = useToingStore((state) => state.userExecutions);
 

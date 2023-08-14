@@ -8,7 +8,6 @@ import { useMemo, useState } from "react";
 type Props = ToingPublicProps & {};
 
 const ToingDebug = withToingStore((props: Props) => {
-  const displayName = useToingStore((store) => store.displayName);
   const lottie = useToingStore((store) => store.lottie);
   const config = useToingStore((store) => store.config);
   const userExecutions = useToingStore((store) => store.userExecutions);

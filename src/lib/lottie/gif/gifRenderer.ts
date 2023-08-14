@@ -4,10 +4,12 @@ import { AnimationItem } from "lottie-web";
 
 const DEBUG = false;
 
+const DEFAULT_QUALITY = 5;
+const DEFAULT_FPS = 25;
+const DEFAULT_BACKGROUND = "#fff";
+
 const FRAME_ADD_DELAY = 1;
 const WORKERS = 2;
-const DEFAULT_QUALITY = 5;
-const BACKGROUND = "#fff";
 
 function logDebug(...args: any[]) {
   if (DEBUG) {
@@ -55,12 +57,12 @@ class GifRenderer extends EventEmitter {
 
   constructor({
     animationItem,
-    fps = 25,
+    fps = DEFAULT_FPS,
     logoUrl,
     logoPos,
     width,
     height,
-    quality = 5,
+    quality = DEFAULT_QUALITY,
   }: {
     animationItem: AnimationItem;
     fps?: number;
@@ -85,7 +87,7 @@ class GifRenderer extends EventEmitter {
       workerScript: createPublicUrl("gif.worker.js"),
       workers: WORKERS,
       quality,
-      background: BACKGROUND,
+      background: DEFAULT_BACKGROUND,
     });
   }
 
@@ -163,7 +165,7 @@ class GifRenderer extends EventEmitter {
 
     canvas.width = outputW;
     canvas.height = outputH;
-    canvas.style.background = BACKGROUND;
+    canvas.style.background = DEFAULT_BACKGROUND;
 
     if (!canvas.getContext) {
       throw new Error("canvas get context not supported");
@@ -206,7 +208,7 @@ class GifRenderer extends EventEmitter {
       const imageFrame = this.frame;
       imgFrame.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = BACKGROUND;
+        ctx.fillStyle = DEFAULT_BACKGROUND;
         ctx.rect(0, 0, canvas.width, canvas.height);
         ctx.fill();
 

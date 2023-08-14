@@ -40,7 +40,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint-lib": "eslint src/lib/lottie"
   },
   "devDependencies": {
     "@types/gif.js": "^0.2.2",

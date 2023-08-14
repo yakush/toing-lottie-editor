@@ -1,11 +1,11 @@
 import LottiePlayer from "../LottiePlayer";
 import { withToingStore } from "../ToingStoreWrapper";
-import { ToingPublicProps } from "../toing-public-props";
+// import { ToingPublicProps } from "../toing-public-props";
 import styles from "./ToingDisplay.module.css";
 
-type Props = ToingPublicProps & {};
+// type Props = ToingPublicProps & {};
 
-const ToingDisplay = withToingStore(({}: Props) => {
+const ToingDisplay = withToingStore(() => {
   return (
     <div className={styles.root}>
       <LottiePlayer controls={false} />

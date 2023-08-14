@@ -7,9 +7,9 @@ import BuilderEditView from "./BuilderEditView";
 import styles from "./LottieBuilder.module.css";
 import Button from "../ui/Button";
 
-type Props = {};
+// type Props = {};
 
-export default function LottieBuilder({}: Props) {
+export default function LottieBuilder() {
   const edits = useToingStore((state) => state.config);
   const setConfig = useToingStore((state) => state.setConfig);
   const lottie = useToingStore((store) => store.lottie);

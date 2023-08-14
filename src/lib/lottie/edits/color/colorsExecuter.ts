@@ -55,6 +55,6 @@ export default class ColorsExecuter
     campaign?: ToingCampaign,
     execution?: Execution
   ) {
-    const { config } = editEndpoint;
+    // const { config } = editEndpoint;
   }
 }

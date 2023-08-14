@@ -4,9 +4,9 @@ import { useListStore, withListStore } from "./List";
 import styles from "./LottieJson.module.css";
 import LottieTree from "./LottieLayersTree";
 
-type Props = {};
+// type Props = {};
 
-const LottieJson = withListStore(({}: Props) => {
+const LottieJson = withListStore(() => {
   const lottie = useToingStore((state) => state.lottie);
   const listStore = useListStore();
 
