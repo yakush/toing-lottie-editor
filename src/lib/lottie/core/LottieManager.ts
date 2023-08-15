@@ -273,23 +273,7 @@ export class LottieManager extends EventEmitter {
    */
   private digestLottie() {
     // console.log("DIGESTING LOTTIE");
-
-    if (this.lottie) {
-      //layer/shape refs:
-      LottieRefHelper.createLottieRefs(this.lottie);
-
-      //color refs:
-      LottieColorRefHelper.createColorGroups(this.lottie);      
-      // console.log(LottieColorRefHelper.getColorGroups(this.lottie));
-
-    }
-
-    if (!this.lottie) {
-      return;
-    }
-    if (!this.config) {
-      return;
-    }
+    LottieHelper.digestLottie(this.lottie, this.config);
   }
   //-------------------------------------------------------
 

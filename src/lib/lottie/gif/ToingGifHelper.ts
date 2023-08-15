@@ -51,6 +51,7 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
   const jsonOrig = await resolveSource<Lottie>(src);
   const json = structuredClone(jsonOrig);
 
+  LottieHelper.digestLottie(json, config);
   LottieHelper.executeLottieEdits(json, config, execution, campaign);
 
   //load animation
