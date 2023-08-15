@@ -2,7 +2,7 @@ import { LottieColorRefHelper } from "../../core/LottieColorRefHelper";
 import {
   PartialColorsPalette,
   colorSchemaSlots,
-  getEmptyColorsPalette
+  getEmptyColorsPalette,
 } from "../../core/colorSchema";
 import { editTypes } from "../../enums";
 import {
@@ -82,7 +82,6 @@ export default class ColorsExecuter
         }
       }
     }
-    console.log(JSON.stringify(palette, null, 2));
 
     // execute:
     const groups = LottieColorRefHelper.getColorGroups(lottie);
@@ -112,8 +111,6 @@ export default class ColorsExecuter
             }
           }
         }
-
-        console.log(groupColor, targetColor, groupColor === targetColor);
 
         LottieColorRefHelper.setLottieColor(refs, targetColor);
       }

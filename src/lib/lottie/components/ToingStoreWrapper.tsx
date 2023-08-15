@@ -28,7 +28,9 @@ function Inner(props: PropsWithChildren) {
   useEffect(() => {
     const run = async () => {
       try {
-        const json = await resolveSrcToObject<Lottie>(props.toingData?.src);
+        //copy it so children can't update it
+        const orig = await resolveSrcToObject<Lottie>(props.toingData?.src);
+        const json = orig ? structuredClone(orig) : orig;
         setLottie(json);
       } catch (e) {
         setLottie(undefined);
@@ -39,15 +41,23 @@ function Inner(props: PropsWithChildren) {
   }, [props.toingData?.src, setLottie]);
 
   useEffect(() => {
-    setConfig(props.toingData?.config);
+    //copy it so children can't update it
+    const orig = props.toingData?.config;
+    const json = orig ? structuredClone(orig) : orig;
+    setConfig(json);
   }, [props.toingData?.config, setConfig]);
 
   useEffect(() => {
-    setCampaign(props.toingData?.campaign);
+    //copy it so children can't update it
+    const orig = props.toingData?.campaign;
+    const json = orig ? structuredClone(orig) : orig;
+    setCampaign(json);
   }, [props.toingData?.campaign, setCampaign]);
 
   useEffect(() => {
-    setExecutions(props.toingData?.execution);
+    const orig = props.toingData?.execution;
+    const json = orig ? structuredClone(orig) : orig;
+    setExecutions(json);
   }, [props.toingData?.execution, setExecutions]);
 
   return <>{props.children}</>;
