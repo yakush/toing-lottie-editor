@@ -1,12 +1,12 @@
 import React from "react";
 import icon_shape from "../../assets/icon_shape.svg";
+import { LottieRefHelper } from "../../core/LottieRefHelper";
 import { shapeTypeToName, shapeTypes } from "../../enums";
 import { LayerProps } from "../../modules/lottieLayersUiModule";
 import useDragAndDropStore from "../../stores/DragAndDropStore";
 import useToingStore from "../../stores/ToingStore";
 import { GroupShape, Shape, ShapeLayer } from "../../types";
 import { combineClasses } from "../../utils/css";
-import { getLottieRef } from "../../utils/lottieUtils";
 import List from "../builder/List";
 import ListHeader from "../builder/ListHeader";
 import LayerTitle from "./LayerTitle";
@@ -61,7 +61,7 @@ const ShapeTitle = ({ shape }: ShapeTitleProps) => {
   const endDrag = useDragAndDropStore((store) => store.end);
 
   const onDragStart = (e: React.DragEvent) => {
-    startDrag("shape", getLottieRef(shape));
+    startDrag("shape", LottieRefHelper.getLottieRef(shape));
   };
   const onDragEnd = (e: React.DragEvent) => {
     endDrag();

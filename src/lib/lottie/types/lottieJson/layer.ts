@@ -1,3 +1,4 @@
+import { Effect } from "./effect";
 import { Shape } from "./shape";
 
 export interface Layer {
@@ -23,6 +24,9 @@ export interface Layer {
 
   /** blend mode */
   bm?: number;
+
+  /** effects */
+  ef?: Effect[];
 
   //   [key: string]: any;
 }

@@ -1,3 +1,4 @@
+import { LottieRefHelper } from "../../core/LottieRefHelper";
 import { editTypes, layerTypes, textJustifications } from "../../enums";
 import {
   EditEndpointExecuter,
@@ -7,7 +8,6 @@ import {
   ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
-import { findLayerRef } from "../../utils/lottieUtils";
 
 export interface Config {
   targetLayer?: LayerRef;
@@ -39,7 +39,10 @@ export default class TextExecuter
     lottie: Lottie | undefined,
     edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
-    const targetLayer = findLayerRef(lottie, edit?.config?.targetLayer);
+    const targetLayer = LottieRefHelper.findLayerRef(
+      lottie,
+      edit?.config?.targetLayer
+    );
 
     let defaults: Execution = {};
 
@@ -62,7 +65,7 @@ export default class TextExecuter
   ) {
     const { config, defaults } = editEndpoint;
 
-    const target: TextLayer = findLayerRef(
+    const target: TextLayer = LottieRefHelper.findLayerRef(
       lottie,
       config.targetLayer
     ) as TextLayer;

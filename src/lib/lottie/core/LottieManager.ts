@@ -10,11 +10,9 @@ import {
   default_ToingConfig,
   default_ToingUserExecutions,
 } from "../types";
-import {
-  collectSubShapesTargets,
-  createLottieRefs,
-  executeLottieEdits,
-} from "../utils/lottieUtils";
+import { LottieColorRefHelper } from "./LottieColorRefHelper";
+import { LottieHelper } from "./LottieHelper";
+import { LottieRefHelper } from "./LottieRefHelper";
 
 export type updater<T> = null | undefined | T | ((current: T) => T);
 
@@ -200,19 +198,19 @@ export class LottieManager extends EventEmitter {
   //-------------------------------------------------------
 
   blinkShape(target: Shape) {
-    const allTargets = collectSubShapesTargets(target);
+    const allTargets = LottieHelper.collectSubShapesTargets(target);
     this.performBlinkList(allTargets);
   }
 
   blinkLayer(target: Layer) {
-    const allTargets = collectSubShapesTargets(target);
+    const allTargets = LottieHelper.collectSubShapesTargets(target);
     this.performBlinkList(allTargets);
   }
 
   blinkTargetList(targets: (Shape | Layer)[]) {
     let allTargets: (Shape | Layer)[] = [];
     targets.forEach((target) => {
-      const subTargets = collectSubShapesTargets(target);
+      const subTargets = LottieHelper.collectSubShapesTargets(target);
       allTargets.push(...subTargets);
     });
     this.performBlinkList(allTargets);
@@ -277,8 +275,14 @@ export class LottieManager extends EventEmitter {
     // console.log("DIGESTING LOTTIE");
 
     if (this.lottie) {
-      //add refs:
-      createLottieRefs(this.lottie);
+      //layer/shape refs:
+      LottieRefHelper.createLottieRefs(this.lottie);
+
+      //color refs:
+      LottieColorRefHelper.createColorGroups(this.lottie);
+      
+      console.log(LottieColorRefHelper.getColorGroups(this.lottie));
+
     }
 
     if (!this.lottie) {
@@ -299,7 +303,12 @@ export class LottieManager extends EventEmitter {
       return;
     }
 
-    executeLottieEdits(lottie, config, this.executions, this.campaign);
+    LottieHelper.executeLottieEdits(
+      lottie,
+      config,
+      this.executions,
+      this.campaign
+    );
 
     this.setLottie({ ...lottie }, { digest: false, updateFromEdits: false });
   }

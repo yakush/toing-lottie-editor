@@ -1,5 +1,4 @@
 import lottie from "lottie-web";
-import { executeLottieEdits } from "../utils/lottieUtils";
 import GifRenderer, { GifRendererEvents } from "./gifRenderer";
 import { resolveSrcToObject as resolveSource } from "../utils/path";
 import {
@@ -8,6 +7,7 @@ import {
   ToingConfig,
   ToingUserExecutions,
 } from "../types";
+import { LottieHelper } from "../core/LottieHelper";
 
 const FPS = 25;
 
@@ -51,7 +51,7 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
   const jsonOrig = await resolveSource<Lottie>(src);
   const json = structuredClone(jsonOrig);
 
-  executeLottieEdits(json, config, execution, campaign);
+  LottieHelper.executeLottieEdits(json, config, execution, campaign);
 
   //load animation
   const container = document.createElement("svg");

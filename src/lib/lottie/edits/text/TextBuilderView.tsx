@@ -1,12 +1,12 @@
 import { useId } from "react";
 import TextAlignSelector from "../../components/TextAlignSelector";
 import RefSelector from "../../components/builder/RefSelector";
+import { LottieRefHelper } from "../../core/LottieRefHelper";
 import { editTypes, layerTypes } from "../../enums";
 import { EditBuilderProps } from "../../modules/builderUiModule";
 import editsModule from "../../modules/editorModule";
 import useToingStore from "../../stores/ToingStore";
 import { LayerRef, LottieRef, ToingEditEndpoint } from "../../types";
-import { findLayerRef } from "../../utils/lottieUtils";
 import styles from "./TextBuilderView.module.css";
 import { Config, Execution } from "./TextExecuter";
 
@@ -57,7 +57,7 @@ export default function TextBuilderView({ edit, onEditChanged }: Props) {
 
     //TODO: get defaults from target layer should NOT BE in the view logic!
     //get defaults from target layer:
-    const origLayer = findLayerRef(origLottie, targetLayerRef);
+    const origLayer = LottieRefHelper.findLayerRef(origLottie, targetLayerRef);
     if (origLayer && origLayer.ty === layerTypes.text) {
       const editExecuter = editsModule.edits.get(editTypes.text);
       if (editExecuter && origLottie) {
@@ -84,7 +84,9 @@ export default function TextBuilderView({ edit, onEditChanged }: Props) {
         <select
           id={`${id}-campaign-slot`}
           value={campaignSlotOptions[0].value}
-          onChange={(e) => onChangedConfig("campaignSlot", e.target.value as any)}
+          onChange={(e) =>
+            onChangedConfig("campaignSlot", e.target.value as any)
+          }
         >
           {campaignSlotOptions.map((item) => (
             <option key={item.name} value={item.value}>

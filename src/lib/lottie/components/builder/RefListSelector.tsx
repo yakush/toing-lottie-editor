@@ -1,17 +1,13 @@
 import { DragEvent, useMemo, useState } from "react";
 import icon_target from "../../assets/icon_target.svg";
+import { LottieRefHelper } from "../../core/LottieRefHelper";
+import { layerTypes, shapeTypes } from "../../enums";
+import useDragAndDropStore from "../../stores/DragAndDropStore";
+import useToingStore from "../../stores/ToingStore";
 import { Layer, LottieRef, Shape } from "../../types";
 import { combineClasses } from "../../utils/css";
-import {
-  findLayerRef,
-  findLottieRef,
-  findShapeRef,
-} from "../../utils/lottieUtils";
-import styles from "./RefListSelector.module.css";
-import { layerTypes, shapeTypes } from "../../enums";
-import useToingStore from "../../stores/ToingStore";
-import useDragAndDropStore from "../../stores/DragAndDropStore";
 import Button from "../ui/Button";
+import styles from "./RefListSelector.module.css";
 type Props = {
   values?: LottieRef[];
   onChange?: (refs: LottieRef[]) => void;
@@ -45,7 +41,8 @@ export default function RefListSelector({
 
   const targets = useMemo(() => {
     const targets =
-      lottie && targetRefs.map((ref) => findLottieRef(lottie, ref));
+      lottie &&
+      targetRefs.map((ref) => LottieRefHelper.findLottieRef(lottie, ref));
     return targets;
   }, [lottie, targetRefs]);
 
@@ -102,7 +99,7 @@ export default function RefListSelector({
 
     // allowLayerTypes
     if (data && type === "layer" && allowLayerTypes?.length) {
-      const target = findLayerRef(lottie, data);
+      const target = LottieRefHelper.findLayerRef(lottie, data);
       if (target) {
         if (!allowLayerTypes.includes(target?.ty)) {
           return false;
@@ -112,7 +109,7 @@ export default function RefListSelector({
 
     // allowShapeTypes
     if (data && type === "shape" && allowShapeTypes?.length) {
-      const target = findShapeRef(lottie, data);
+      const target = LottieRefHelper.findShapeRef(lottie, data);
       if (target) {
         if (!allowShapeTypes.includes(target?.ty)) {
           return false;

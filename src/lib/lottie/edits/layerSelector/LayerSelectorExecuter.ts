@@ -1,3 +1,5 @@
+import { LottieHelper } from "../../core/LottieHelper";
+import { LottieRefHelper } from "../../core/LottieRefHelper";
 import { editTypes } from "../../enums";
 import {
   EditEndpointExecuter,
@@ -8,10 +10,6 @@ import {
   ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
-import {
-  collectSubShapesTargets,
-  findLottieRef,
-} from "../../utils/lottieUtils";
 
 export interface LayerSelectorOption {
   id: string;
@@ -81,9 +79,9 @@ export default class LayerSelectorExecuter
     // hide all:
     config?.options?.forEach((option, i) => {
       const targets = option.targets.reduce<(Shape | Layer)[]>((acc, ref) => {
-        const target = findLottieRef(lottie, ref);
+        const target = LottieRefHelper.findLottieRef(lottie, ref);
         if (target) {
-          const targetAndSubs = collectSubShapesTargets(target);
+          const targetAndSubs = LottieHelper.collectSubShapesTargets(target);
           acc.push(...targetAndSubs);
         }
         return acc;
@@ -107,9 +105,9 @@ export default class LayerSelectorExecuter
       }
       const targets = selectedOption.targets.reduce<(Shape | Layer)[]>(
         (acc, ref) => {
-          const target = findLottieRef(lottie, ref);
+          const target = LottieRefHelper.findLottieRef(lottie, ref);
           if (target) {
-            const targetAndSubs = collectSubShapesTargets(target);
+            const targetAndSubs = LottieHelper.collectSubShapesTargets(target);
             acc.push(...targetAndSubs);
           }
           return acc;

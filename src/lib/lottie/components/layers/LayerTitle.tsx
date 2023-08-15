@@ -1,11 +1,11 @@
 import icon_layer from "../../assets/icon_layer.svg";
 import { Layer } from "../../types";
 import { combineClasses } from "../../utils/css";
-import { getLottieRef } from "../../utils/lottieUtils";
 import styles from "./LayerTitle.module.css";
 import { layerTypes } from "../../enums";
 import useDragAndDropStore from "../../stores/DragAndDropStore";
 import useToingStore from "../../stores/ToingStore";
+import { LottieRefHelper } from "../../core/LottieRefHelper";
 
 type Props = {
   layer: Layer;
@@ -20,7 +20,7 @@ export default function LayerTitle({ layer, children }: Props) {
   const typeName = layerTypes[layer.ty] ?? "unknown";
 
   const onDragStart = (e: React.DragEvent) => {
-    startDrag("layer", getLottieRef(layer));
+    startDrag("layer", LottieRefHelper.getLottieRef(layer));
   };
   const onDragEnd = (e: React.DragEvent) => {
     endDrag();

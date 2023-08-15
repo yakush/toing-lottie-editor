@@ -1,4 +1,5 @@
 import { shapeTypes } from "../../enums";
+import { LottieColor } from "./lottieColor";
 
 export interface Shape {
   ty: shapeTypes; //type
@@ -6,12 +7,12 @@ export interface Shape {
   hd?: boolean;
 
   /** color */
-  c?: Color;
+  c?: LottieColor;
 
   /** gradient */
   g?: {
     /** keys */
-    k?: Color;
+    k?: LottieColor;
   };
 
   //   [key: string]: any;
@@ -19,26 +20,4 @@ export interface Shape {
 
 export interface GroupShape extends Shape {
   it?: Shape[]; //items in group
-}
-
-//-------------------------------------------------------
-// COLOR
-//-------------------------------------------------------
-
-export interface Color {
-  a?: number;
-  ix?: number;
-  k: number[] | ColorKeyFrame[];
-}
-
-export interface ColorKeyFrame {
-  i: { x: number; y: number };
-  o: { x: number; y: number };
-  s: number[];
-  t: number;
-}
-
-export function isSimpleLottieColor(c: Color) {
-  const { a } = c;
-  return a === 0 || a === undefined;
 }

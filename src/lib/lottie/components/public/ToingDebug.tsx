@@ -4,6 +4,8 @@ import { ToingPublicProps } from "../toing-public-props";
 import { Card, CardContent } from "@mui/material";
 import styles from "./ToingDebug.module.css";
 import { useMemo, useState } from "react";
+import { Lottie } from "../../types";
+import { LottieColorRefHelper } from "../../core/LottieColorRefHelper";
 
 type Props = ToingPublicProps & {};
 
@@ -15,6 +17,7 @@ const ToingDebug = withToingStore((props: Props) => {
 
   return (
     <div className={styles.root}>
+      <Colors lottie={lottie} />
       {/* <div> displayName: {JSON.stringify(displayName)}</div> */}
       <div className={styles.items}>
         <Content title={"lottie"} data={lottie} />
@@ -28,6 +31,35 @@ const ToingDebug = withToingStore((props: Props) => {
 
 //-------------------------------------------------------
 //-------------------------------------------------------
+function Colors({ lottie }: { lottie?: Lottie }) {
+  if (!lottie) {
+    return <div></div>;
+  }
+
+  const groups = LottieColorRefHelper.getColorGroups(lottie);
+
+  return (
+    <div>
+      {groups.map((item, i) => (
+        <div key={i}>
+          <div style={{ backgroundColor: item.colorHex, padding: 5 }}>
+            <div
+              style={{
+                backgroundColor: "rgba(255,255,255,0.8)",
+                padding: 3,
+              }}
+            >
+              {item.refs.length} x {item.colorHex}
+              {item.refs.map((ref, i) => (
+                <div key={i}>{ref.type}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 type ContentProps = {
   title: string;
