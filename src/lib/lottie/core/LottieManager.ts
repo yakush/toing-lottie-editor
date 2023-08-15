@@ -279,9 +279,8 @@ export class LottieManager extends EventEmitter {
       LottieRefHelper.createLottieRefs(this.lottie);
 
       //color refs:
-      LottieColorRefHelper.createColorGroups(this.lottie);
-      
-      console.log(LottieColorRefHelper.getColorGroups(this.lottie));
+      LottieColorRefHelper.createColorGroups(this.lottie);      
+      // console.log(LottieColorRefHelper.getColorGroups(this.lottie));
 
     }
 

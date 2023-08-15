@@ -4,13 +4,14 @@ import { ToingEditEndpoint } from "../types";
 import UnknownEditView from "../edits/unknown/UnknownEditView";
 import TextEditView from "../edits/text/TextEditView";
 import LayerSelectorEditView from "../edits/layerSelector/LayerSelectorEditView";
+import ColorsEditView from "../edits/color/ColorsEditView";
 
 //-------------------------------------------------------
 // register all edit components
 //-------------------------------------------------------
 const edits = new ComponentsRegistry<editTypes, EditProps>();
 edits.registerDefault(UnknownEditView);
-edits.register(editTypes.colors, () => <div>colors</div>);
+edits.register(editTypes.colors, ColorsEditView);
 edits.register(editTypes.layerSelector, LayerSelectorEditView);
 edits.register(editTypes.text, TextEditView);
 

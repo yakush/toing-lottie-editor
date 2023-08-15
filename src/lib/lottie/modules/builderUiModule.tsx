@@ -1,3 +1,4 @@
+import ColorsBuilderView from "../edits/color/ColorsBuilderView";
 import LayerSelectorBuilderView from "../edits/layerSelector/LayerSelectorBuilderView";
 import TextBuilderView from "../edits/text/TextBuilderView";
 import { editTypes } from "../enums";
@@ -8,7 +9,7 @@ import { ToingEditEndpoint } from "../types";
 // register all edit-builder components
 //-------------------------------------------------------
 const editBuilders = new ComponentsRegistry<editTypes, EditBuilderProps>();
-//editBuilders.register(editTypes.colors, ....);
+editBuilders.register(editTypes.colors, ColorsBuilderView);
 editBuilders.register(editTypes.layerSelector, LayerSelectorBuilderView);
 editBuilders.register(editTypes.text, TextBuilderView);
 

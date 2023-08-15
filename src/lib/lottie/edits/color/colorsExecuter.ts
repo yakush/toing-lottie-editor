@@ -1,29 +1,35 @@
+import { LottieColorRefHelper } from "../../core/LottieColorRefHelper";
+import {
+  PartialColorsPalette,
+  colorSchemaSlots,
+  getEmptyColorsPalette
+} from "../../core/colorSchema";
 import { editTypes } from "../../enums";
-import { EditEndpointExecuter, Lottie, ToingCampaign, ToingEditEndpoint } from "../../types";
+import {
+  EditEndpointExecuter,
+  Lottie,
+  ToingCampaign,
+  ToingEditEndpoint,
+} from "../../types";
 
-type Color = string;
-
-export interface ColorTarget {
+export interface PaletteOption {
   name: string;
   description: string;
-  targetColor: Color;
-}
-
-export interface Palette {
-  name: string;
-  description: string;
-  colors: Color[];
+  colors: PartialColorsPalette;
 }
 
 export interface Config {
-  colorTargets?: ColorTarget[];
-  palettes?: Palette[];
+  /** slot => color in the json */
+  slots?: PartialColorsPalette;
+
+  /** optional predefined palettes */
+  palettes?: PaletteOption[];
 }
 
 export interface Execution {
-  selectedSchema: number; //-1 for user defined
-  isCustomSchema: boolean;
-  userDefinedColors?: Color[];
+  selectedPalette: number; //-1 for user defined
+  isCustomPalette: boolean;
+  userDefinedColors?: PartialColorsPalette;
 }
 
 export default class ColorsExecuter
@@ -33,7 +39,7 @@ export default class ColorsExecuter
 
   createNewConfig(): Config {
     return {
-      //colorTargets:[],
+      slots: getEmptyColorsPalette(),
       //palettes:[],
     };
   }
@@ -43,8 +49,8 @@ export default class ColorsExecuter
     edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
     let defaults: Execution = {
-      isCustomSchema: false,
-      selectedSchema: 0,
+      isCustomPalette: false,
+      selectedPalette: 0,
     };
     return defaults;
   }
@@ -55,6 +61,62 @@ export default class ColorsExecuter
     campaign?: ToingCampaign,
     execution?: Execution
   ) {
-    // const { config } = editEndpoint;
+    const { config } = editEndpoint;
+
+    let palette: PartialColorsPalette = getEmptyColorsPalette();
+    //1. set to default
+
+    //2. set to campaign
+
+    //3. set to user-defined
+    if (execution?.isCustomPalette) {
+      for (const key in execution.userDefinedColors) {
+        if (
+          Object.prototype.hasOwnProperty.call(execution.userDefinedColors, key)
+        ) {
+          const slot = key as colorSchemaSlots;
+          const color = execution.userDefinedColors[slot];
+          if (color) {
+            palette[slot] = color;
+          }
+        }
+      }
+    }
+    console.log(JSON.stringify(palette, null, 2));
+
+    // execute:
+    const groups = LottieColorRefHelper.getColorGroups(lottie);
+
+    for (const key in groups) {
+      if (Object.prototype.hasOwnProperty.call(groups, key)) {
+        const group = groups[key];
+        const groupColor = group.colorHex;
+        const refs = group.refs;
+
+        let targetColor = groupColor;
+
+        //find matching config chema entry (same color)
+        if (config.slots) {
+          const slotEntry = Object.entries(config.slots).find(
+            ([key, value]) => value === groupColor
+          );
+
+          if (slotEntry) {
+            const [key] = slotEntry;
+            const slot = key as colorSchemaSlots;
+            //find it in the palette
+            const targetPaletteColor = palette[slot];
+
+            if (targetPaletteColor) {
+              targetColor = targetPaletteColor;
+            }
+          }
+        }
+
+        console.log(groupColor, targetColor, groupColor === targetColor);
+
+        LottieColorRefHelper.setLottieColor(refs, targetColor);
+      }
+    }
   }
 }

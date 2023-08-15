@@ -1,0 +1,41 @@
+.root {
+}
+
+/* ------------------------------------------------------- */
+
+.ColorGroups {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.ColorGroupItem {
+  cursor: pointer;
+}
+
+.ColorSlotTarget {
+  margin: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid gray;
+  gap: 5px;
+  font-size: 0.8em;
+
+}
+
+.ColorSlotTarget.dragOver {
+  background-color: limegreen;
+}
+
+.ColorSlotTarget .name {
+  font-weight: bold;
+  height: 20px;
+  width: 80px;
+}
+
+.space {
+  flex: 1;
+}

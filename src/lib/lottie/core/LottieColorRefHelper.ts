@@ -32,9 +32,6 @@ export const LottieColorRefHelper = {
   createColorGroups,
   deleteColorGroups,
   getColorGroups,
-
-  groupColorsRefs,
-  getColorRefs,
   setLottieColor,
 };
 
@@ -42,8 +39,8 @@ export const LottieColorRefHelper = {
 //-------------------------------------------------------
 // color refs
 
-function getColorGroups(lottie: Lottie & WithRef) {
-  return lottie[__priv__]?.colorRefs ?? [];
+function getColorGroups(lottie?: Lottie & WithRef) {
+  return lottie?.[__priv__]?.colorRefs ?? [];
 }
 
 function createColorGroups(lottie: Lottie & WithRef) {
