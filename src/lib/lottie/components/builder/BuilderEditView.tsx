@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import builderUiModule from "../../modules/builderUiModule";
 import { ToingEditEndpoint } from "../../types";
 import BuilderCard from "./BuilderCard";
@@ -13,6 +13,7 @@ type Props = {
 
 export default function BuilderEditView({ edit }: Props) {
   const setConfig = useToingStore((state) => state.setConfig);
+  const [open, setOpen] = useState(true);
 
   const id_name = useId();
   const id_description = useId();
@@ -66,7 +67,10 @@ export default function BuilderEditView({ edit }: Props) {
       <BuilderCardHeader>
         <div className={styles.header}>
           {/* <div className={styles.id}>[{edit.id}]</div> */}
-          <div className={styles.type}>{edit.type} edit</div>
+          <div className={styles.title} onClick={() => setOpen((x) => !x)}>
+            <div className={styles.opener}>{open ? "-" : "+"}</div>
+            <div className={styles.type}>{edit.type}</div>
+          </div>
           <div className={styles.ui}>
             <Button onClick={(e) => move(-1)}>UP</Button>
             <Button onClick={(e) => move(+1)}>DOWN</Button>
@@ -75,39 +79,41 @@ export default function BuilderEditView({ edit }: Props) {
         </div>
       </BuilderCardHeader>
 
-      <div>
-        {/* //------------------------------------------------------- */}
-        {/* general fields */}
-        <div className={styles.generalFields}>
-          <label htmlFor={id_name}>name</label>
-          <input
-            type="text"
-            name="name"
-            id={id_name}
-            value={edit.name}
-            autoComplete="off"
-            onChange={(e) => updateEdit({ name: e.target.value })}
-          />
+      {open && (
+        <div>
+          {/* //------------------------------------------------------- */}
+          {/* general fields */}
+          <div className={styles.generalFields}>
+            <label htmlFor={id_name}>name</label>
+            <input
+              type="text"
+              name="name"
+              id={id_name}
+              value={edit.name}
+              autoComplete="off"
+              onChange={(e) => updateEdit({ name: e.target.value })}
+            />
 
-          <label htmlFor={id_description}>description</label>
-          <input
-            type="text"
-            name="description"
-            id={id_description}
-            value={edit.description}
-            autoComplete="off"
-            onChange={(e) => updateEdit({ description: e.target.value })}
-          />
+            <label htmlFor={id_description}>description</label>
+            <input
+              type="text"
+              name="description"
+              id={id_description}
+              value={edit.description}
+              autoComplete="off"
+              onChange={(e) => updateEdit({ description: e.target.value })}
+            />
+          </div>
+
+          <hr />
+          {/* //------------------------------------------------------- */}
+          {/* specific editor */}
+          {builderUiModule.editBuilders.getComponent(edit.type, {
+            edit,
+            onEditChanged,
+          })}
         </div>
-
-        <hr />
-        {/* //------------------------------------------------------- */}
-        {/* specific editor */}
-        {builderUiModule.editBuilders.getComponent(edit.type, {
-          edit,
-          onEditChanged,
-        })}
-      </div>
+      )}
     </BuilderCard>
   );
 }

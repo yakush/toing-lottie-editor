@@ -36,5 +36,5 @@
 
 .edits {
   grid-area: edits;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
