@@ -114,8 +114,8 @@ function DemoDisplay({ toingData }) {
           campaign,
 
           //width: 200, //<= omit one of the dimensions to auto calc according to the aspect ratio
-          height: 200,
-          quality: 2,
+          height: 360,
+          quality: 4,
 
           progressCallback: (progress) => setRenderGifProgress(progress),
         });
