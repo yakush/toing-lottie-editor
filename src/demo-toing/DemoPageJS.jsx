@@ -5,11 +5,13 @@ import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import {
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
   Collapse,
   IconButton,
+  LinearProgress,
   Tab,
   Tabs,
   Typography,
@@ -32,6 +34,9 @@ export default function DemoPageJs() {
   const [demo, setDemo] = useState("display");
   const [toingData, setToingData] = useState();
 
+  const [isRenderingGif, setIsRenderingGif] = useState(false);
+  const [renderGifProgress, setRenderGifProgress] = useState(0);
+
   const onExportExecution = (execution) => {
     console.log(JSON.stringify(execution ?? {}, null, 2));
     setToingData((data) => data && { ...data, execution });
@@ -41,63 +46,6 @@ export default function DemoPageJs() {
     console.log(JSON.stringify(config ?? {}, null, 2));
     setToingData((data) => data && { ...data, config });
   };
-
-  return (
-    <div className={styles.rootDemoPage}>
-      <DemoLoader onLoadedData={setToingData} />
-
-      <Card variant="elevation">
-        <CardContent>
-          {/* TABS */}
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={demo}
-              onChange={(event, value) => {
-                setDemo(value);
-              }}
-              aria-label="tabs"
-            >
-              <Tab label="display" value="display" />
-              <Tab label="editor" value="editor" />
-              <Tab label="builder" value="builder" />
-              <Tab label="debug" value="debug" />
-            </Tabs>
-          </Box>
-
-          {/* CONTENT */}
-          <div className={styles.demoContent}>
-            {demo === "display" && (
-              <DemoDisplay toingData={toingData}></DemoDisplay>
-            )}
-            {demo === "editor" && (
-              <DemoEditor
-                onExportExecution={onExportExecution}
-                toingData={toingData}
-              ></DemoEditor>
-            )}
-            {demo === "builder" && (
-              <DemoBuilder
-                onExportConfig={onExportConfig}
-                toingData={toingData}
-              ></DemoBuilder>
-            )}
-            {demo === "debug" && (
-              <DemoDebug toingData={toingData}></DemoDebug>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
-
-//-------------------------------------------------------
-//-------------------------------------------------------
-//-------------------------------------------------------
-
-function DemoDisplay({ toingData }) {
-  const [isRenderingGif, setIsRenderingGif] = useState(false);
-  const [renderGifProgress, setRenderGifProgress] = useState(0);
 
   async function saveGif() {
     if (toingData) {
@@ -132,67 +80,92 @@ function DemoDisplay({ toingData }) {
     }
   }
 
+  //-------------------------------------------------------
+  // JSX
   return (
-    <div className={styles.DemoDisplay}>
-      {!toingData && "no data"}
-      {toingData && (
-        <div className={styles.content}>
-          <div className={styles.display}>
-            <ToingDisplay toingData={toingData} />
-          </div>
-          <button onClick={() => saveGif()} disabled={isRenderingGif}>
-            render to gif{" "}
-            {isRenderingGif && (
+    <div className={styles.rootDemoPage}>
+      <DemoLoader onLoadedData={setToingData} />
+
+      <Card variant="elevation">
+        <CardContent>
+          {/* TABS HEADER */}
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={demo}
+              onChange={(event, value) => {
+                setDemo(value);
+              }}
+              aria-label="tabs"
+            >
+              <Tab label="display" value="display" />
+              <Tab label="editor" value="editor" />
+              <Tab label="builder" value="builder" />
+              <Tab label="debug" value="debug" />
+
+              <Button
+                variant="outlined"
+                onClick={() => saveGif()}
+                disabled={!toingData || isRenderingGif}
+              >
+                {isRenderingGif ? (
+                  <> rendering... {Math.round(renderGifProgress * 100)}% </>
+                ) : (
+                  <>render to gif</>
+                )}
+              </Button>
+            </Tabs>
+          </Box>
+
+          {/* TABS CONTENT */}
+
+          <div className={styles.demoContent}>
+            {!toingData ? (
+              "no data"
+            ) : (
               <>
-                <br />
-                {Math.round(renderGifProgress * 100) + "%"}
+                {/* DISPLAY */}
+                {demo === "display" && (
+                  <div className={styles.DemoDisplay}>
+                    <ToingDisplay toingData={toingData} />
+                  </div>
+                )}
+
+                {/* EDITOR */}
+                {demo === "editor" && (
+                  <div className={styles.DemoEditor}>
+                    <ToingEditor
+                      onExportExecution={onExportExecution}
+                      toingData={toingData}
+                    />
+                  </div>
+                )}
+
+                {/* BUILDER */}
+                {demo === "builder" && (
+                  <div className={styles.DemoBuilder}>
+                    <ToingBuilder
+                      onExportConfig={onExportConfig}
+                      toingData={toingData}
+                    />
+                  </div>
+                )}
+
+                {/* DEBUG */}
+                {demo === "debug" && (
+                  <div className={styles.DemoDebug}>
+                    <ToingDebug toingData={toingData} />
+                  </div>
+                )}
               </>
             )}
-          </button>
-        </div>
-      )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
 //-------------------------------------------------------
-
-function DemoEditor({ toingData, onExportExecution }) {
-  return (
-    <div className={styles.DemoEditor}>
-      {!toingData && "no data"}
-      {toingData && (
-        <ToingEditor
-          onExportExecution={onExportExecution}
-          toingData={toingData}
-        />
-      )}
-    </div>
-  );
-}
-
-//-------------------------------------------------------
-
-function DemoBuilder({ toingData, onExportConfig }) {
-  return (
-    <div className={styles.DemoBuilder}>
-      {!toingData && "no data"}
-      {toingData && (
-        <ToingBuilder onExportConfig={onExportConfig} toingData={toingData} />
-      )}
-    </div>
-  );
-}
-
-function DemoDebug({ toingData }) {
-  return (
-    <div className={styles.DemoDebug}>
-      {!toingData && "no data"}
-      {toingData && <ToingDebug toingData={toingData} />}
-    </div>
-  );
-}
-
 //-------------------------------------------------------
 
 function DemoLoader({ onLoadedData }) {
