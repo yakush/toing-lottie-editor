@@ -11,7 +11,6 @@ import {
   CardContent,
   Collapse,
   IconButton,
-  LinearProgress,
   Tab,
   Tabs,
   Typography,
@@ -86,7 +85,7 @@ export default function DemoPageJs() {
     <div className={styles.rootDemoPage}>
       <DemoLoader onLoadedData={setToingData} />
 
-      <Card variant="elevation">
+      <Card variant="elevation" className={styles.demoCard}>
         <CardContent>
           {/* TABS HEADER */}
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -221,6 +220,8 @@ function DemoLoader({ onLoadedData }) {
       const campaign = await getSource(campaign_source);
       const execution = await getSource(execution_source);
 
+      setMinimized(true);
+
       onLoadedData &&
         onLoadedData({
           src,
@@ -244,16 +245,13 @@ function DemoLoader({ onLoadedData }) {
     <div className={styles.rootLoader}>
       <Card variant="elevation">
         <div className={styles.loaderHeader}>
-          <IconButton
-            aria-label="toggle loader"
-            onClick={() => setMinimized((x) => !x)}
-          >
+          <IconButton size="small" onClick={() => setMinimized((x) => !x)}>
             {minimized ? <OpenInFullIcon /> : <CloseFullscreenIcon />}
           </IconButton>
-          <Typography variant="h5">Loader</Typography>
+          <Typography variant="h6">Loader</Typography>
         </div>
         <Collapse in={!minimized}>
-          <CardContent className={styles.content}>
+          <CardContent className={styles.loaderContent}>
             <SourceBox
               title="source"
               onChangeSource={(source) => setSrc_source(source)}
@@ -272,11 +270,11 @@ function DemoLoader({ onLoadedData }) {
             />
           </CardContent>
 
-          <CardActions>
-            <IconButton aria-label="go" onClick={getAllSources}>
+          <CardActions className={styles.actions}>
+            <IconButton size="small" aria-label="go" onClick={getAllSources}>
               <SaveAltIcon />
             </IconButton>
-            <IconButton aria-label="clear" onClick={handleClear}>
+            <IconButton size="small" aria-label="clear" onClick={handleClear}>
               <DeleteOutlineIcon />
             </IconButton>
 
@@ -330,7 +328,7 @@ function SourceBox({ title, defaultUrl, onChangeSource }) {
     <Card variant="outlined" className={styles.rootSourceBox}>
       <Typography className={styles.title}>{title}</Typography>
 
-      <IconButton onClick={() => clear()}>
+      <IconButton size="small" onClick={() => clear()}>
         <DeleteForeverIcon />
       </IconButton>
 
