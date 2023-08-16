@@ -24,7 +24,6 @@ function createPublicUrl(file: string) {
 export type LogoPos = {
   x: number;
   y: number;
-  width: number;
   height: number;
 };
 
@@ -122,22 +121,18 @@ class GifRenderer extends EventEmitter {
 
     //logo:
     const imgLogo = new Image();
-    imgLogo.crossOrigin = 'anonymous';
+    imgLogo.crossOrigin = "anonymous";
     const canvasLogo = document.createElement("canvas");
 
     let shouldDrawLogo = !!this.logoUrl;
+
     if (this.logoUrl && this.logoPos) {
       try {
         await loadImageAndWait(imgLogo, this.logoUrl);
 
-        const logoFit = scaleToFit(
-          imgLogo,
-          this.logoPos.width,
-          this.logoPos.height
-        );
-
-        canvasLogo.width = this.logoPos.width;
-        canvasLogo.height = this.logoPos.height;
+        const logoFit = scaleToFitHeight(imgLogo, this.logoPos.height);
+        canvasLogo.width = logoFit.width;
+        canvasLogo.height = logoFit.height;
 
         const ctx = canvasLogo.getContext("2d");
         if (!ctx) {
@@ -149,9 +144,8 @@ class GifRenderer extends EventEmitter {
           0,
           imgLogo.width,
           imgLogo.height,
-
-          +logoFit.offsetX,
-          -logoFit.offsetY,
+          0,
+          0,
           canvasLogo.width,
           canvasLogo.height
         );
@@ -184,6 +178,15 @@ class GifRenderer extends EventEmitter {
     logDebug("lottie height:", lottieH);
     logDebug("output width:", outputW);
     logDebug("output height:", outputH);
+
+    if (shouldDrawLogo) {
+      logDebug("imgLogo.width:", imgLogo.width);
+      logDebug("imgLogo.height:", imgLogo.height);
+      logDebug("canvasLogo.width:", canvasLogo?.width);
+      logDebug("canvasLogo.height:", canvasLogo?.height);
+    } else {
+      logDebug("no logo");
+    }
 
     //save state:
     this.saveState();
@@ -230,8 +233,8 @@ class GifRenderer extends EventEmitter {
             ctx.rect(
               this.logoPos.x,
               outputH - this.logoPos.y - this.logoPos.height,
-              this.logoPos.width,
-              this.logoPos.height
+              canvasLogo.width,
+              canvasLogo.height
             );
             ctx.stroke();
           }
@@ -243,7 +246,7 @@ class GifRenderer extends EventEmitter {
             copy: true,
           });
         } catch (err) {
-          console.error("aborting gif render\n",err);
+          console.error("aborting gif render\n", err);
           this.abort();
         }
 
@@ -320,29 +323,38 @@ async function loadImageAndWait(img: HTMLImageElement, src: string) {
   });
 }
 
-function scaleToFit(
-  img: HTMLImageElement,
-  maxWidth: number,
-  maxHeight: number
-) {
+function scaleToFitHeight(img: HTMLImageElement, targetHeight: number) {
   const { width: imgWidth, height: imgHeight } = img;
 
-  const [width, height] =
-    imgWidth > imgHeight
-      ? //wide
-        [maxWidth, maxWidth * (imgHeight / imgWidth)]
-      : //tall
-        [maxHeight * (imgWidth / imgHeight), maxHeight];
-
-  const offsetX = (maxWidth - width) / 2;
-  const offsetY = (maxHeight - height) / 2;
-
   return {
-    width,
-    height,
-    offsetX,
-    offsetY,
+    width: imgWidth * (targetHeight / imgHeight),
+    height: targetHeight,
   };
 }
+
+// function scaleToFit(
+//   img: HTMLImageElement,
+//   maxWidth: number,
+//   maxHeight: number
+// ) {
+//   const { width: imgWidth, height: imgHeight } = img;
+
+//   const [width, height] =
+//     imgWidth > imgHeight
+//       ? //wide
+//         [maxWidth, maxWidth * (imgHeight / imgWidth)]
+//       : //tall
+//         [maxHeight * (imgWidth / imgHeight), maxHeight];
+
+//   const offsetX = (maxWidth - width) / 2;
+//   const offsetY = (maxHeight - height) / 2;
+
+//   return {
+//     width,
+//     height,
+//     offsetX,
+//     offsetY,
+//   };
+// }
 
 export default GifRenderer;
