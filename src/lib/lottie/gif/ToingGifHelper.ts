@@ -1,12 +1,12 @@
 import lottie from "lottie-web";
-import GifRenderer, { GifRendererEvents } from "./gifRenderer";
-import { resolveSrcToObject as resolveSource } from "../utils/path";
 import {
   Lottie,
   ToingCampaign,
   ToingConfig,
   ToingUserExecutions,
 } from "../types";
+import { resolveSrcToObject as resolveSource } from "../utils/path";
+import GifRenderer, { GifRendererEvents } from "./gifRenderer";
 import { LottieHelper } from "../core/LottieHelper";
 
 const FPS = 25;
@@ -51,11 +51,20 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
   const jsonOrig = await resolveSource<Lottie>(src);
   const json = structuredClone(jsonOrig);
 
+  //edit
   LottieHelper.digestLottie(json, config);
   LottieHelper.executeLottieEdits(json, config, execution, campaign);
 
-  //load animation
+  //create container (must be a part of the document for using fonts and classes ? ... )
   const container = document.createElement("svg");
+  container.style.position = "absolute";
+  container.style.top = "0";
+  container.style.visibility = "hidden";
+  container.style.pointerEvents = "none";
+
+  document.body.appendChild(container);
+
+  //load animation
   const animationItem = lottie.loadAnimation({
     rendererSettings: defaultRendererSettings,
     animationData: json,
@@ -88,11 +97,13 @@ export async function createGif(params: CreateGifParams): Promise<Blob> {
     gifRenderer.on(
       GifRendererEvents.finished,
       (blob: Blob, data: Uint8Array) => {
+        document.body.removeChild(container);
         resolve(blob);
       }
     );
 
     gifRenderer.on(GifRendererEvents.abort, () => {
+      document.body.removeChild(container);
       reject(new Error("render has been aborted"));
     });
 
