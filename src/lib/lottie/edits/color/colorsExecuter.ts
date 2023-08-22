@@ -1,5 +1,7 @@
 import { LottieColorRefHelper } from "../../core/LottieColorRefHelper";
 import {
+  PaletteOption,
+  PartialColorsMappings,
   PartialColorsPalette,
   colorSchemaSlots,
   getEmptyColorsPalette,
@@ -12,15 +14,9 @@ import {
   ToingEditEndpoint,
 } from "../../types";
 
-export interface PaletteOption {
-  name: string;
-  description: string;
-  colors: PartialColorsPalette;
-}
-
 export interface Config {
-  /** slot => color in the json */
-  slots?: PartialColorsPalette;
+  /** slot => color(s) in the json */
+  slots?: PartialColorsMappings;
 
   /** optional predefined palettes */
   palettes?: PaletteOption[];
@@ -39,7 +35,14 @@ export default class ColorsExecuter
 
   createNewConfig(): Config {
     return {
-      slots: getEmptyColorsPalette(),
+      slots: {
+        primary: undefined,
+        secondary: undefined,
+        accent1: undefined,
+        accent2: undefined,
+        accent3: undefined,
+        bg: undefined,
+      },
       //palettes:[],
     };
   }
@@ -92,27 +95,36 @@ export default class ColorsExecuter
         const groupColor = group.colorHex;
         const refs = group.refs;
 
-        let targetColor = groupColor;
+        let found = false;
 
-        //find matching config chema entry (same color)
+        //find matching config schema entry (same color)
         if (config.slots) {
           const slotEntry = Object.entries(config.slots).find(
-            ([key, value]) => value === groupColor
+            ([key, value]) => {
+              if (typeof value === "string") {
+                return value === groupColor;
+              } else if (Array.isArray(value))
+                return value.includes(groupColor);
+            }
           );
 
+          //find it in the palette
           if (slotEntry) {
             const [key] = slotEntry;
             const slot = key as colorSchemaSlots;
-            //find it in the palette
             const targetPaletteColor = palette[slot];
 
             if (targetPaletteColor) {
-              targetColor = targetPaletteColor;
+              found = true;
+              LottieColorRefHelper.setLottieColor(refs, targetPaletteColor);
             }
           }
         }
 
-        LottieColorRefHelper.setLottieColor(refs, targetColor);
+        //default to unset
+        if (!found) {
+          LottieColorRefHelper.setLottieColor(refs, groupColor);
+        }
       }
     }
   }

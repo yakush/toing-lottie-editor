@@ -33,16 +33,24 @@ export default function ColorsEditView({
   return (
     <div className={styles.root}>
       {/* <pre> {JSON.stringify(execution, null, 2)}</pre> */}
+
       {config.slots &&
-        Object.entries(config.slots).map(([key, color], i) => {
+        Object.entries(config.slots).map(([key, colors], i) => {
           const slot = key as colorSchemaSlots;
+          if (typeof colors === "string") {
+            colors = [colors];
+          }
           return (
-            color && (
+            colors &&
+            colors.length > 0 && (
               <ColorSlot
                 key={slot}
                 slot={slot}
-                paletteColor={color}
-                userColor={execution?.userDefinedColors?.[slot] ?? color}
+                userColor={
+                  execution?.userDefinedColors?.[slot] ??
+                  colors?.at(0) ??
+                  "#000000ff"
+                }
                 onChange={(color) => onChangeColor(slot, color)}
               />
             )
@@ -54,12 +62,10 @@ export default function ColorsEditView({
 
 function ColorSlot({
   slot,
-  paletteColor,
   userColor,
   onChange,
 }: {
   slot: colorSchemaSlots;
-  paletteColor: string;
   userColor: string;
   onChange?: (color: string) => void;
 }) {
@@ -71,8 +77,6 @@ function ColorSlot({
 
   return (
     <div className={styles.ColorSlot} onClick={changeColor}>
-      <ColorBox color={paletteColor} small />
-      {"->"}
       <ColorBox color={userColor} small />
       <div>{colorSchemaSlotToName(slot)}</div>
     </div>

@@ -1,4 +1,4 @@
-import { PartialColorsPalette } from "../../core/colorSchema";
+import { PaletteOption } from "../../core/colorSchema";
 
 export interface ToingCampaignTextEntry {
   text: string;
@@ -8,7 +8,8 @@ export interface ToingCampaignTextEntry {
 export interface ToingCampaign {
   logoUrl?: string;
 
-  colors?: PartialColorsPalette;
+  colors?: PaletteOption[];
+
   texts?: {
     title?: ToingCampaignTextEntry;
     subtitle?: ToingCampaignTextEntry;
@@ -19,10 +20,18 @@ export interface ToingCampaign {
 
 export const default_ToingCampaign: ToingCampaign = {
   logoUrl: "",
-  colors: {
-    primary1: "#000",
-    primary2: "#fff",
-  },
+
+  colors: [
+    {
+      name: "brand",
+      description: "brand colors",
+      colors: {
+        primary: "#000",
+        secondary: "#fff",
+      },
+    },
+  ],
+
   texts: {
     title: {
       text: "no text",
