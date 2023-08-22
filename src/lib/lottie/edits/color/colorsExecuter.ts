@@ -4,12 +4,12 @@ import {
   PartialColorsMappings,
   PartialColorsPalette,
   colorSchemaSlots,
-  getEmptyColorsPalette,
 } from "../../core/colorSchema";
 import { editTypes } from "../../enums";
 import {
   EditEndpointExecuter,
   Lottie,
+  LottieColorRefGroup,
   ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
@@ -64,68 +64,81 @@ export default class ColorsExecuter
     campaign?: ToingCampaign,
     execution?: Execution
   ) {
+    console.log("-----------------------------");
     const { config } = editEndpoint;
 
-    let palette: PartialColorsPalette = getEmptyColorsPalette();
-    //1. set to default
+    const colorGroups = LottieColorRefHelper.getColorGroups(lottie);
 
-    //2. set to campaign
+    let targetColorSlots: {
+      slot: colorSchemaSlots;
+      groups: LottieColorRefGroup[];
+      targetColor?: string;
+    }[] = [];
 
-    //3. set to user-defined
-    if (execution?.isCustomPalette) {
-      for (const key in execution.userDefinedColors) {
-        if (
-          Object.prototype.hasOwnProperty.call(execution.userDefinedColors, key)
-        ) {
+    // 1. append slots from config
+    if (config?.slots) {
+      for (const key in config.slots) {
+        if (Object.prototype.hasOwnProperty.call(config.slots, key)) {
           const slot = key as colorSchemaSlots;
-          const color = execution.userDefinedColors[slot];
-          if (color) {
-            palette[slot] = color;
+          let slotColors = config.slots[slot];
+
+          if (!slotColors) {
+            continue;
           }
+
+          if (typeof slotColors === "string") {
+            slotColors = [slotColors];
+          }
+
+          const groups = colorGroups.filter((group) =>
+            slotColors?.includes(group.colorHex)
+          );
+
+          targetColorSlots.push({
+            slot,
+            groups,
+          });
         }
       }
+    }
+    console.log(colorGroups);
+    console.log(targetColorSlots);
+
+    //2. from campaign (option at position 0):
+    const campaignColors = campaign?.colors?.at(0)?.colors;
+    if (campaignColors) {
+      targetColorSlots.forEach((group) => {
+        const targetColor = campaignColors[group.slot];
+        if (targetColor) {
+          group.targetColor = targetColor;
+        }
+      });
+    }
+
+    //3. set to user-defined
+    const userColors = execution?.userDefinedColors;
+    if (execution?.isCustomPalette && userColors) {
+      targetColorSlots.forEach((group) => {
+        const targetColor = userColors[group.slot];
+        if (targetColor) {
+          group.targetColor = targetColor;
+        }
+      });
     }
 
     // execute:
-    const groups = LottieColorRefHelper.getColorGroups(lottie);
 
-    for (const key in groups) {
-      if (Object.prototype.hasOwnProperty.call(groups, key)) {
-        const group = groups[key];
-        const groupColor = group.colorHex;
-        const refs = group.refs;
+    //1. reset all to default:
+    colorGroups.forEach((group) => {
+      LottieColorRefHelper.setLottieColor(group.refs, group.colorHex);
+    });
 
-        let found = false;
-
-        //find matching config schema entry (same color)
-        if (config.slots) {
-          const slotEntry = Object.entries(config.slots).find(
-            ([key, value]) => {
-              if (typeof value === "string") {
-                return value === groupColor;
-              } else if (Array.isArray(value))
-                return value.includes(groupColor);
-            }
-          );
-
-          //find it in the palette
-          if (slotEntry) {
-            const [key] = slotEntry;
-            const slot = key as colorSchemaSlots;
-            const targetPaletteColor = palette[slot];
-
-            if (targetPaletteColor) {
-              found = true;
-              LottieColorRefHelper.setLottieColor(refs, targetPaletteColor);
-            }
-          }
-        }
-
-        //default to unset
-        if (!found) {
-          LottieColorRefHelper.setLottieColor(refs, groupColor);
-        }
-      }
-    }
+    //2. apply target colors:
+    targetColorSlots.forEach((targetGroup) => {
+      targetGroup.groups.forEach((colorGroup) => {
+        const targetColor = targetGroup.targetColor ?? colorGroup.colorHex;
+        LottieColorRefHelper.setLottieColor(colorGroup.refs, targetColor);
+      });
+    });
   }
 }
