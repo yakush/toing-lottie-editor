@@ -79,7 +79,7 @@ export function useDragAndDropTarget<T = any>(
   ref: RefObject<HTMLElement | undefined>,
   options: {
     types?: string[];
-    validate?: (type: string, data: any) => boolean;
+    validate?: (type: string, data: T) => boolean;
     onDrop?: (type: string, data: T) => void;
   }
 ) {
