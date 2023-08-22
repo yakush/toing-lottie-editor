@@ -36,7 +36,13 @@ function executeLottieEdits(
   config?.editEndpoints?.forEach((edit) => {
     const exec =
       userExecutions?.executions && userExecutions?.executions[edit.id];
-    editsModule.edits.get(edit.type)?.execute(lottie, edit, campaign, exec);
+
+    try {
+      editsModule.edits.get(edit.type)?.execute(lottie, edit, campaign, exec);
+    } catch (error) {
+      console.error("unable to execute edit");
+      console.error(error);
+    }
   });
 }
 
