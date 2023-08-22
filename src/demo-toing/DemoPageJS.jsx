@@ -88,7 +88,10 @@ export default function DemoPageJs() {
       <Card variant="elevation" className={styles.demoCard}>
         <CardContent>
           {/* TABS HEADER */}
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box
+            className={styles.tabsBox}
+            sx={{ borderBottom: 1, borderColor: "divider" }}
+          >
             <Tabs
               value={demo}
               onChange={(event, value) => {
@@ -100,19 +103,19 @@ export default function DemoPageJs() {
               <Tab label="editor" value="editor" />
               <Tab label="builder" value="builder" />
               <Tab label="debug" value="debug" />
-
-              <Button
-                variant="outlined"
-                onClick={() => saveGif()}
-                disabled={!toingData || isRenderingGif}
-              >
-                {isRenderingGif ? (
-                  <> rendering... {Math.round(renderGifProgress * 100)}% </>
-                ) : (
-                  <>render to gif</>
-                )}
-              </Button>
             </Tabs>
+
+            <div style={{ flex: 1 }} />
+
+            <Button
+              variant="outlined"
+              onClick={() => saveGif()}
+              disabled={!toingData || isRenderingGif}
+            >
+              {isRenderingGif
+                ? `rendering... ${Math.round(renderGifProgress * 100)}%`
+                : `render to gif`}
+            </Button>
           </Box>
 
           {/* TABS CONTENT */}

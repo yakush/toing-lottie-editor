@@ -15,6 +15,12 @@
 }
 
 /* ********************* */
+
+.tabsBox{
+  display: flex;
+  flex-direction: row;
+}
+
 .demoCard{
   flex:1
 }
