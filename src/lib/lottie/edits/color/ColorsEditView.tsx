@@ -1,3 +1,4 @@
+import { useId, useState } from "react";
 import { LottieColorHelper } from "../../core/LottieColorHelper";
 import {
   colorSchemaSlotToName,
@@ -6,7 +7,7 @@ import {
 } from "../../core/colorSchema";
 import { EditProps } from "../../modules/editorUiModule";
 import styles from "./ColorsEditView.module.css";
-import { Config, Execution } from "./ColorsExecuter";
+import { ColorPaletteSource, Config, Execution } from "./ColorsExecuter";
 import ColorBox from "./extra/ColorBox";
 
 type Props = EditProps<Config, Execution>;
@@ -16,11 +17,13 @@ export default function ColorsEditView({
   execution,
   onChange,
 }: Props) {
+  const id = useId();
+
   const { config } = editEndpoint;
+  const source = execution.paletteSource;
 
   const onChangeColor = (slot: colorSchemaSlots, color: string) => {
     const newExecution = { ...execution };
-    newExecution.isCustomPalette = true;
     newExecution.userDefinedColors = {
       ...getEmptyColorsPalette(),
       ...newExecution.userDefinedColors,
@@ -30,11 +33,60 @@ export default function ColorsEditView({
     onChange && onChange(newExecution);
   };
 
+  const onChangeSelection = (newSelection: ColorPaletteSource) => {
+    const newExecution = { ...execution };
+    newExecution.paletteSource = newSelection;
+    onChange && onChange(newExecution);
+  };
+
   return (
     <div className={styles.root}>
       {/* <pre> {JSON.stringify(execution, null, 2)}</pre> */}
 
-      {config.slots &&
+      <div>
+        <input
+          type="radio"
+          name=""
+          id={`${id}-original`}
+          value="original"
+          checked={source === "original"}
+          onChange={(e) =>
+            onChangeSelection(e.target.value as ColorPaletteSource)
+          }
+        />
+        <label htmlFor={`${id}-original`}>original</label>
+      </div>
+
+      <div>
+        <input
+          type="radio"
+          name=""
+          id={`${id}-campaign`}
+          value="campaign"
+          checked={source === "campaign"}
+          onChange={(e) =>
+            onChangeSelection(e.target.value as ColorPaletteSource)
+          }
+        />
+        <label htmlFor={`${id}-campaign`}>campaign</label>
+      </div>
+
+      <div>
+        <input
+          type="radio"
+          name=""
+          id={`${id}-user`}
+          value="user"
+          checked={source === "user"}
+          onChange={(e) =>
+            onChangeSelection(e.target.value as ColorPaletteSource)
+          }
+        />
+        <label htmlFor={`${id}-user`}>user defined</label>
+      </div>
+
+      {source === "user" &&
+        config.slots &&
         Object.entries(config.slots).map(([key, colors], i) => {
           const slot = key as colorSchemaSlots;
           if (typeof colors === "string") {

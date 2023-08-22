@@ -22,9 +22,11 @@ export interface Config {
   palettes?: PaletteOption[];
 }
 
+export type ColorPaletteSource = "original" | "campaign" | "user";
+
 export interface Execution {
-  selectedPalette: number; //-1 for user defined
-  isCustomPalette: boolean;
+  paletteSource: ColorPaletteSource;
+  selectedPalette: number; //from campaign palettes
   userDefinedColors?: PartialColorsPalette;
 }
 
@@ -52,7 +54,7 @@ export default class ColorsExecuter
     edit: ToingEditEndpoint<Config, Execution>
   ): Execution {
     let defaults: Execution = {
-      isCustomPalette: false,
+      paletteSource: "original",
       selectedPalette: 0,
     };
     return defaults;
@@ -64,7 +66,6 @@ export default class ColorsExecuter
     campaign?: ToingCampaign,
     execution?: Execution
   ) {
-    console.log("-----------------------------");
     const { config } = editEndpoint;
 
     const colorGroups = LottieColorRefHelper.getColorGroups(lottie);
@@ -101,29 +102,31 @@ export default class ColorsExecuter
         }
       }
     }
-    console.log(colorGroups);
-    console.log(targetColorSlots);
 
     //2. from campaign (option at position 0):
-    const campaignColors = campaign?.colors?.at(0)?.colors;
-    if (campaignColors) {
-      targetColorSlots.forEach((group) => {
-        const targetColor = campaignColors[group.slot];
-        if (targetColor) {
-          group.targetColor = targetColor;
-        }
-      });
+    if (execution?.paletteSource === "campaign") {
+      const campaignColors = campaign?.colors?.at(0)?.colors;
+      if (campaignColors) {
+        targetColorSlots.forEach((group) => {
+          const targetColor = campaignColors[group.slot];
+          if (targetColor) {
+            group.targetColor = targetColor;
+          }
+        });
+      }
     }
 
     //3. set to user-defined
-    const userColors = execution?.userDefinedColors;
-    if (execution?.isCustomPalette && userColors) {
-      targetColorSlots.forEach((group) => {
-        const targetColor = userColors[group.slot];
-        if (targetColor) {
-          group.targetColor = targetColor;
-        }
-      });
+    if (execution?.paletteSource === "user") {
+      const userColors = execution?.userDefinedColors;
+      if (userColors) {
+        targetColorSlots.forEach((group) => {
+          const targetColor = userColors[group.slot];
+          if (targetColor) {
+            group.targetColor = targetColor;
+          }
+        });
+      }
     }
 
     // execute:
