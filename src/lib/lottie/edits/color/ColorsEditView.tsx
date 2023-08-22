@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId } from "react";
 import { LottieColorHelper } from "../../core/LottieColorHelper";
 import {
   colorSchemaSlotToName,
