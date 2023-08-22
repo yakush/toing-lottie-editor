@@ -1,6 +1,16 @@
 .root {
   display: flex;
   flex-direction: column;
+  gap: 5px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+}
+
+.gap {
+  width: 10px;
 }
 
 .ColorSlot {
@@ -8,5 +18,17 @@
   display: flex;
   flex-direction: row;
   gap: 5px;
-  margin: 5px;
+  margin: 0 5px;
+}
+
+.Palette {
+  height: 1em;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.PaletteItem {
+  width: 15px;
 }

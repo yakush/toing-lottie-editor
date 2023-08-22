@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { LottieColorHelper } from "../../core/LottieColorHelper";
 import {
+  PaletteOption,
   colorSchemaSlotToName,
   colorSchemaSlots,
   getEmptyColorsPalette,
@@ -9,6 +10,7 @@ import { EditProps } from "../../modules/editorUiModule";
 import styles from "./ColorsEditView.module.css";
 import { ColorPaletteSource, Config, Execution } from "./ColorsExecuter";
 import ColorBox from "./extra/ColorBox";
+import useToingStore from "../../stores/ToingStore";
 
 type Props = EditProps<Config, Execution>;
 
@@ -20,6 +22,8 @@ export default function ColorsEditView({
   const id = useId();
 
   const { config } = editEndpoint;
+  const campaign = useToingStore((store) => store.campaign);
+
   const source = execution.paletteSource;
 
   const onChangeColor = (slot: colorSchemaSlots, color: string) => {
@@ -42,8 +46,9 @@ export default function ColorsEditView({
   return (
     <div className={styles.root}>
       {/* <pre> {JSON.stringify(execution, null, 2)}</pre> */}
+      {/* <pre> {JSON.stringify(campaign, null, 2)}</pre> */}
 
-      <div>
+      <div className={styles.option}>
         <input
           type="radio"
           name=""
@@ -57,7 +62,7 @@ export default function ColorsEditView({
         <label htmlFor={`${id}-original`}>original</label>
       </div>
 
-      <div>
+      <div className={styles.option}>
         <input
           type="radio"
           name=""
@@ -69,9 +74,16 @@ export default function ColorsEditView({
           }
         />
         <label htmlFor={`${id}-campaign`}>campaign</label>
+
+        { campaign?.colors && campaign?.colors[0] && (
+          <>
+            <div className={styles.gap} />
+            <Palette palette={campaign.colors[0]} />
+          </>
+        )}
       </div>
 
-      <div>
+      <div className={styles.option}>
         <input
           type="radio"
           name=""
@@ -129,8 +141,23 @@ function ColorSlot({
 
   return (
     <div className={styles.ColorSlot} onClick={changeColor}>
-      <ColorBox color={userColor} small />
+      <ColorBox color={userColor} size="small" />
       <div>{colorSchemaSlotToName(slot)}</div>
+    </div>
+  );
+}
+
+function Palette({ palette }: { palette: PaletteOption }) {
+  return (
+    <div className={styles.Palette}>
+      {Object.entries(palette.colors).map(([key, item]) => (
+        <div
+          className={styles.PaletteItem}
+          key={key}
+          color={item}
+          style={{ backgroundColor: item }}
+        />
+      ))}
     </div>
   );
 }
