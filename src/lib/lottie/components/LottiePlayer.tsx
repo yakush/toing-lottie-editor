@@ -3,6 +3,7 @@ import { AnimationItem } from "lottie-web";
 import { useEffect, useRef, useState } from "react";
 import useToingStore from "../stores/ToingStore";
 import { Lottie } from "../types";
+import styles from "./LottiePlayer.module.css";
 
 type buttons = "play" | "stop" | "repeat" | "frame" | "background" | "snapshot";
 const defaultButtons: buttons[] = ["play", "repeat", "frame"];
@@ -88,8 +89,8 @@ export default function LottiePlayer({ controls, buttons }: Props) {
   }
 
   return (
-    <div>
-      <Player
+    <div className={styles.root}>
+      <Player className={styles.player}
         lottieRef={(instance) => {
           setPlayerRef(instance);
         }}
