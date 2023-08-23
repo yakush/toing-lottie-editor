@@ -18,7 +18,9 @@ export interface Config {
   /** slot => color(s) in the json */
   slots?: PartialColorsMappings;
 
-  /** optional predefined palettes */
+  /** optional predefined palettes (currently not in use)
+   */
+
   palettes?: PaletteOption[];
 }
 
