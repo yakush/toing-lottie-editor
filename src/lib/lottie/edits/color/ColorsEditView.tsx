@@ -182,6 +182,21 @@ function UserColors({
 }) {
   const [selectedSlot, setSelectedSlot] = useState<colorSchemaSlots>();
 
+  // digest config slots to array
+  let availableSlots: { slot: colorSchemaSlots; colors: string[] }[] = [];
+  for (const key in config.slots) {
+    if (Object.prototype.hasOwnProperty.call(config.slots, key)) {
+      const slot = key as colorSchemaSlots;
+      let colors = config.slots[slot];
+      if (typeof colors === "string") {
+        colors = [colors];
+      }
+      if (colors && colors.length > 0) {
+        availableSlots.push({ slot, colors });
+      }
+    }
+  }
+
   const onPickerChange = (color: ColorResult) => {
     if (selectedSlot == null) {
       return;
@@ -201,32 +216,22 @@ function UserColors({
 
   return (
     <div className={styles.UserColors}>
-      {config.slots &&
-        Object.entries(config.slots).map(([key, colors]) => {
-          const slot = key as colorSchemaSlots;
-          if (typeof colors === "string") {
-            colors = [colors];
-          }
-          const hasMapping = colors && colors.length > 0;
-
-          return (
-            hasMapping && (
-              <div className={styles.row} key={slot}>
-                <IconButton size="small" onClick={() => onDelete(slot)}>
-                  <DeleteForeverIcon />
-                </IconButton>
-                <ColorSlot
-                  key={slot}
-                  slot={slot}
-                  userColor={execution?.userDefinedColors?.[slot]}
-                  selected={selectedSlot === slot}
-                  // onChange={(color) =>onChangeColor && onChangeColor(slot, color)}
-                  onChange={() => toggleSlot(slot)}
-                />
-              </div>
-            )
-          );
-        })}
+      {availableSlots.map(({ slot }) => {
+        return (
+          <div className={styles.row} key={slot}>
+            <IconButton size="small" onClick={() => onDelete(slot)}>
+              <DeleteForeverIcon />
+            </IconButton>
+            <ColorSlot
+              key={slot}
+              slot={slot}
+              userColor={execution?.userDefinedColors?.[slot]}
+              selected={selectedSlot === slot}
+              onChange={() => toggleSlot(slot)}
+            />
+          </div>
+        );
+      })}
 
       <ChromePicker
         className={combineClasses({
