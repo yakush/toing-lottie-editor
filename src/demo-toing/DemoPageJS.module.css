@@ -16,19 +16,18 @@
 
 /* ********************* */
 
-.tabsBox{
+.tabsBox {
   display: flex;
   flex-direction: row;
 }
 
-.demoCard{
-  flex:1
+.demoCard {
+  flex: 1;
 }
 
 /* ********************* */
 
 .DemoDisplay {
-  /* width: 360px; */
 }
 
 .DemoDisplay .content {
