@@ -31,7 +31,7 @@ export default function ColorsEditView({
 
   //get colors / default if no campaign
   let campaignPalette = campaign?.palettes && campaign.palettes[0];
-  console.log({...campaignPalette});
+
   if (!campaignPalette || !campaignPalette.colors) {
     campaignPalette = defaultColorsPaletteOption;
   }
@@ -197,9 +197,9 @@ function UserColors({
     }
   }
 
-  const [selectedSlot, setSelectedSlot] = useState<colorSchemaSlots|undefined>(
-    availableSlots[0]?.slot
-  );
+  const [selectedSlot, setSelectedSlot] = useState<
+    colorSchemaSlots | undefined
+  >(availableSlots[0]?.slot);
 
   const onPickerChange = (color: ColorResult) => {
     if (selectedSlot == null) {
