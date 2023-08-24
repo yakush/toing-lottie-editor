@@ -88,10 +88,11 @@ export default function ColorsEditView({
             onChangeSelection(e.target.value as ColorPaletteSource)
           }
         />
-        <label htmlFor={`${id}-campaign`}>campaign</label>
-
-        <ColorPalette palette={campaignPalette} />
-        {campaignPalette.name && <span>({campaignPalette.name})</span>}
+        <label htmlFor={`${id}-campaign`}>
+          campaign
+          <ColorPalette palette={campaignPalette} />
+          {campaignPalette.name && <span>({campaignPalette.name})</span>}
+        </label>
       </div>
 
       {/* ------------------------------------------------------- */}
@@ -180,8 +181,6 @@ function UserColors({
   execution: Execution;
   onChangeColor?: (slot: colorSchemaSlots, color: string | undefined) => void;
 }) {
-  const [selectedSlot, setSelectedSlot] = useState<colorSchemaSlots>();
-
   // digest config slots to array
   let availableSlots: { slot: colorSchemaSlots; colors: string[] }[] = [];
   for (const key in config.slots) {
@@ -196,6 +195,10 @@ function UserColors({
       }
     }
   }
+
+  const [selectedSlot, setSelectedSlot] = useState<colorSchemaSlots|undefined>(
+    availableSlots[0]?.slot
+  );
 
   const onPickerChange = (color: ColorResult) => {
     if (selectedSlot == null) {
