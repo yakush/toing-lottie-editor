@@ -13,6 +13,7 @@ import {
   ToingCampaign,
   ToingEditEndpoint,
 } from "../../types";
+import { defaultColorsPaletteOption } from "./defaultColors";
 
 export interface Config {
   /** slot => color(s) in the json */
@@ -107,15 +108,18 @@ export default class ColorsExecuter
 
     //2. from campaign (option at position 0):
     if (execution?.paletteSource === "campaign") {
-      const campaignColors = campaign?.colors?.at(0)?.colors;
-      if (campaignColors) {
-        targetColorSlots.forEach((group) => {
-          const targetColor = campaignColors[group.slot];
-          if (targetColor) {
-            group.targetColor = targetColor;
-          }
-        });
+      let campaignPalette = campaign?.colors && campaign.colors[0];
+      if (!campaignPalette || !campaignPalette.colors) {
+        campaignPalette = defaultColorsPaletteOption;
       }
+      const campaignColors = campaignPalette.colors;
+
+      targetColorSlots.forEach((group) => {
+        const targetColor = campaignColors[group.slot];
+        if (targetColor) {
+          group.targetColor = targetColor;
+        }
+      });
     }
 
     //3. set to user-defined
