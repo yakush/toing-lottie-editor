@@ -7,10 +7,11 @@ import {
   getEmptyColorsPalette,
 } from "../../core/colorSchema";
 import { EditProps } from "../../modules/editorUiModule";
+import useToingStore from "../../stores/ToingStore";
 import styles from "./ColorsEditView.module.css";
 import { ColorPaletteSource, Config, Execution } from "./ColorsExecuter";
+import { defaultColorsPaletteOption } from "./defaultColors";
 import ColorBox from "./extra/ColorBox";
-import useToingStore from "../../stores/ToingStore";
 
 type Props = EditProps<Config, Execution>;
 
@@ -23,6 +24,12 @@ export default function ColorsEditView({
 
   const { config } = editEndpoint;
   const campaign = useToingStore((store) => store.campaign);
+
+  //get colors / default if no campaign
+  let campaignPalette = campaign?.colors && campaign.colors[0];
+  if (!campaignPalette || !campaignPalette.colors) {
+    campaignPalette = defaultColorsPaletteOption;
+  }
 
   const source = execution.paletteSource;
 
@@ -48,6 +55,8 @@ export default function ColorsEditView({
       {/* <pre> {JSON.stringify(execution, null, 2)}</pre> */}
       {/* <pre> {JSON.stringify(campaign, null, 2)}</pre> */}
 
+      {/* ------------------------------------------------------- */}
+      {/* ORIGINAL */}
       <div className={styles.option}>
         <input
           type="radio"
@@ -62,6 +71,8 @@ export default function ColorsEditView({
         <label htmlFor={`${id}-original`}>original</label>
       </div>
 
+      {/* ------------------------------------------------------- */}
+      {/* CAMPAIGN */}
       <div className={styles.option}>
         <input
           type="radio"
@@ -75,14 +86,12 @@ export default function ColorsEditView({
         />
         <label htmlFor={`${id}-campaign`}>campaign</label>
 
-        { campaign?.colors && campaign?.colors[0] && (
-          <>
-            <div className={styles.gap} />
-            <Palette palette={campaign.colors[0]} />
-          </>
-        )}
+        <Palette palette={campaignPalette} />
+        {campaignPalette.name && <span>({campaignPalette.name})</span>}
       </div>
 
+      {/* ------------------------------------------------------- */}
+      {/* USER SELECTED */}
       <div className={styles.option}>
         <input
           type="radio"

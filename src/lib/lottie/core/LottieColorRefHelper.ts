@@ -78,11 +78,11 @@ function groupColorsRefs(colorsRefs: LottieColorRef[]) {
   return groups;
 }
 
-function setLottieColor(refs: LottieColorRef[] | undefined, colorHex?: string) {
+function setLottieColor(refs: LottieColorRef[] | undefined, colorHex: string) {
   refs?.forEach((ref) => {
     if (ref.type === "solid") {
       const solidRef = ref as SolidColorRef;
-      solidRef.layer.sc = colorHex;
+      solidRef.layer.sc = LottieColorHelper.normalizeHexString(colorHex);
     }
 
     if (ref.type === "text") {
