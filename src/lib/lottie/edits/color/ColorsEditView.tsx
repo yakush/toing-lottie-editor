@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import { LottieColorHelper } from "../../core/LottieColorHelper";
 import {
   PaletteOption,
@@ -12,6 +12,10 @@ import styles from "./ColorsEditView.module.css";
 import { ColorPaletteSource, Config, Execution } from "./ColorsExecuter";
 import { defaultColorsPaletteOption } from "./defaultColors";
 import ColorBox from "./extra/ColorBox";
+import { IconButton } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { combineClasses } from "../../utils/css";
+import { ChromePicker, ColorResult } from "react-color";
 
 type Props = EditProps<Config, Execution>;
 
@@ -33,7 +37,7 @@ export default function ColorsEditView({
 
   const source = execution.paletteSource;
 
-  const onChangeColor = (slot: colorSchemaSlots, color: string) => {
+  const onChangeColor = (slot: colorSchemaSlots, color: string | undefined) => {
     const newExecution = { ...execution };
     newExecution.userDefinedColors = {
       ...getEmptyColorsPalette(),
@@ -86,7 +90,7 @@ export default function ColorsEditView({
         />
         <label htmlFor={`${id}-campaign`}>campaign</label>
 
-        <Palette palette={campaignPalette} />
+        <ColorPalette palette={campaignPalette} />
         {campaignPalette.name && <span>({campaignPalette.name})</span>}
       </div>
 
@@ -106,41 +110,29 @@ export default function ColorsEditView({
         <label htmlFor={`${id}-user`}>user defined</label>
       </div>
 
-      {source === "user" &&
-        config.slots &&
-        Object.entries(config.slots).map(([key, colors], i) => {
-          const slot = key as colorSchemaSlots;
-          if (typeof colors === "string") {
-            colors = [colors];
-          }
-          return (
-            colors &&
-            colors.length > 0 && (
-              <ColorSlot
-                key={slot}
-                slot={slot}
-                userColor={
-                  execution?.userDefinedColors?.[slot] ??
-                  colors?.at(0) ??
-                  "#000000ff"
-                }
-                onChange={(color) => onChangeColor(slot, color)}
-              />
-            )
-          );
-        })}
+      {source === "user" && config.slots && (
+        <UserColors
+          config={config}
+          execution={execution}
+          onChangeColor={onChangeColor}
+        />
+      )}
     </div>
   );
 }
+
+//-------------------------------------------------------
 
 function ColorSlot({
   slot,
   userColor,
   onChange,
+  selected,
 }: {
   slot: colorSchemaSlots;
-  userColor: string;
+  userColor?: string;
   onChange?: (color: string) => void;
+  selected?: boolean;
 }) {
   const changeColor = () => {
     const radomColorArr = [Math.random(), Math.random(), Math.random()];
@@ -149,14 +141,21 @@ function ColorSlot({
   };
 
   return (
-    <div className={styles.ColorSlot} onClick={changeColor}>
+    <div
+      className={combineClasses({
+        [styles.ColorSlot]: true,
+        [styles.selected]: !!selected,
+      })}
+      onClick={changeColor}
+    >
       <ColorBox color={userColor} size="small" />
       <div>{colorSchemaSlotToName(slot)}</div>
     </div>
   );
 }
 
-function Palette({ palette }: { palette: PaletteOption }) {
+//-------------------------------------------------------
+function ColorPalette({ palette }: { palette: PaletteOption }) {
   return (
     <div className={styles.Palette}>
       {Object.entries(palette.colors).map(([key, item]) => (
@@ -167,6 +166,77 @@ function Palette({ palette }: { palette: PaletteOption }) {
           style={{ backgroundColor: item }}
         />
       ))}
+    </div>
+  );
+}
+
+//-------------------------------------------------------
+function UserColors({
+  config,
+  execution,
+  onChangeColor,
+}: {
+  config: Config;
+  execution: Execution;
+  onChangeColor?: (slot: colorSchemaSlots, color: string | undefined) => void;
+}) {
+  const [selectedSlot, setSelectedSlot] = useState<colorSchemaSlots>();
+
+  const onPickerChange = (color: ColorResult) => {
+    if (selectedSlot == null) {
+      return;
+    }
+
+    onChangeColor && onChangeColor(selectedSlot, color.hex);
+  };
+
+  const onDelete = (slot: colorSchemaSlots) => {
+    setSelectedSlot(undefined);
+    onChangeColor && onChangeColor(slot, undefined);
+  };
+
+  const toggleSlot = (slot: colorSchemaSlots) => {
+    setSelectedSlot((currentSlot) => (currentSlot === slot ? undefined : slot));
+  };
+
+  return (
+    <div className={styles.UserColors}>
+      {config.slots &&
+        Object.entries(config.slots).map(([key, colors]) => {
+          const slot = key as colorSchemaSlots;
+          if (typeof colors === "string") {
+            colors = [colors];
+          }
+          const hasMapping = colors && colors.length > 0;
+
+          return (
+            hasMapping && (
+              <div className={styles.row} key={slot}>
+                <IconButton size="small" onClick={() => onDelete(slot)}>
+                  <DeleteForeverIcon />
+                </IconButton>
+                <ColorSlot
+                  key={slot}
+                  slot={slot}
+                  userColor={execution?.userDefinedColors?.[slot]}
+                  selected={selectedSlot === slot}
+                  // onChange={(color) =>onChangeColor && onChangeColor(slot, color)}
+                  onChange={() => toggleSlot(slot)}
+                />
+              </div>
+            )
+          );
+        })}
+
+      <ChromePicker
+        className={combineClasses({
+          [styles.Picker]: true,
+          [styles.disabled]: !selectedSlot,
+        })}
+        disableAlpha={true}
+        color={selectedSlot && execution.userDefinedColors?.[selectedSlot]}
+        onChangeComplete={onPickerChange}
+      />
     </div>
   );
 }

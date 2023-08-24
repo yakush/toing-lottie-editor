@@ -19,3 +19,23 @@
   height: 20px;
   width: 10px;
 }
+
+.ColorBox.noColor {
+  position: relative;
+}
+
+.ColorBox.noColor:after {
+  position: absolute;
+  content: "";
+  left: -20%;
+  top: 50%;
+  right: -20%;
+  border-top: 2px solid;
+  border-color: inherit;
+
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}

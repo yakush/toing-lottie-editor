@@ -20,7 +20,17 @@
   flex-direction: row;
   gap: 5px;
   margin: 0 5px;
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
 }
+
+.ColorSlot.selected {
+  text-decoration: underline;
+  border-color: gray;
+}
+
+/* ------------------------------------------------------- */
 
 .Palette {
   height: 1em;
@@ -32,4 +42,35 @@
 
 .PaletteItem {
   width: 15px;
+}
+
+/* ------------------------------------------------------- */
+
+.UserColors {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.UserColors .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.UserColors .Picker {
+  margin: 10px;
+  align-self: center;
+  position: relative;
+}
+
+.UserColors .Picker.disabled:after {
+  content: "";
+  pointer-events: all;
+  background-color: rgba(128, 128, 128, 0.694);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
