@@ -108,7 +108,7 @@ export default class ColorsExecuter
 
     //2. from campaign (option at position 0):
     if (execution?.paletteSource === "campaign") {
-      let campaignPalette = campaign?.colors && campaign.colors[0];
+      let campaignPalette = campaign?.palettes && campaign.palettes[0];
       if (!campaignPalette || !campaignPalette.colors) {
         campaignPalette = defaultColorsPaletteOption;
       }

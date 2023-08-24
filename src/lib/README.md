@@ -38,7 +38,7 @@ All files are available in the `/CODE` folder
 
 Everything can be imported from the library root:
 
-```javascript
+```typescript
 import {
   ToingBuilder,
   ToingDebug,
@@ -53,7 +53,7 @@ import {
 - `<ToingDisplay/>`  
   Displays a Toing to the user (looping, no controls)
 
-  ```javascript
+  ```typescript
   /** toing data. src can be a url or json object */
   toingData?: {
     src: string | Lottie;
@@ -67,7 +67,7 @@ import {
    Allows the user to edit the Toing  
    (generating an `execution` json)
 
-  ```javascript
+  ```typescript
   /** fired when user exports the new execution*/
   onExportExecution?: (execution: ToingUserExecutions) => void;
 
@@ -84,7 +84,7 @@ import {
   For admin. Builder for the Toing config  
    (generating an `config` json)
 
-  ```javascript
+  ```typescript
   /** fired when user exports the new config*/
   onExportConfig?: (config: ToingConfig) => void;
 
@@ -98,7 +98,7 @@ import {
   ```
 
 - `<ToingDebug/>`
-  ```javascript
+  ```typescript
   /** toing data. src can be a url or json object */
   toingData?: {
     src: string | Lottie;
@@ -110,7 +110,7 @@ import {
 
 ### functions:
 
-```javascript
+```typescript
 async function createGif(params: CreateGifParams): Promise<Blob>
 
 /** returns a Blob containing the gif file data
@@ -144,28 +144,36 @@ params:
 
 ### Campaign json format:
 
-```javascript
+```typescript
 interface ToingCampaign {
   /** url to overlay logo */
   logoUrl?: string;
 
-  /** campaign color schema colors in hex (ie. #1f5a3f) */
-  colors?: {
-    primary?: string,
-    secondary?: string,
-    // ...
-  };
+  /** campaign color palettes array
+   *  colors are in hex (ie. #1f5a3f) */
+  palettes?: {
+    name: string;
+    description: string;
+    colors: {
+      primary?: string;
+      secondary?: string;
+      accent1?: string;
+      accent2?: string;
+      accent3?: string;
+      bg?: string;
+    };
+  }[];
 
   /** campaign texts */
   texts?: {
     title?: {
-      text: string,
-      color: string,
-    },
+      text: string;
+      color: string;
+    };
     subtitle?: {
-      text: string,
-      color: string,
-    },
+      text: string;
+      color: string;
+    };
   };
 }
 ```

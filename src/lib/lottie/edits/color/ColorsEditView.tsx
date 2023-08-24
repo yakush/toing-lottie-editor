@@ -30,7 +30,8 @@ export default function ColorsEditView({
   const campaign = useToingStore((store) => store.campaign);
 
   //get colors / default if no campaign
-  let campaignPalette = campaign?.colors && campaign.colors[0];
+  let campaignPalette = campaign?.palettes && campaign.palettes[0];
+  console.log({...campaignPalette});
   if (!campaignPalette || !campaignPalette.colors) {
     campaignPalette = defaultColorsPaletteOption;
   }

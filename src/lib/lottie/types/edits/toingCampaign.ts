@@ -8,7 +8,7 @@ export interface ToingCampaignTextEntry {
 export interface ToingCampaign {
   logoUrl?: string;
 
-  colors?: PaletteOption[];
+  palettes?: PaletteOption[];
 
   texts?: {
     title?: ToingCampaignTextEntry;
@@ -21,7 +21,7 @@ export interface ToingCampaign {
 export const default_ToingCampaign: ToingCampaign = {
   logoUrl: "",
 
-  colors: [
+  palettes: [
     {
       name: "brand",
       description: "brand colors",
