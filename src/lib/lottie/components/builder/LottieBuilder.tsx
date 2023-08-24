@@ -12,12 +12,22 @@ import Button from "../ui/Button";
 export default function LottieBuilder() {
   const edits = useToingStore((state) => state.config);
   const setConfig = useToingStore((state) => state.setConfig);
+  const config = useToingStore((state) => state.config);
   const lottie = useToingStore((store) => store.lottie);
 
   //-------------------------------------------------------
   const createEdit = (type: editTypes) => {
     const executer = editsModule.edits.get(type);
     if (!executer) {
+      return;
+    }
+
+    //no duplicate colors:
+    if (
+      type === editTypes.colors &&
+      config?.editEndpoints?.find((edit) => edit.type === editTypes.colors)
+    ) {
+      console.warn("don't create multiple color edits!");
       return;
     }
 
