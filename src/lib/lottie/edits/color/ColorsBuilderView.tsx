@@ -16,7 +16,7 @@ import useToingStore from "../../stores/ToingStore";
 import { ToingEditEndpoint } from "../../types";
 import { combineClasses } from "../../utils/css";
 import styles from "./ColorsBuilderView.module.css";
-import { Config, Execution } from "./ColorsExecuter";
+import { Config, Execution } from "./_ColorsExecuter";
 import ColorBox from "./extra/ColorBox";
 
 type Props = EditBuilderProps<Config, Execution>;
