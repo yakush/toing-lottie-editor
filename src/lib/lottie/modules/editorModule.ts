@@ -1,4 +1,4 @@
-import ColorsExecuter from "../edits/color/_ColorsExecuter";
+import ColorsExecuter from "../edits/color/ColorsExecuter";
 import LayerSelectorExecuter from "../edits/layerSelector/LayerSelectorExecuter";
 import TextExecuter from "../edits/text/TextExecuter";
 import { editTypes } from "../enums";

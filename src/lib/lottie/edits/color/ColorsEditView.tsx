@@ -9,7 +9,7 @@ import {
 import { EditProps } from "../../modules/editorUiModule";
 import useToingStore from "../../stores/ToingStore";
 import styles from "./ColorsEditView.module.css";
-import { ColorPaletteSource, Config, Execution } from "./_ColorsExecuter";
+import { ColorPaletteSource, Config, Execution } from "./ColorsExecuter";
 import { defaultColorsPaletteOption } from "./defaultColors";
 import ColorBox from "./extra/ColorBox";
 import { IconButton } from "@mui/material";
